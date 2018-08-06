@@ -5,15 +5,20 @@
   
 
   
-  <title>Hexo</title>
+  <title>Spring源码解析系列之IoC容器初始化 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="1.概述    1.注入：对象生成和初始化时直接将数据注入到对象中，也可以通过对象引用注入到兑现啊啊个数据域中的方式来注入对方法调用的依赖。        1.接口注入        2.setter注入：防止注入异常        3.构造器注入    2.控制反转：把控制权从具体业务对象中转交到平台或框架中，降低对象系统设计复杂性和提高可测试性。    3.应用场景        1.解耦组件">
+<meta name="keywords" content="Spring IoC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring源码解析系列之IoC容器初始化">
+<meta property="og:url" content="http://yoursite.com/2018/08/06/Spring源码解析系列之IoC容器初始化/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.概述    1.注入：对象生成和初始化时直接将数据注入到对象中，也可以通过对象引用注入到兑现啊啊个数据域中的方式来注入对方法调用的依赖。        1.接口注入        2.setter注入：防止注入异常        3.构造器注入    2.控制反转：把控制权从具体业务对象中转交到平台或框架中，降低对象系统设计复杂性和提高可测试性。    3.应用场景        1.解耦组件">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-06T07:48:39.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Spring源码解析系列之IoC容器初始化">
+<meta name="twitter:description" content="1.概述    1.注入：对象生成和初始化时直接将数据注入到对象中，也可以通过对象引用注入到兑现啊啊个数据域中的方式来注入对方法调用的依赖。        1.接口注入        2.setter注入：防止注入异常        3.构造器注入    2.控制反转：把控制权从具体业务对象中转交到平台或框架中，降低对象系统设计复杂性和提高可测试性。    3.应用场景        1.解耦组件">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,9 +65,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Spring源码解析系列之IoC容器初始化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Spring源码解析系列之IoC容器初始化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" class="article-date">
   <time datetime="2018-08-06T07:47:53.000Z" itemprop="datePublished">2018-08-06</time>
@@ -75,8 +78,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/Spring源码解析系列之IoC容器初始化/">Spring源码解析系列之IoC容器初始化</a>
+    <h1 class="article-title" itemprop="name">
+      Spring源码解析系列之IoC容器初始化
     </h1>
   
 
@@ -131,124 +134,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-MySQL技术内幕读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/MySQL技术内幕读书笔记/" class="article-date">
-  <time datetime="2018-08-06T06:50:15.000Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/MySQL技术内幕读书笔记/">MySQL技术内幕读书笔记</a>
-    </h1>
+    <a href="/2018/08/06/MySQL技术内幕读书笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL技术内幕读书笔记</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一章：</p>
-<p>1.连接MySQL:一个进程和MySQL数据库实例进行通信。实质上是进程通信。<br>2.进程通信方式：管道，命名管道，命名字，tcpip套接字，unix套接字。</p>
-<p>第二章：</p>
-<p>1.InnoDB体系架构<br>    1)后台线程<br>    2)内存<br>        i.缓冲池：索引页，数据页，undo页，插入缓冲，自适应哈希索引，InnoDB的锁信息，数据字典信息<br>        ii.缓冲池的管理：堆的方式<br>            i)LRU算法<br>            ii)InnoDB缓冲区管理优化：使用LRU算法+midPoint位置，在midPoint之前的为new列表，之后为old列表<br>                原因：若直接读取到的页放入LRU的首部，那么某些SQL操作可能会使缓冲池中的页被刷新出，从而影响缓冲池的效率，如索引或者数据的扫描操作。此类操作需要访问表中的许多页，而这些页仅仅实在这次查询中使用，并不是活跃数据。如果放入首页可能会使某些热点数据页从LRU列表移除，而下一次需要读取该页时,InnoDB存储需要访问磁盘。<br>                解决方法：加入参数来管理LRU，用于表示页读取到mid位置后需要等待多久才会被加入LRU列表的热端。<br>        iii.重做日志缓冲：首先将日志信息先放入这个缓冲区，然后按一定频率将其刷新到重做日志中，</p>
-<pre><code>3)Checkpoint技术
-    i.当事务提交时，先重做日志，再修改页
-    ii.使用场景：数据宕机恢复，缓冲池可以缓存数据库中所有数据，重做日志无限增大，条件无法保证，并且回复需要时间。
-    iii.使用Checkpoint可以解决：
-        i)缩短数据库恢复时间；
-        ii)缓冲池不够用时；
-        iii)重做日志不可用，刷新脏页
-4)Master Thread工作方式
-</code></pre><p>第四章 表</p>
-<pre><code>4.1 索引组织表    
-   i.没有指定主键：判断表中是否有非空的唯一索引，有就为主键；不符合自动创建一个6字节大小的指针，多个非空，选第一个。
-
-4.2 InnoDB逻辑存储结构
-
-    i.所有数据都被逻辑地放在一个空间中，称为表空间。表空间由段，区，页组成。
-    ii.行数据溢出:
-
-4.6 约束
-  i.完整性约束：保证表中有一个主键。定义primary key 或者unique key约束，触发器
-  ii.域完整性
-  iii.参照完整性：
-  iv.触发器约束：如负数
-
-
-4.7 视图：安全作用
-</code></pre><p>第五章 索引和算法</p>
-<pre><code>1.概述
-    i.B+树索引
-        i)B+树的插入操作
-        ii)B+树的删除操作
-
-        iii)聚集索引：逻辑上连续，实际不连续。
-        iv)辅助索引：
-    ii.全文索引
-    iii.哈希索引
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/MySQL技术内幕读书笔记/" data-id="cjkhz5f450000g0qpsscobqz4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-你好，hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/04/你好，hexo/" class="article-date">
-  <time datetime="2018-05-04T01:24:40.000Z" itemprop="datePublished">2018-05-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/04/你好，hexo/">你好，hexo</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/04/你好，hexo/" data-id="cjkhz5f4h0003g0qpsxbpduhk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
