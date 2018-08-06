@@ -1,347 +1,670 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+
+
+
+
+
+
+
+
+
+
+
 
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rocky for Everything">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Rocky for Everything">
+<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Rocky for Everything</title>
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rocky for Everything</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Spring源码解析系列之IoC容器初始化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" class="article-date">
-  <time datetime="2018-08-06T07:47:53.000Z" itemprop="datePublished">2018-08-06</time>
-</a>
+    
+      
+        <p class="site-subtitle">慢慢喜欢你</p>
+      
     
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/Spring源码解析系列之IoC容器初始化/">Spring源码解析系列之IoC容器初始化</a>
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.概述<br>    1.注入：对象生成和初始化时直接将数据注入到对象中，也可以通过对象引用注入到兑现啊啊个数据域中的方式来注入对方法调用的依赖。<br>        1.接口注入<br>        2.setter注入：防止注入异常<br>        3.构造器注入<br>    2.控制反转：把控制权从具体业务对象中转交到平台或框架中，降低对象系统设计复杂性和提高可测试性。<br>    3.应用场景<br>        1.解耦组件<br>        2.开闭准则，提高组件灵活性，动态部署<br>2.IoC容器系列的设计与实现：BeanFactory 和 ApplicationContext<br>    1.Spring的IoC容器系列<br>        1.BeanFactory 基本功能<br>        2.BeanDefinition<br>            1.来管理基于Spring的应用中的各种对象以及他们之间的相互依赖关系。<br>            2.BeanDefinition抽象了我们对Bean的定义，是让容器起作用的主要数据类型。IoC容器是用来管理对象依赖关系的，对IoC容器来说，BeanDefinition就是对依赖反转模式中管理的对象依赖关系的抽象数据，容器实现依赖反转功能的核心数据结构。依赖反转功能都是围绕BeanDefinition的处理来完成的。<br>    2.Spring IoC容器的设计<br>        1.BeanFactory—&gt;HierarchicalBeanFactory—&gt;ConfigurableBeanFactory<br>            1.BeanFactor:定义了基本的IoC容器规范。定义了包括getBean()这样的IoC容器的基本方法。<br>            2.HierarchicalBeanFactory接口继承了BeanFactory的接口，增加了getParentBeanFactory()接口的功能，具备了双亲IoC容器的管理功能。<br>            3.ConfigurableBeanFactory，定义了一些对BeanFactory的配置功能，如setParentBeanFactory()设置双亲IoC容器，通过addBeanPostProcessor()配置Bean后置处理器。<br>            4.通过接口设计的叠加，定义了IOC的基本功能。<br>        2.第二条接口设计主线是，以ApplicationContext应用上下文为核心的接口设计。<br>            1.主要接口设计有，BeanFactory到ListableBeanFactory，在ApplicationContext,再到WebApplicationContext或者ConfigurableApplicationContext接口。<br>            2.我们常用的应用上下文基本上都是ConfigurableApplicationContext或者HierarchicalBeanFactory两个接口，连接BeanFactory接口定义和ApplicationContext应用上下文的接口定义。<br>            3.ListableBaenFactory接口中细化了很多BeanFactory的接口功能，如getBeanDefinitionNames()接口方法；<br>            4.ApplicationContext接口，他通过基础MessageSource,ResourceLoader,ApplicationEventPublisher接口，在BeanFactory简单IoC容器的基础上添加了许多高级容器的特性。<br>            5.主要接口关系，具体的IoC容器都是在这个接口体系下实现的，比如DefaultListableBeanFactory，实现了ConfigurableBeanFactory，从而成为简单的IoC容器的实现。其他如XmlBeanFactory都是在其基础上扩展，ApplicationContext的实现也是如此。<br>            6.接口系统以BeanFactory和ApplicationContext为核心。BeanFactory是最基本接口。<br>            7.ApplicationContext的设计中，一方面它继承了BeanFactory接口体系中的ListableBeanFactory、AutowireCapableBaenFactory、HierarchicalBeanFactory等BeanFactory接口，具备了BeanFactory IoC容器的基本功能；另一方面，通过继承MessageSource,ResourceLoader,ApplicationEventPublisher这些接口，赋予了更高级的IoC容器特性。<br>        3.BeanFactory的应用场景<br>            1.BeanFactory 和 FactoryBean<br>                1.一个是Bean，一个是Factory<br>                2.在Spring中，所有的Bean都是由BeanFactory来进行管理；但是对于FactoryBean而言，不是简单的Bean，而是一个能产生或修饰对象生产的工厂Bean。<br>                3.用户使用容器时，可以使用转义符“&amp;”来得到FactoryBean本身，用来区分通过容器来获取FactoryBean产生的对象和获取FactoryBean本身。<br>            2.getBean()方法，这个方法是使用IoC容器API的主要方法，通过这个方法可以取得IoC容器中管理的Bean，Bean的取得是通过制定名字来索引。如果需要在获取Bean时对Bean的类进行检查，BeanFactory接口定义了带有参数的getBean()方法，与不带参数的区别在于增加了对Bean()检索的类型的要求。<br>            3.在获取Bean时，如果需要获取Bean是prototype类型的，用户还可以为这个prototype类型的Bean生产制定构造函数对应参数。<br>            4.有了BeanFactory,用户可以执行的操作：<br>                1.containsBean===判读是否有制定名字Bean；<br>                2.isSingleton来查询制定名字是否是Singleton类型的Bean；<br>                3.isTypeMatch来查询指定了名字的Bean的Class类型是否特定的Class类型<br>                4.getType获Bean的Class类型<br>                5.getAliases来查询名字的Bean的所有别名。<br>        4.BeanFactory容器的设计原理—XmlBeanFactory<br>            1.XmlBeanFactory  extends DefaultListableBenaFactory extends<br>            AbstractAutoWireCapableBeanFactory extends AbstractBeanFactory implents ConfigurableBeanFactory<br>            2.XmlBeanFactory明显特点：<br>                1.只提供基本的IoC容器功能；<br>                2.直接的BeanFactory实现是IoC容器的基本形式，ApplacationContext的实现是IoC容器的高级表现形式。<br>            3.将DefaultListableBeanFactory作为一个默认的功能完整的IoC容器来使用。XmlBeanFactory继承了DefaultListableBaenFactory容器的功能同时增加了新的功能，与XML有关，以XML文件方式定义BeanDefinition的IoC容器。<br>                1.对这些XML文件定义信息的处理并不是由XmlBeanFactory直接完成的。在XmlBeanFactory中，初试化了一个XmlBeanDefinitionReader对象，通过这个Reader那些以XML方式定义的BeanDefinition就有了处理的地方。<br>                2.构造XmlBeanFactory这个IoC容器时，需要制定BeanDefinition的信息来源，而这个信息来源需要封装成Spring中的Resource类来给出。<br>                3.Resource是Spring用来封装I/O操作的类。BeanDefinition信息是以XML文件形式存在的，那么可以使用像ClassPathResource res = new ClassPathResource(“beans.xml”)；来构造需要的Resource,然后将Resource作为参数传递给XnlBeanFactory构造函数。这样IoC容器就可以方便地定位到需要的BeanDefinition信息来对Bean完成容器的初始化和依赖注入。<br>                4.XmlBeanFactory的功能是建立在DefaultListableBeanFactory这个基本容器的基础上的，并在这个容器的基础上实现了诸如XML读取的附加功能。<br>            4.XmlBeanFactory的代码<br>                1.XMLBeanFactory构造方法中需要得到Resorce对象<br>                2.XmlBeanDefinitionReader对象的初始化，以及使用这个对象来完成loadBeanDefinitions的调用。<br>                3.以DefaultListableBeanFactory为基类，DefaultListableBeanFactory是一个很重要的IoC实现，在其他IoC容器比如ApplicationContext,其实现也如此，通过拓展DefaultListableBeanFactory来获取IoC容器的基本功能。<br>                4.IoC容器的关键类，Resource，DafaultListableBeanFactory和BeanDefinitionReader之间的相互关系，如何解耦，如何为IoC容器服务。<br>            5.编程式使用IoC容器<br>                    ClassPathResource res = new ClassPathResource(“beans.xml”);<br>                    DefaultListableBenaFactory factory = new DefaultListableBenaFactory();<br>                    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);<br>                    reader.loadBeanDefinitions(res)；<br>                1.创建IoC配置文件的抽象资源，这个抽象资源包含了BeanDefinition的定义信息；<br>                2.创建一个BeanFactory，使用DefaultListableBeanFactory；<br>                3.创建一个载入BeanDefinition的读取器，这里使用XmlBeanDefinitionReader来载入Xml文件形式的BeanDefinition，通过一个回调配置给BeanFactory。<br>                4.从定义好的资源位置读入配置信息，具体的解析过程由XmlBeanDefinitionReader来完成。完成整个载入和注册Bean定义之后，需要的IoC容器就建立起来了。这时候可以直接使用IoC容器。<br>                5.源码流程<br>                    1.初始化加载Resource，BeanFactory,BeanDefinitionReader,由reader来完成解析载入和注册；<br>                    2.loadBeanDefinitions();<br>                    3.doLoadBeanDefinitions(inputSource,resource);<br>                    4.registerBeanDefinitions(doc,resource);<br>                    5.loadDocument(intputSource);<br>                    createDocumentBuilderFactory()</p>
-<pre><code>        6.createBeanDefinitionDocumentReader();
-        7.cast();
-        8.doRegisterBeanDefinitions();
-        registerBeanDefinition(String beanName,BeanDefinition definition);
-        parseBeanDefinitionElement();
-        parseBeanDefinitionAttributes();
-        loadBeanDefinitions();
-        processBeanDefinition();
-        9.获取Bean及其信息
-            1.doGetBean();
-            2.transformedBeanName();
-            3.getSingleton();
-            4.getBeanDefinition();
-            5.BeanDefinition bd = this.beanDefinitionMap.get(beanName);
-            6.getMergedBeanDefinition();
-            7.new RootBeanDefinition();
-            8.beforeSingletonCreation();
-            9.doResolveBeanClass();
-            10.getBeanClassName();
-            11.doCreateBean();
-            12.createBean();
-            13.addSingleton();
-            14.getObjectForBeanInstance();
-
-6.ApplicationContext的应用场景
-    1.支持不同的信息源，ApplicationContext扩展了MessageSource接口，这些信息源的扩展功能可以支持国际化实现，为开发多语言版本的应用提供服务；
-    2.访问资源，ResourceLoader和Resource的支持上，这样我们可以从不同的地方得到Bean定义资源。具体而言都是继承了DefualtResourceLoader的子类。
-    3.支持事件应用。继承了接口ApplicationEventPublisher,从而在上下文引入了事件机制。这些事件和Bean的生命周期结合为Bean的管理提供了便利。
-7.ApplicationContext容器设计原理---以FileSystemXmlApplicationContext实现为例
-    1、FileSystemXmlApplicationContext中，ApplicationContext应用上下文主要功能已经在FileSystemXmlApplicationContext的基类AbstractXmlApplicationContext中实现了，在FileSystemXmlApplicationContext中，作为应用上下文，只需要实现和它自身相关的两个功能；
-    2、一个功能是，如果应用直接使用FileSystemXmlApplicationContext，对于实例化这个应用上下文的支持，同时启动IoC容器的refresh()过程。、
-    3、另一个功能是，怎么样去从文件系统加载XML的Bean定义资源。
-</code></pre><p>3.IoC容器的初始化过程<br>    1)初始化过程是由refresh()方法来启动，这个启动包括BeanDefinition的Resource定位、载入和注册三个过程。<br>        i)BeanDefinition的资源定位，由ResourceLoader通过统一的Resource接口来完成。Resource对各种形式的BeanDefinition的使用都提供了统一接口。如在文件系统中的Bean定义信息可以使用FileSystemResource来进行抽象；在类路径中的Bean定义信息可以使用前面提到的ClassPathResource来使用。这个定位过程类似于容器寻找数据的过程。<br>        ii)BeanDefinition的载入，这个过程是用户定义好的Bean表示成IoC容器内部数据结构，而容器内部的数据结构就是BeanDefinition。BeanDefinition实际上就是POJO对象在IoC容器中的抽象，通过这个数据结构，使IoC容器能够方便地对Pojo对象也就是bean进行管理。<br>        iii)第三个过程是向IoC容器注册这些BeanDefinition过程。由BeanDefinitionRegistry接口的实现来完成。这个注册过程把载入过程中解析得到的Beandefinition向IoC容器进行注册。IoC容器内部将Beandefinition注入到一个HashMap中，IoC容器就是通过这个HashMap来持有这些BeanDefinition数据。<br>        iv)初试化过程一般不包含Bean依赖注入的实现。在SpringIoC的设计中，Bean定义的载入和依赖注入是两个独立的过程。依赖注入一般发生在应用第一次通过getBean向容器索取Bean的时候。但也有例外，使用IoC容器时有一个预实例化的配置，用户可以对容器初试化过程作一个微小的控制，从而该表这个被设置了lazyinit属性的Bean的依赖注入过程。<br>    2)BeanDefinition的Resource定位<br>        i）以编程方式使用DefaultListableBeanFactory时，首先定义一个Resource来定位容器使用的BeanDefinition.这时使用ClassPathResource，表示Spring会在类路径中去寻找以文件形式 存在的BeanDefinition信息。<br>        ClassPathResource res = new ClassPathResource(“beans.xml”);<br>        ii）这里的Resource并不是直接由DefaultListableBeanFactory使用，Spring通过BeanDefinitionReader来对这些信息进行处理。<br>        iii）ApplicationContext相对于直接使用DefaultListableBeanFactory的好处：在ApplicationContext中，Spring已经为我们提供了一系列加载不同的Resource的读取器实现。而DefaultListableBeanFactory只是一个纯粹的IoC容器，需要为他配置特定的读取器才能完成这些功能。但其更更底层，灵活；<br>        iv）FileSystemXMLApplicationContext可以从文件系统载入Resource,ClassPathXmlApplicationContext可以从ClassPath载入Resource,XmlWebApplicationContext可以在Web容器中载入Resource等等。<br>        v）FileSystemXmlApplicationContext的Resource定位过程<br>            1）FileSystemXmlApplicationContext<br>            2）AbstractXmlApplicationContext<br>            3）AbstractRefreshableConfigApplicationContext<br>            4）AbstractApplicationContext<br>            5）DefaultResourceLoader<br>        vi）FileSystemXmlApplicationContext通过继续AbstractApplicationContext具备了ResourceLoader读入以Resource定义的BeanDefinition的能力。<br>    3）Beandefinition的载入和解析<br>        i）这个载入过程，相当于把定义的BeanDefinition的IoC容器中转化成一个Spring内部表示的数据结构的过程。IoC容器对Bean的管理和依赖注入功能的实现，是通过对其持有BeanDefinition进行各种操作来完成的。这些BeanDefinition数据在IoC容器中通过一个HashMap来保存和维护。<br>        ii）DefaultListableBeanFactory设计<br>            1.refresh()方法：这个方法最初是在FileSystemXmlApplicationContext的构造函数中被调用的。标志着容器初试化开始。初试化对象就是BeanDefinition数据。<br>            2.这个方法在AbstractApplicationContext类中，详细描述了整个ApplicationContext的初始化，比如BeanFactory的更新，MessageSource和PostProccessor的注册。也就是对ApplicationContext进行初始化模板或执行提纲，这个执行过程为Bean的生命周期管理提供了条件。<br>            3.流程：<br>                refresh()-&gt;createBeanFactory()-&gt;loadBeanDefinitions(){初始化了读取器XmlBeanDefinitionReader,然后把这个读取器在IoC容器中设置好，最后启动读取器来完成BeanDefinition在IoC容器中的载入。}-&gt;parseBeanDefinitionElement()<br>            4.在初始化FileSystemXmlApplicationContext的过程中是通过调用IoC容器的Refresh来启动整个BeanDefinition的载入过程。这个初始化是通过定义XmlBeanDefinitionReader来完成。实际使用的IoC容器时DefaultListableBeanFactory，具体的Resource载入在XMLBeanDefinitionReader读入BeanDefinition时实现。XmlBeandefinitionReader的实现是在reader.loadBeanDefinitions中开始进行Beandefinition的载入的，而AbstractBeanDefinitionReader已经为BeanDefinition载入做好了准备。<br>        iii）Beandefinition的载入分成两部分，首先通过调用XML的解析器得到document对象，并没有按照SpringBean规则进行解析，在完成通用的XMl解析以后，才是按照Spring的Bean规则进行解析的地方，这个按照Spring的Bean规则解析的过程是在documntReader中实现的。DefaultBeanDefinitionDocumentReader的创建时在后面的方法，然后完成BeanDefinition的处理，处理的结构由BeanDefinitionHolder对象来持有，相关的信息，如Bean的名字，别名集合等。BeanDefinitionHolder的生成是通过对Document文档树的内容进行解析来完成的，可以看到这个解析过程是由BeanDefinitionParserDelegate来实现的，同时这个解析是与Spring对BeanDefinition的配置紧密相关的。<br>        iv)BeanDefinitionParserDelegate解析：        1.包含了各种对spring bean定义规则的处理。<br>        2.对Bean元素的处理如何完成，怎么处理在XML定义文件中出现的<bean>标签。<br>        3.BeanDefinition定义的处理，如id,name,aliase等元素。把这这些元素的值从xml文件响应的袁术的属性中读取出来以后，设置到生成的BeanDefinitionHolder中去。<br>        4.复杂的解析过程，由parseBeanDefinitionElement来完成。解析完成后，会把解析结构放到BeanDefinition对象中，并设置到BeanDefinitionHolder中去。<br>    4）BeanDefinition在IoC容器中注册<br>        1.当载入和解析过程完成后，用户定义的BeanDefinition信息已经在IoC容器内建立了自己的数据结构以及相应的数据表示。但这些是数据还不能供IoC容器直接使用，需要在IoC容器中对这些BeanDefinition数据进行注册。这个注册为IoC容器提供了友好的使用方式。在DefaultListableBeanFactory中，是通过一个HashMap来持有载入的BeanDefinition的。<br>        2.将解析得到的BeanDefinition向IoC容器中的BeanDefinitionMao注册的过程是在载入之后完成的。<br>            processBeanDefinition();<br>            registerBeanDefinition();<br>            beanDefinitionMap.put();<br>            对于同名的BeanDefinition需要依据allowBeanDefinitionOverriiding的配置来完成</bean></p>
-<p>4.IoC容器的依赖注入<br>    1）IoC容器初始化过程主要完成工作是在IoC容器中建立BeanDefinition数据映射。在此过程中没有看到IoC容器对Bean依赖关系进行注入。假设IoC容器已经载入了用户定义的Bean信息，开始分析依赖注入的原理。<br>    2）依赖注入过程是用户第一次向IoC容器索要Bean时触发的，如果通过在BeanDefinition信息中通过控制lazy-init属性来让容器完成对Bean的预实例化。这个过程也是一个完成依赖注入的过程，但是是在初试化过程中完成的。当用户索要Bean时，通过BeanFactory的getBean()方法触发。<br>    3）getBean方法解析<br>        i.getBean()-&gt;doGetBean()-&gt;createBean()-&gt;doCreateBean()<br>        -&gt;createBeanInstance()-&gt;instantiateBean()-&gt;populateBean;<br>        ii.先从缓存中取得bean,处理创建过的单例模式bean，对单例不需要重复创建；<br>        iii.根据Bean的名字取得BeanDefinition;<br>        iv.获取当前bean的所有依赖bean；<br>        v.判断是否是singleton bean实例，还是prototype实例<br>    4）getBean是依赖注入的起点，之后会调用createBean,在createBean中生成需要的Bean，还对Bean初试化进行了处理，比如BeanDefinition中的init-method属性定义，Bean后置处理器。<br>    5）createBeanInstance方法：生成了Bean所包含的Java对象，这个对象有很多种生成方法，如工厂方法，或者autowire，都是由BeanDefinition来指定。<br>    6）SimpleInstantiationStrategy类<br>    7）实例化Bean对象生成的基础上，怎么把对象依赖关系设置好，也就是对各种Bean对象的属性的处理过程。<br>    8）populateBean实现：这里取得BeanDefinition中设置的property值，这些property来自对BeanDefinition的解析<br>        i.applyPropertyValues()进行属性注入<br>        ii.applyPropertyValues()解读<br>        iii.BeanDefinitionValueResolver对BeanDefinition解析。<br>        iv.对List中每一个元素解析，对数组也一样。<br>    9）resolveValueIfNecessary实现：递归的方式对元素进行解析<br>    10）resolveReference实现<br>    11）完成解析过程后，已经为依赖注入准备好了条件，这是真正把Bean对象设置到他所依赖的另一个Bean的属性中去的地方。依赖注入的发生是在BeanWrapper的setPropertyValues中实现的，具体的实现却是在BeanWrapper的子类BeanWrapperImpl中实现的。<br>    12）总结：<br>        i.Bean的创建和对象依赖注入过程中，需要BeanDefinition中 的信息来递归地完成依赖注入，从上面的几个递归过程中可以看到，这些递归都是以getBean为入口。一个递归是在上文体系中查找需要的bean和创建Bean的递归调用;另一个递归是在依赖注入时，通过递归调用容器的getBean方法，得到当前Bean依赖的Bean,同时也触发对依赖Bean的创建和注入。在Bean属性依赖注入时，也是一个递归过程。<br>        ii.在Bean创建和依赖注入完成以后，在IoC容器中建立起一系列依赖关系联系起来的Bean，该Bean系列以及Bean之间的依赖关系建立完成以后，可以供上层应用使用。<br>5.容器的其他相关特性的设计和实现<br>    1）ApplicationContext和Bean的初始化和销毁<br>        i.ApplicationContext的启动过程是在AbstractApplicationContext中实现的。使用前的准备工作在prepareBeanFactory()方法中实现。在这个方法中，为容器配置了ClassLoader,PropertyEditor和BeanPostProcessor等。<br>        ii.关闭时，在doCloser()方法中完成。<br>        iii.容器的实现是通过IoC管理Bean的生命周期来实现的，SpringIoC容器在对Bean的生命周期进行管理时，提供了Bean生命周期各个时间点的回调。<br>        iv.IoC容器的Bean生命周期<br>            i)Bean实例的创建<br>            ii)为Bean实例设置属性<br>            iii)调用Bean的初始化方法<br>            iv)应用可以通过IoC容器使用Bean<br>            v)当容器关闭时，调用Bean的销毁方法<br>    2）Bean的初始化方法时在initializeBean方法中实现：<br>        i.在初始化之前，会调用一些列的aware接口实现，把相关的beanName，BeanClassLoader以及BeanFactory注入到bean中。<br>        ii.调用invokeInitMethods -&gt; afterPropertiesSet,最后判断是否有initMethod方法-&gt; invokeCustomInitMethod方法来直接调用，最终完成Bean初始化<br>        iii.initMethod调用中，首先得到bean定义的initMethod，然后通过jdk反射机制得到method对象， 直接调用在Bean定义中声明的初始化方法。<br>    3）Bean的销毁过程<br>        i.destroy()方法对Bean进行销毁处理。<br>        ii.首先是postProcessBeforeDestruction进行调用，然后调用Bean的destroy方法，最后把Bean的自定义销毁方法调用。<br>    4）Lazy-init属性和预实例化<br>        i.在初始化时，完成对bean的注入。使用时可以直接使用。<br>        ii.AbstractApplicationContext中refresh实现。<br>        iii.在finishBeanFactory方法中封装了lazy-init属性的处理，实际的处理是在DefaultListableFactory这个基本容器的preInstantiateSingletons方法中完成。该方法对单件Bean完成预实例化，这个预实例化委托给容器实现，如果需要就直接采用getBean触发依赖注入。<br>        iv.finishBeanFactoryInitialization()-&gt;preInstantiateSingletons()<br>    5）FactoryBean的实现<br>        i.FactoryBean具有生产特性是在getBean中起作用的。<br>        ii.getObjectFromBeanInstance-&gt;getObjectFromFactoryBean<br>        -&gt; doGetObjectFromFactoryBean-&gt;getObject()有Proxy,RMI，JMDI<br>    6）BeanPostProcessor的实现<br>        i.bean的后置处理器是一个监听器，可以监听容器触发事件。将它向IoC容器注册后，容器中管理的bean具备了接收IoC容器事件回调的能力。<br>        ii.BeanPostProcessor是一个接口类，有2个接口方法，一个是postProcessBeforeInitialization，在Bean的初始化前提供回调入口；一个是postProcessBeforeAfterInitialization，在Bean初始化后提供回调入口，这两回调的触发都是和容器管理Bean的生命周期相关的。<br>        iii.完成Bean的生成和依赖注入以后，开始对bean进行初始化，保存postProcessBeforeInitialization的回调。<br>        iv.在initializebean方法中，需要使用Bean的名字，完成依赖注入以后的对象，以及整个bean对应的BeanDefinition，来完成Bean的初始化工作。如BeanNameAware的bean设置bean的名字，BeanClassLoaderAware的bean设置类装载器，BeanFactoryAware的bean设置自身所在ioc容器以供回调使用。还有postProcessBeforeIntialization、postProcessAfterInitialization的回调和初始化init-method的处理等。<br>    7）autowiring的实现<br>        i.在IoC容器实现原理中，通过BeanDefinition的属性值和构造函数以显示的方式对bean的依赖关系进行管理。同时还有自动依赖装配的方式，不需要对Bean属性做任何显示的依赖关系声明，只需要配置好autowiring属性，IoC会根据这个属性的配置，使用反射自动查找属性的类型或名字，然后基于数据的类型或名字来自动匹配IoC容器中的Bean，从而自动完成依赖注入。<br>        ii.优点：减少用户配置bean的工作量。<br>        iii.autowiring属性在对Bean属性进行依赖注入时起作用。对autowiring属性进行处理，从而完成自动装配，是在populateBean中实现的。autowiring的处理是populateBean处理过程的一部分。<br>        iv.在PopulateBean的实现中，在处理一般Bean之前，先对autowiring属性进行处理，如果当前的bean配置了autowire_by_name和autowire_type属性，那么调用响应的autowireByName方法和autowireByType方法。autowire_by_name首先通过反射机制从当前Bean中得到需要注入的属性名，然后使用这个属性名向容器申请与之同名的Bean，这样实际又触发了另一个bean生成和依赖注入过程。<br>        v.autowireByName,首先需要得到当前Bean的属性名，这些属性名已经在BeanWrapper和BeanDefinition中封装好了，然后是对这一系列属性名进行匹配的过程。在匹配过程中，因为有了属性的名字，可以直接使用属性名作为Bean的名字向容器索取Bean,这个getBean会触发当前Bean的依赖Bean依赖注入，从而得到属性对应的依赖Bean。执行完这个getBean后，把这个依赖Bean注入到当前Bean属性中去，如此完成了通过依赖属性名自动完成依赖注入的工厂。<br>    8）Bean的依赖检查<br>        i.dependency-check属性来指定依赖检查模式即可，可以将属性设置为none,simple,object,all，默认是none。<br>        ii.具体是在AbstractAutowireCapableBeanFactory实现creatBean的过程中完成的。会对dependencies属性进行检查。<br>    9）Bean对IoC容器的感知<br>6.小结<br>    1）Beandefinition的定位：对于IoC容器来说，他为管理Pojo之间的依赖关系提供了帮助，但也要依据Spring的定义规则提供Bean定义信息。我们可以使用各种形式的Bean定义信息，如XML文件格式。在Bean定义方面，Spring为用户提供了很大的灵活性。在初始化IoC容器的过程中，首先需要定位到这些有效的bean定义信息，spring使用Resource接口来统一这些bean定义信息，而这个定位由ResourceLoader来完成。如果使用上下文，ApplicationContext本身就为客户提供了定位功能。因为上下文本身就是DefaultResourceLoader的子类。如果使用基本的BeanFactory作为IoC容器，客户需要额外指定相应的Resource来完成bean信息的定位。<br>    2）容器初始化:在使用上下文时，需要一个对它进行初始化的过程，完成初始化以后，IoC容器才可以使用。这个过程的入口是在refresh中实现的，相当于初始化函数。在初始化过程中，比较重要的部分是对BeanDefinition信息的载入和注册。相当于在Ioc容器中建立一个BeanDefinition定义的数据映像，Spring为了达到载入的灵活性，把载入功能从IoC容器中分离出来，由BeanDefinitionReader来完成Bean定义信息的读取，解析和IoC容器内部建立BeanDefinition的建立。在DefaultListableBeanFactory中，这些BeanDefinition被维护在一个hashmap中，以后IoC容器对Bean的管理和操作就是通过这些BeanDefinition来完成。<br>    3）容器初始化完成以后，IoC容器的使用就准备好了，但这时知识在Ioc容器内部建立了BeanDefinition，具体的依赖关系还没有注入，客户在第一次向IoC容器请求Bean时，IoC容器对相关的Bean依赖进行注入。如果需要提前注入，客户可以通过lazy-init属性来进行预实例化。这个预实例化是上下文初始化的一部分，起到了提前控制完成依赖注入的控制作用，在依赖注入完成以后，IoC容器就会保持这些具备依赖关系的bean供客户直接使用。这时可以通过getBean来取得Bean，这些bean不是简单的java对象，而是包含了对象之间依赖关系的bean。<br>    4）在对IoC容器的分析中，重点讲解了Beanfactory和ApplicationContext体系、ResourceLoader、refresh初始化，容器的loadBeanDefinitiond和注册、容器的依赖注入、预实例化和FactoryBean工作原理。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/Spring源码解析系列之IoC容器初始化/" data-id="cjkhz5f4b0001g0qpuwr24o6u" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-IoC/">Spring IoC</a></li></ul>
-
-    </footer>
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
+</div>
+
+
+
+<nav class="site-nav">
   
-</article>
-
-
-  
-    <article id="post-MySQL技术内幕读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/MySQL技术内幕读书笔记/" class="article-date">
-  <time datetime="2018-08-06T06:50:15.000Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/MySQL技术内幕读书笔记/">MySQL技术内幕读书笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一章：</p>
-<p>1.连接MySQL:一个进程和MySQL数据库实例进行通信。实质上是进程通信。<br>2.进程通信方式：管道，命名管道，命名字，tcpip套接字，unix套接字。</p>
-<p>第二章：</p>
-<p>1.InnoDB体系架构<br>    1)后台线程<br>    2)内存<br>        i.缓冲池：索引页，数据页，undo页，插入缓冲，自适应哈希索引，InnoDB的锁信息，数据字典信息<br>        ii.缓冲池的管理：堆的方式<br>            i)LRU算法<br>            ii)InnoDB缓冲区管理优化：使用LRU算法+midPoint位置，在midPoint之前的为new列表，之后为old列表<br>                原因：若直接读取到的页放入LRU的首部，那么某些SQL操作可能会使缓冲池中的页被刷新出，从而影响缓冲池的效率，如索引或者数据的扫描操作。此类操作需要访问表中的许多页，而这些页仅仅实在这次查询中使用，并不是活跃数据。如果放入首页可能会使某些热点数据页从LRU列表移除，而下一次需要读取该页时,InnoDB存储需要访问磁盘。<br>                解决方法：加入参数来管理LRU，用于表示页读取到mid位置后需要等待多久才会被加入LRU列表的热端。<br>        iii.重做日志缓冲：首先将日志信息先放入这个缓冲区，然后按一定频率将其刷新到重做日志中，</p>
-<pre><code>3)Checkpoint技术
-    i.当事务提交时，先重做日志，再修改页
-    ii.使用场景：数据宕机恢复，缓冲池可以缓存数据库中所有数据，重做日志无限增大，条件无法保证，并且回复需要时间。
-    iii.使用Checkpoint可以解决：
-        i)缩短数据库恢复时间；
-        ii)缓冲池不够用时；
-        iii)重做日志不可用，刷新脏页
-4)Master Thread工作方式
-</code></pre><p>第四章 表</p>
-<pre><code>4.1 索引组织表    
-   i.没有指定主键：判断表中是否有非空的唯一索引，有就为主键；不符合自动创建一个6字节大小的指针，多个非空，选第一个。
-
-4.2 InnoDB逻辑存储结构
-
-    i.所有数据都被逻辑地放在一个空间中，称为表空间。表空间由段，区，页组成。
-    ii.行数据溢出:
-
-4.6 约束
-  i.完整性约束：保证表中有一个主键。定义primary key 或者unique key约束，触发器
-  ii.域完整性
-  iii.参照完整性：
-  iv.触发器约束：如负数
-
-
-4.7 视图：安全作用
-</code></pre><p>第五章 索引和算法</p>
-<pre><code>1.概述
-    i.B+树索引
-        i)B+树的插入操作
-        ii)B+树的删除操作
-
-        iii)聚集索引：逻辑上连续，实际不连续。
-        iv)辅助索引：
-    ii.全文索引
-    iii.哈希索引
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/MySQL技术内幕读书笔记/" data-id="cjkhz5f450000g0qpsscobqz4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-你好，hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/04/你好，hexo/" class="article-date">
-  <time datetime="2018-05-04T01:24:40.000Z" itemprop="datePublished">2018-05-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/04/你好，hexo/">你好，hexo</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
+    <ul id="menu" class="menu">
       
         
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archiv</a>
+  </li>
+
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/04/你好，hexo/" data-id="cjkhz5f4h0003g0qpsxbpduhk" class="article-share-link">Share</a>
       
-      
-    </footer>
-  </div>
-  
-</article>
-
-
+    </ul>
   
 
-
-</section>
-        
-          <aside id="sidebar">
   
     
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-IoC/">Spring IoC</a></li></ul>
-    </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Spring-IoC/" style="font-size: 10px;">Spring IoC</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/08/06/Spring源码解析系列之IoC容器初始化/">Spring源码解析系列之IoC容器初始化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/06/MySQL技术内幕读书笔记/">MySQL技术内幕读书笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/04/你好，hexo/">你好，hexo</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
 
+  
+  
+  
 
-<script src="/js/script.js"></script>
+  
 
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/hello-world/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/hello-world/" itemprop="url">
+                  Hello World
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-06 20:15:13" itemprop="dateCreated datePublished" datetime="2018-08-06T20:15:13+08:00">2018-08-06</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin</p>
+              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
