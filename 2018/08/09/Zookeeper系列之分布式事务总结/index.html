@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
-<meta name="keywords" content="SpringMVC">
+  <meta name="description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+<meta name="keywords" content="Zookeeper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码系列之SpringMVC容器加载初始化过程解析">
-<meta property="og:url" content="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/index.html">
+<meta property="og:title" content="Zookeeper系列之分布式事务总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
+<meta property="og:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-07T15:51:55.930Z">
+<meta property="og:updated_time" content="2018-08-09T05:31:42.545Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码系列之SpringMVC容器加载初始化过程解析">
-<meta name="twitter:description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
+<meta name="twitter:title" content="Zookeeper系列之分布式事务总结">
+<meta name="twitter:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>Spring源码系列之SpringMVC容器加载初始化过程解析 | Rocky for Everything</title>
+  <title>Zookeeper系列之分布式事务总结 | Rocky for Everything</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky ZhouJin">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码系列之SpringMVC容器加载初始化过程解析
+          <h1 class="post-title" itemprop="name headline">Zookeeper系列之分布式事务总结
               
             
           </h1>
@@ -327,7 +327,7 @@
                 
               
 
-              <time title="Created: 2018-08-07 22:55:37 / Modified: 23:51:55" itemprop="dateCreated datePublished" datetime="2018-08-07T22:55:37+08:00">2018-08-07</time>
+              <time title="Created: 2018-08-09 11:44:54 / Modified: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
             
 
             
@@ -365,39 +365,52 @@
       
 
       
-        <p>##SpringMVC在Web环境中的加载##</p>
-<p>###1.概述###<br>    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并将其初始化。而SpringMVC是在IoC容器的基础上建立的MVC运行机制，从而响应Web容器传递的Http请求。</p>
-<p> Tomcat容器中web.xml部署<br>-<br>    <servlet><br>        <servlet-name><br>        <servlet-class><br>        <load-on-startup><br>    </load-on-startup></servlet-class></servlet-name></servlet><br>    <servlet-mapping><br>        <servlet-name></servlet-name><br>        <url-pattern>/*</url-pattern><br>    </servlet-mapping><br>    <context-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>/WEB-INF/applicationContext.xml</param-value><br>    </context-param><br>    <listener><br>        <listener-class><br>            ContextLoaderListener<br>        </listener-class><br>    </listener></p>
+        <p>##1.分布式事务解决方案##</p>
 <ul>
-<li>这里部署了SpringMVC与Tomcat的接口。首先定义了一个Servlet对象；</li>
-<li>同时部署了了这个Servlet对应的URL映射，这些URL映射为这个Servlet指定了需要处理的Http请求</li>
-<li>context-param参数的配置用来指定Spring IoC容器读取Bean定义的xml文件。在这个xml文件中读取到Spring的配置。</li>
-<li>ContextLoaderListener作为SpringMVC的启动类，被定义为一个监听器，这个监听器与Web服务器的生命周期相关，由ContextLoaderListener监听器负责完成IoC容器在web环境中的启动工作。</li>
-<li>ContextLoaderListener和DispatcherServlet提供了在Web容器中对的Spring,这些接口与web容器耦合是通过ServletContext实现。</li>
-<li>这个ServletContext为Spring的IoC容器提供了一个宿主环境，在宿主环境中，SpringMVC建立起一个IoC容器的体系。</li>
-<li>这个体系通过ContextLoaderListener的初始化建立，建立IoC体系后，把DispatcherServlet作为SpringMVC处理web请求的转发器建立起来，从而完成响应Http请求的准备。</li>
-</ul>
-<p>##2.上下文在web容器中的启动##</p>
-<ol>
-<li><p>IoC容器启动的基本过程</p>
+<li><p>基于XA协议的两阶段提交方案</p>
 <ul>
-<li>IoC容器的启动就是上下文建立过程，与ServletContext相伴而生，是IoC容器在Web环境中的具体表现之一；</li>
-<li>ContextLoaderListener启动的上下文是根上下文。在根上下文的基础上还有一个与WebMVC相关的上下文来保持控制器需要的MVC对象，上下文的体系是由ContextLoader来完成。</li>
-<li>contextInitialized()-&gt;ContextLoaderListener#initWebApplicationContext()-&gt;ContextLoader#loadParentContext()-&gt;XmlWebApplicationContext#refresh();</li>
-<li>在ContextLoader中，完成了两个IoC容器的建立，一个是Web容器中建立起来的双亲IoC容器，另一个是生成响应的WebApplicationContext并将其初始化。</li>
+<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
+<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
+<li>本地资源管理器 事务协调器</li>
+<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
 </ul>
 </li>
-<li>Web容器中的上下文设计—WebApplicationContext</li>
-<li>ContextLoader设计与实现<ul>
-<li>Spring承载的web应用而言，可以在Web应用程序启动时载入IoC容器(WebApplicationContext)，这个功能由ContextLoaderListener来实现，是在web.xml中配置的监听器。这个监听器通过ContextLoader来完成实际的IoC容器初始化工作。</li>
-<li>ContextLoader是Spring应用程序在web容器中的启动器。</li>
-<li>这个监听器是启动根IoC容器并载入到web容器的主要功能模块，也是整个SpringWeb应用加载IoC的第一个地方。</li>
-<li>首先从Servlet事件中得到ServletContext,然后读取配置在web.xml中的相关属性，接着实例化WebApplicationContext,完成其初始化过程。</li>
-<li>这个被初始化的第一个上下文是根上下文，这个根上下文载入后，被绑定到web应用的ServletContex上。任何需要访问根上下文的应用程序代码都可以从WebApplicationContextUtils的静态方法中得到。</li>
-<li>在ContextLoaderListener中，实现的是ServletContextListener接口，这个接口的方法回结合Web容器的生命周期被调用。ServletContextListener是ServletContext的监听者。如果ServletContext发生了变化，会触发相应的事件，做出预先设计的响应。</li>
+<li><p>TCC方案</p>
+<ul>
+<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
+<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
+<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
+<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
+<li>缺点：<ul>
+<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
+<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
 </ul>
 </li>
-</ol>
+</ul>
+</li>
+<li>基于消息的最终一致性方案<ul>
+<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
+<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
+<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
+</ul>
+</li>
+<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
+<li>蚂蚁金服的分布式事务解决方案DTX<ul>
+<li>整体架构：<ul>
+<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
+<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
+<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
+<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
+</ul>
+</li>
+<li>DTX执行<ul>
+<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
+<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -418,7 +431,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+            <a href="/tags/Zookeeper/" rel="tag"># Zookeeper</a>
           
         </div>
       
@@ -431,8 +444,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" rel="next" title="Spring源码解析系列之IoC容器初始化">
-                <i class="fa fa-chevron-left"></i> Spring源码解析系列之IoC容器初始化
+              <a href="/2018/08/09/缓存系列之数据库缓存一致性问题/" rel="next" title="Redis系列之数据库缓存一致性问题">
+                <i class="fa fa-chevron-left"></i> Redis系列之数据库缓存一致性问题
               </a>
             
           </div>
@@ -441,8 +454,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/08/Spring源码解析之AOP实现/" rel="prev" title="Spring源码解析之SpringAOP实现">
-                Spring源码解析之SpringAOP实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/09/分布式学习之秒杀系统架构/" rel="prev" title="分布式学习之秒杀系统架构">
+                分布式学习之秒杀系统架构 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

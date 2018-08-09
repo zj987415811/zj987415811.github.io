@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
-<meta name="keywords" content="SpringMVC">
+  <meta name="description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
+<meta name="keywords" content="高并发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码系列之SpringMVC容器加载初始化过程解析">
-<meta property="og:url" content="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/index.html">
+<meta property="og:title" content="分布式学习之高并发总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/09/分布式学习之高并发总结/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
+<meta property="og:description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-07T15:51:55.930Z">
+<meta property="og:updated_time" content="2018-08-09T07:53:48.304Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码系列之SpringMVC容器加载初始化过程解析">
-<meta name="twitter:description" content="##SpringMVC在Web环境中的加载## ###1.概述###    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并">
+<meta name="twitter:title" content="分布式学习之高并发总结">
+<meta name="twitter:description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/09/分布式学习之高并发总结/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>Spring源码系列之SpringMVC容器加载初始化过程解析 | Rocky for Everything</title>
+  <title>分布式学习之高并发总结 | Rocky for Everything</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/分布式学习之高并发总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky ZhouJin">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码系列之SpringMVC容器加载初始化过程解析
+          <h1 class="post-title" itemprop="name headline">分布式学习之高并发总结
               
             
           </h1>
@@ -327,7 +327,7 @@
                 
               
 
-              <time title="Created: 2018-08-07 22:55:37 / Modified: 23:51:55" itemprop="dateCreated datePublished" datetime="2018-08-07T22:55:37+08:00">2018-08-07</time>
+              <time title="Created: 2018-08-09 15:26:21 / Modified: 15:53:48" itemprop="dateCreated datePublished" datetime="2018-08-09T15:26:21+08:00">2018-08-09</time>
             
 
             
@@ -365,39 +365,98 @@
       
 
       
-        <p>##SpringMVC在Web环境中的加载##</p>
-<p>###1.概述###<br>    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并将其初始化。而SpringMVC是在IoC容器的基础上建立的MVC运行机制，从而响应Web容器传递的Http请求。</p>
-<p> Tomcat容器中web.xml部署<br>-<br>    <servlet><br>        <servlet-name><br>        <servlet-class><br>        <load-on-startup><br>    </load-on-startup></servlet-class></servlet-name></servlet><br>    <servlet-mapping><br>        <servlet-name></servlet-name><br>        <url-pattern>/*</url-pattern><br>    </servlet-mapping><br>    <context-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>/WEB-INF/applicationContext.xml</param-value><br>    </context-param><br>    <listener><br>        <listener-class><br>            ContextLoaderListener<br>        </listener-class><br>    </listener></p>
-<ul>
-<li>这里部署了SpringMVC与Tomcat的接口。首先定义了一个Servlet对象；</li>
-<li>同时部署了了这个Servlet对应的URL映射，这些URL映射为这个Servlet指定了需要处理的Http请求</li>
-<li>context-param参数的配置用来指定Spring IoC容器读取Bean定义的xml文件。在这个xml文件中读取到Spring的配置。</li>
-<li>ContextLoaderListener作为SpringMVC的启动类，被定义为一个监听器，这个监听器与Web服务器的生命周期相关，由ContextLoaderListener监听器负责完成IoC容器在web环境中的启动工作。</li>
-<li>ContextLoaderListener和DispatcherServlet提供了在Web容器中对的Spring,这些接口与web容器耦合是通过ServletContext实现。</li>
-<li>这个ServletContext为Spring的IoC容器提供了一个宿主环境，在宿主环境中，SpringMVC建立起一个IoC容器的体系。</li>
-<li>这个体系通过ContextLoaderListener的初始化建立，建立IoC体系后，把DispatcherServlet作为SpringMVC处理web请求的转发器建立起来，从而完成响应Http请求的准备。</li>
-</ul>
-<p>##2.上下文在web容器中的启动##</p>
+        <h2 id="分布式学习之高并发总结"><a href="#分布式学习之高并发总结" class="headerlink" title="分布式学习之高并发总结"></a>分布式学习之高并发总结</h2><ul>
+<li><p>千万级高并发总结：</p>
 <ol>
-<li><p>IoC容器启动的基本过程</p>
-<ul>
-<li>IoC容器的启动就是上下文建立过程，与ServletContext相伴而生，是IoC容器在Web环境中的具体表现之一；</li>
-<li>ContextLoaderListener启动的上下文是根上下文。在根上下文的基础上还有一个与WebMVC相关的上下文来保持控制器需要的MVC对象，上下文的体系是由ContextLoader来完成。</li>
-<li>contextInitialized()-&gt;ContextLoaderListener#initWebApplicationContext()-&gt;ContextLoader#loadParentContext()-&gt;XmlWebApplicationContext#refresh();</li>
-<li>在ContextLoader中，完成了两个IoC容器的建立，一个是Web容器中建立起来的双亲IoC容器，另一个是生成响应的WebApplicationContext并将其初始化。</li>
-</ul>
+<li>所有的性能提升，最终落在CPU,内存，IO，网络这4块。</li>
+<li>抽象能力，分类能力，算法</li>
+<li>客户端-&gt;接入层-&gt;后台（搜索，平台，大数据）</li>
+<li>RPC</li>
+<li>消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。</li>
+<li>配置管理：灰度发布，服务降级</li>
+<li>无状态：将有状态的东西剥离到数据层</li>
+<li>分布式服务追踪解决的问题：通过唯一id</li>
+</ol>
 </li>
-<li>Web容器中的上下文设计—WebApplicationContext</li>
-<li>ContextLoader设计与实现<ul>
-<li>Spring承载的web应用而言，可以在Web应用程序启动时载入IoC容器(WebApplicationContext)，这个功能由ContextLoaderListener来实现，是在web.xml中配置的监听器。这个监听器通过ContextLoader来完成实际的IoC容器初始化工作。</li>
-<li>ContextLoader是Spring应用程序在web容器中的启动器。</li>
-<li>这个监听器是启动根IoC容器并载入到web容器的主要功能模块，也是整个SpringWeb应用加载IoC的第一个地方。</li>
-<li>首先从Servlet事件中得到ServletContext,然后读取配置在web.xml中的相关属性，接着实例化WebApplicationContext,完成其初始化过程。</li>
-<li>这个被初始化的第一个上下文是根上下文，这个根上下文载入后，被绑定到web应用的ServletContex上。任何需要访问根上下文的应用程序代码都可以从WebApplicationContextUtils的静态方法中得到。</li>
-<li>在ContextLoaderListener中，实现的是ServletContextListener接口，这个接口的方法回结合Web容器的生命周期被调用。ServletContextListener是ServletContext的监听者。如果ServletContext发生了变化，会触发相应的事件，做出预先设计的响应。</li>
-</ul>
+<li><p>高并发实时后台服务架构</p>
+<ol>
+<li>流控：扩容 ddos攻击 nginx</li>
+<li>负载均衡</li>
+<li>接入层：校验登陆态 无状态的横向扩展</li>
+<li>逻辑层：<ol>
+<li>前轻后重 RPC服务来提供和实现</li>
+<li>缩短关键业务流程</li>
+<li>降低单个接口处理耗时—代码架构系统部署</li>
+<li>同步变异步：同步接口转化为异步接口 保证吞吐量 I/O多路复用</li>
+<li>隔离:逻辑层具备业务隔离能力，整体隔离，内部隔离</li>
+</ol>
+</li>
+<li>存储层<ol>
+<li>数据快速访问 一致性安全问题 缓存 分库分表</li>
+<li>数据如何同步备份</li>
+</ol>
 </li>
 </ol>
+</li>
+<li>高并发与实时处理技术<ul>
+<li>高并发下缓存治理<ul>
+<li>I/O是导致IT系统无法完成高并发的主要原因。</li>
+<li>解决I/O速度问题就是将计算结果临时存储，也就是缓存。</li>
+<li>缓存治理的困难<ul>
+<li>应用无感的合理使用缓存</li>
+<li>对现有缓存乱使用的迁移</li>
+<li>缓存研发方案—缓存场景隔离化，数据量分配的合理化以及缓存的分离。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>常见并发同步案例分析</p>
+<ul>
+<li><p>订票系统案例</p>
+<ul>
+<li>锁同步：程序层面，多个线程进来，只有一个一个访问。锁有两个层面，一个是java的对象锁，用于线程同步；另一个是数据库锁，如果是分布式系统，只能用数据库端的锁来实现。</li>
+<li>乐观锁和悲观锁 乐观锁在不锁定表的情况，利用业务来控制解决并发问题。保证并发可读+数据存储的排他性+保证性能同时解决并发带来的脏数据问题。</li>
+</ul>
+</li>
+<li><p>股票交易</p>
+<ul>
+<li>表拆分 按业务拆分 时间轴分区</li>
+<li>缓存</li>
+</ul>
+</li>
+<li><p>高并发提高访问效率手段</p>
+<ul>
+<li>瓶颈：服务带宽 web线程连接数 数据库连接查询</li>
+<li>增加带宽，DNS域名解析 负载均衡 前置代理服务器 数据库查询优化，读写分离，分表。</li>
+<li>复制在高并发的情况：尽量使用缓存，用户缓存，信息缓存，大量减少与数据库的交换，提高性能。 找出性能瓶颈，减少额外开销，优化查询语句。单台机器的瓶颈。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1500万QPS背后的高性能，高可用实时搜索系统架构演变</li>
+<li>12306如何实现流量并发的关键技术<ul>
+<li>关键技术<ul>
+<li>利用云计算资源分担系统查询业务，弹性扩展</li>
+<li>双中心运行架构</li>
+<li>带宽保证</li>
+<li>防恶意抢票</li>
+<li>应急方案</li>
+</ul>
+</li>
+<li>设计思路    <ul>
+<li>关联数据节点设计</li>
+<li>将数据移到内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>金融环境高并发方案</li>
+<li></li>
+</ul>
 
       
     </div>
@@ -418,7 +477,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
           
         </div>
       
@@ -431,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" rel="next" title="Spring源码解析系列之IoC容器初始化">
-                <i class="fa fa-chevron-left"></i> Spring源码解析系列之IoC容器初始化
+              <a href="/2018/08/09/分布式学习之秒杀系统架构/" rel="next" title="分布式学习之秒杀系统架构">
+                <i class="fa fa-chevron-left"></i> 分布式学习之秒杀系统架构
               </a>
             
           </div>
@@ -441,8 +500,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/08/Spring源码解析之AOP实现/" rel="prev" title="Spring源码解析之SpringAOP实现">
-                Spring源码解析之SpringAOP实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/09/消息队列之RocketMQ/" rel="prev" title="消息队列之RocketMQ">
+                消息队列之RocketMQ <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -488,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -565,6 +633,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式学习之高并发总结"><span class="nav-number">1.</span> <span class="nav-text">分布式学习之高并发总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
