@@ -225,7 +225,7 @@
           
           <li class="menu-item menu-item-home menu-item-active">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Startseite</a>
   </li>
         
         
@@ -233,7 +233,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archiv</a>
   </li>
 
       
@@ -268,6 +268,478 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Sofa学习之SofaRPC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/Sofa学习之SofaRPC/" itemprop="url">
+                  Sofa学习之SofaRPC
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-10 17:42:05 / Updated at: 22:24:57" itemprop="dateCreated datePublished" datetime="2018-08-10T17:42:05+08:00">2018-08-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.Sofa是蚂蚁自主研发的金融级分布式中间件，包含构建金融级云原生架构所需的各个组件，包括微服务研发框架，RPC框架，服务注册中心，分布式定时任务，限流/熔断框架，动态配置推送，分布式链路追踪，Metrics监控度量，分布式高可用消息队列，分布式事务框架，分布式数据库代理层等组件，是一套分布式架构的完整解决方案。</p>
+<pre><code>- SofaRPC是蚂蚁金服开源高可扩展，高性能，生产级的JavaRPC框架。
+- SOfaRPC致力于简化应用之间的RPC调用，为应用提供方便透明，稳定高效的点对点远程服务调用方案。SofaRPC提供丰富的模型抽象和可扩展接口，包括过滤器，路由，负载均衡等等。
+- SofaRPC功能特性:
+    - (1)透明化，高性能的远程服务调用；
+    - (2)支持多种服务器路由以及负载均衡策略；
+    - (3)支持多种注册中心的集成；
+    -（4）支持多种协议；
+    -（5）支持同步单向回调泛化等多种调用方式；
+    -（6）支持集群容错，服务预热，自动故障隔离；
+    -（7）强大的扩展功能，按需扩展。
+</code></pre><ol start="2">
+<li><p>架构设计</p>
+<ol>
+<li>从上到下分为两层：<ul>
+<li>核心层：包含RPC的核心组件以及一些通用的实现，如随机等负载均衡算法；</li>
+<li>功能实现层：所有功能实现层的用户都是平等的，都是基于扩展机制实现的。</li>
+</ul>
+</li>
+<li><p>架构原理</p>
+<ol>
+<li>Client<br> Client             —–&gt;客户端发起调用—&gt;调用Stub<br> Proxy              —–&gt;生成Stub,拦截调用，保存调用请求相关信息—&gt;路由寻址<br> Router&amp;Registry —–&gt;根据参数信息从Router和连接管理器中取地址—&gt;参数序列化，作为二进制准备传递<br> Codec           —–&gt;添加requestId等，按照协议格式编码之后传递—&gt;数据编码—&gt;网络传输—&gt;DeCondec:按照协议的规范，进行节码—&gt;解码,序列化—&gt;<br> ServerWorkerManager—&gt;管理发布的服务Bean,进行反射调用—&gt;<br> Server —&gt;业务处理</li>
+<li><p>Sofa源码主要包括</p>
+<ol>
+<li>all(发布打包模块)，</li>
+<li>bom(依赖管控模块，用于依赖版本管控)，</li>
+<li>example(示例模块)，</li>
+<li>test(测试模块，集成测试)，</li>
+<li>core(<ol>
+<li>api:API模块，涵盖各种基本流程接口,消息,上下文,扩展接口等;</li>
+<li>common公共模块，</li>
+<li>涵盖工具类utils,数据结构;</li>
+<li>exception:异常模块，涵盖各种异常接口等)。</li>
+</ol>
+</li>
+<li>core模块包括<ol>
+<li>bootstrap,启动实现模块，用于启动类，发布或者引用服务逻辑,以及registry的操作；</li>
+<li>proxy代理实现模块，用于接口实现代理生成；</li>
+<li>client 客户端实现模块，用于发送请求，接收响应，连接维护，路由，负载均衡，同步异步等；</li>
+<li>server 服务端实现模块，用于启动监听，接收请求，发送响应，业务线程分发等；</li>
+<li>filter 拦截器实现模块，用于服务端和客户端的各种拦截器实现；</li>
+<li>codec 编解码实现模块，例如压缩，序列化等；</li>
+<li>protocol 协议实现模块，用于协议的包装处理，协商；</li>
+<li>transport 网络传输实现模块，用于Tcp连接，数据分包粘包处理，请求响应对象分发等；</li>
+<li>registry 注册中心实现模块，实现注册中心，如zk等。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>实现原理</p>
+<ol>
+<li>Sofa rpc远程调用时通过服务模型来定义调用双方的，服务分为服务消费方和服务提供方，对应rpc的调用端和被调用端。service和reference;</li>
+<li>当Sofa rpc的应用启动的时候，如果发现当前应用需求需要发布RPC服务的话，那么sofa rpc会将这些服务注册到配置中心上；</li>
+<li>当引用这个服务的sofa应用启动时，会从配置中心订阅对应服务的地址；</li>
+<li>当配置中心收到订阅请求后，会将发布方的地址列表推送给订阅方；</li>
+<li>当引用服务的一方拿到地址以后，就可以发起直连调用服务。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Sofa源码学习系列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/Sofa源码学习系列/" itemprop="url">
+                  Sofa源码学习系列
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-10 10:55:42" itemprop="dateCreated datePublished" datetime="2018-08-10T10:55:42+08:00">2018-08-10</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Spring源码解析之Spring声明式事务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/Spring源码解析之Spring声明式事务/" itemprop="url">
+                  Spring源码解析之Spring声明式事务
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-10 10:50:55" itemprop="dateCreated datePublished" datetime="2018-08-10T10:50:55+08:00">2018-08-10</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -323,14 +795,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 16:46:53 / Modified: 18:03:13" itemprop="dateCreated datePublished" datetime="2018-08-09T16:46:53+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 16:46:53 / Updated at: 18:03:13" itemprop="dateCreated datePublished" datetime="2018-08-09T16:46:53+08:00">2018-08-09</time>
             
 
             
@@ -584,14 +1056,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 16:28:03 / Modified: 16:47:23" itemprop="dateCreated datePublished" datetime="2018-08-09T16:28:03+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 16:28:03 / Updated at: 16:47:23" itemprop="dateCreated datePublished" datetime="2018-08-09T16:28:03+08:00">2018-08-09</time>
             
 
             
@@ -765,14 +1237,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 15:55:19 / Modified: 16:27:18" itemprop="dateCreated datePublished" datetime="2018-08-09T15:55:19+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 15:55:19 / Updated at: 16:27:18" itemprop="dateCreated datePublished" datetime="2018-08-09T15:55:19+08:00">2018-08-09</time>
             
 
             
@@ -977,14 +1449,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 15:26:21 / Modified: 15:53:48" itemprop="dateCreated datePublished" datetime="2018-08-09T15:26:21+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 15:26:21 / Updated at: 15:53:48" itemprop="dateCreated datePublished" datetime="2018-08-09T15:26:21+08:00">2018-08-09</time>
             
 
             
@@ -1208,14 +1680,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 15:07:08 / Modified: 15:22:33" itemprop="dateCreated datePublished" datetime="2018-08-09T15:07:08+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 15:07:08 / Updated at: 15:22:33" itemprop="dateCreated datePublished" datetime="2018-08-09T15:07:08+08:00">2018-08-09</time>
             
 
             
@@ -1372,14 +1844,14 @@ soa服务器层优化
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 11:44:54 / Modified: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 11:44:54 / Updated at: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
             
 
             
@@ -1518,208 +1990,6 @@ soa服务器层优化
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/缓存系列之数据库缓存一致性问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/缓存系列之数据库缓存一致性问题/" itemprop="url">
-                  Redis系列之数据库缓存一致性问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-09 11:40:48 / Modified: 15:04:41" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##Redis缓存数据库一致性问题##</p>
-<ul>
-<li>数据一致性处理<ul>
-<li>当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。</li>
-<li>高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。</li>
-</ul>
-</li>
-<li>消息队列<ul>
-<li>将票数资源存入redis中，将请求存入消息队列，list会阻塞，但是依次处理，导致等待时间较长。</li>
-</ul>
-</li>
-<li>加锁<ul>
-<li>排他锁，乐观锁，悲观锁</li>
-<li>排他锁：进行写时，禁止一切读写；</li>
-<li>乐观锁：在写的时候，默认没有资源竞争，维护一个Version号，等处理后对照version号，一致则提交，否则回滚。</li>
-<li>悲观锁：在写的时候，别人也再写。采用数据库提供的锁机制：在写操作的时候(insert update)myisam采用表锁，innodb根据主键与否来决定是行锁还是表锁。读操作采用MVCC版本控制。</li>
-</ul>
-</li>
-<li>需求起因<ul>
-<li>假设先写数据库，再淘汰缓存:第一步写数据库成功，第二步淘汰缓存失败，则BD中是新数据，Cache中是旧数据，数据不一致。</li>
-<li>假设先淘汰缓存，再写数据库：第一步淘汰缓存成功，第二步写数据库失败，则缓存中无数据，数据库中是旧数据。</li>
-<li>先淘汰缓存，再写数据库</li>
-</ul>
-</li>
-<li>数据不一致原因<ul>
-<li>先操作缓存，再数据库成功之前，如果有读请求发生，可能导致旧数据入缓存，引发数据不一致。</li>
-<li>写流程：<ul>
-<li>先淘汰缓存</li>
-<li>再写DB</li>
-</ul>
-</li>
-<li>读流程<ul>
-<li>先读cache,如果数据命中hit则返回；</li>
-<li>如果数据未命中miss则读DB;</li>
-<li>将DB中读取出来的数据入缓存。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>问题解决思路—串行化</li>
-<li>Redis数据库与缓存一致性解决方案<ul>
-<li>数据库与缓存读写模式策略—写完数据库后是否需要马上更新缓存还是直接删除缓存？<ul>
-<li>如果写数据库的值与更新到缓存值是一样的，不需要经过任何计算可以马上更新缓存，但是对于写数据频繁而读数据少的场景并不合适这个解决方案。</li>
-<li>如果写数据库的值与更新缓存的值不一致，写入缓存中的数据需要经过几个表的关联计算后得到的结果插入缓存中，那么没必要立即更新缓存，删除缓存即可，等到查询的时候把计算结果插入到缓存中即可。</li>
-<li>一般的策略是当更新数据时，先删除缓存，再更新数据库。</li>
-</ul>
-</li>
-<li>数据库与缓存双写情况下导致数据不一致问题<ul>
-<li>场景1：当更新数据时，如更新某商品的库存，当前商品的库存为100，而现在为99，先更新数据库改成99，然后删除缓存，发现删除缓存失败，这时数据库存99，而缓存存100，导致缓存数据库不一致。</li>
-<li>解决方案：这种情况先删除缓存，再更新数据库。<strong>如果缓存删除失败就不更新数据库</strong>，如果说缓存删除成功，而数据库更新失败，那查询到的是数据库的旧数据，不会造成缓存数据库不一致的情况。</li>
-<li>场景2：在高并发情况下，如果当删除出完缓存的时候，这是去更新数据库，但是还没有更新完，这时另一个请求来查询，发现缓存没有，就去数据查。数据库中100，查到后加入缓存，插入完缓存后，原来那个数据库的线程把数据库更新为99，导致缓存数据库不一致。</li>
-<li>场景2解决：<ul>
-<li>读请求时长阻塞</li>
-<li>请求并发量过高</li>
-<li>多服务实例部署的请求路由</li>
-<li>热点商品的路由问题，导致请求倾斜</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Redis缓存系列之数据库缓存一致性问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1759,14 +2029,14 @@ soa服务器层优化
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-08-09 11:40:48" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
+              <time title="Post created: 2018-08-09 11:40:48" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
             
 
             
@@ -1803,370 +2073,6 @@ soa服务器层优化
         
           
             
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/Spring源码解析之AOP实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/08/Spring源码解析之AOP实现/" itemprop="url">
-                  Spring源码解析之SpringAOP实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-08 14:50:15 / Modified: 21:56:08" itemprop="dateCreated datePublished" datetime="2018-08-08T14:50:15+08:00">2018-08-08</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-SpringAOP概述"><a href="#1-SpringAOP概述" class="headerlink" title="1.SpringAOP概述"></a>1.SpringAOP概述</h2><ul>
-<li>常见AOP技术:事务管理，安全检查，缓存，对象池管管理。<ol>
-<li>静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。</li>
-<li>动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而是运行时生成目标类的代理类，该代理类要么与目标接口是相同的接口，要么是目标类的子类。采用运行时动态地，在内存中临时生成代理类。</li>
-<li>AOP代理是由AOP框架生成了一个代理对象，该对象作为目标对象使用。AOP代理包含了对目标对象的全部方法，差别在于对于特定切入点添加了增强处理，并回调了目标对象的方法。</li>
-<li>Cglib生成代理类:<ol>
-<li>Enhancer en = new Enhance();</li>
-<li>en.setsuperClass(Chinese.class);</li>
-<li>en.setCallback(new AroundAvice());</li>
-<li>return (Chinese) en.create();</li>
-</ol>
-</li>
-<li>Advice PointCut Advisor(Adivce PointCut)</li>
-</ol>
-</li>
-</ul>
-<h2 id="2-Spring-AOP的设计与实现"><a href="#2-Spring-AOP的设计与实现" class="headerlink" title="2.Spring AOP的设计与实现"></a>2.Spring AOP的设计与实现</h2><ul>
-<li>动态代理特性:为任意java对象创建代理对象，通过ReflectionAPI来实现。</li>
-<li>InvocationHandler-&gt;invoke(Object proxy,Method method, Object[] args)<ul>
-<li>第一个参数是代理对象</li>
-<li>第二个参数是Method方法对象，代表被调用的方法</li>
-<li>第三个参数是被调用方法中的参数</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>应用场景：日志和事务</li>
-<li><p>建立AopProxy代理对象</p>
-<ul>
-<li>设计原理：代理对象的生成，通过配置和调用ProxyFactoryBean来完成。ProxyFactoryBean封装了代理对象的生成，包括Jdk动态代理和Cglib两种方式。</li>
-</ul>
-</li>
-<li><p>配置ProxyFactoryBean</p>
-<ul>
-<li>定义通知器Advisor(Advice,PointCut)来定义一个Bean定义了需要对目标对象进行增强的切面行为，也就是Advice通知。</li>
-<li>定义ProxyFactoryBean，封装了AOP功能的主要类。需要设定与Aop实现相关的重要属性，如proxyInterface,interceptorNames(通知器名)和target等。</li>
-</ul>
-</li>
-<li>ProxyFactoryBean生成AopProxy代理对象<ul>
-<li>在ProxyFactoryBean中，通过interceptorNames属性来配置已经定义好的通知器Advisor；</li>
-<li>在ProxyFactoryBean中，需要为target目标对象生成Proxy代理对象，为AOP横切面的编织做好准备工作。</li>
-<li>ProxyBeanFactory的AOP实现需要依赖JDK或者CGLIB提供的Proxy特性。从FactoryBean中已getObject()方法作为入口完成。</li>
-<li>getObject()方法是FactoryBean实现的接口，对于target目标对象的增强处理，通过getObject()方法来封装，这些增强是AOP功能的实现提供服务的。</li>
-<li>getObject()方法首先会对通知器链进行初始化，通知器链封装一系列拦截器，所有拦截器都从配置中读取，为代理对象生成做准备。</li>
-<li>生成代理对象时，需要对singleton和prototype进行区分。</li>
-<li>ProxyFactoryBean#initializeAdvisorChain(){第一次通过ProxyFactoryBean去获取对象的时候，完成初始化后，会读取配置中出现的所有通知器，将通知器的名字交给容器的getBean方法}-&gt;getSingletonInstance(){根据AOP框架来判断需要代理的接口}-&gt;getProxy()-&gt;createAopProxy(){返回AopProxy代理对象，分别为JdkDynamicProxy和Cglib2AopProxy}-&gt;isInterface(){jdk动态代理}-&gt;createCglibProxy(){非接口}。</li>
-</ul>
-</li>
-<li>JDK生成AopProxy代理对象<ul>
-<li>首先从Advised对象中取得代理对象的代理接口配置，然后调用Proxy的newInstance()生成Proxy代理对象。并指明三个参数，类装载器代理接口，Proxy回调方法所在的对象，这个对象需要实现InvocationHandler的invoker方法，提供代理对象回调的入口。</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/" itemprop="url">
-                  Spring源码系列之SpringMVC容器加载初始化过程解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-07 22:55:37 / Modified: 23:51:55" itemprop="dateCreated datePublished" datetime="2018-08-07T22:55:37+08:00">2018-08-07</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##SpringMVC在Web环境中的加载##</p>
-<p>###1.概述###<br>    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并将其初始化。而SpringMVC是在IoC容器的基础上建立的MVC运行机制，从而响应Web容器传递的Http请求。</p>
-<p> Tomcat容器中web.xml部署<br>-<br>    <servlet><br>        <servlet-name><br>        <servlet-class><br>        <load-on-startup><br>    </load-on-startup></servlet-class></servlet-name></servlet><br>    <servlet-mapping><br>        <servlet-name></servlet-name><br>        <url-pattern>/*</url-pattern><br>    </servlet-mapping><br>    <context-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>/WEB-INF/applicationContext.xml</param-value><br>    </context-param><br>    <listener><br>        <listener-class><br>            ContextLoaderListener<br>        </listener-class><br>    </listener></p>
-<ul>
-<li>这里部署了SpringMVC与Tomcat的接口。首先定义了一个Servlet对象；</li>
-<li>同时部署了了这个Servlet对应的URL映射，这些URL映射为这个Servlet指定了需要处理的Http请求</li>
-<li>context-param参数的配置用来指定Spring IoC容器读取Bean定义的xml文件。在这个xml文件中读取到Spring的配置。</li>
-<li>ContextLoaderListener作为SpringMVC的启动类，被定义为一个监听器，这个监听器与Web服务器的生命周期相关，由ContextLoaderListener监听器负责完成IoC容器在web环境中的启动工作。</li>
-<li>ContextLoaderListener和DispatcherServlet提供了在Web容器中对的Spring,这些接口与web容器耦合是通过ServletContext实现。</li>
-<li>这个ServletContext为Spring的IoC容器提供了一个宿主环境，在宿主环境中，SpringMVC建立起一个IoC容器的体系。</li>
-<li>这个体系通过ContextLoaderListener的初始化建立，建立IoC体系后，把DispatcherServlet作为SpringMVC处理web请求的转发器建立起来，从而完成响应Http请求的准备。</li>
-</ul>
-<p>##2.上下文在web容器中的启动##</p>
-<ol>
-<li><p>IoC容器启动的基本过程</p>
-<ul>
-<li>IoC容器的启动就是上下文建立过程，与ServletContext相伴而生，是IoC容器在Web环境中的具体表现之一；</li>
-<li>ContextLoaderListener启动的上下文是根上下文。在根上下文的基础上还有一个与WebMVC相关的上下文来保持控制器需要的MVC对象，上下文的体系是由ContextLoader来完成。</li>
-<li>contextInitialized()-&gt;ContextLoaderListener#initWebApplicationContext()-&gt;ContextLoader#loadParentContext()-&gt;XmlWebApplicationContext#refresh();</li>
-<li>在ContextLoader中，完成了两个IoC容器的建立，一个是Web容器中建立起来的双亲IoC容器，另一个是生成响应的WebApplicationContext并将其初始化。</li>
-</ul>
-</li>
-<li>Web容器中的上下文设计—WebApplicationContext</li>
-<li>ContextLoader设计与实现<ul>
-<li>Spring承载的web应用而言，可以在Web应用程序启动时载入IoC容器(WebApplicationContext)，这个功能由ContextLoaderListener来实现，是在web.xml中配置的监听器。这个监听器通过ContextLoader来完成实际的IoC容器初始化工作。</li>
-<li>ContextLoader是Spring应用程序在web容器中的启动器。</li>
-<li>这个监听器是启动根IoC容器并载入到web容器的主要功能模块，也是整个SpringWeb应用加载IoC的第一个地方。</li>
-<li>首先从Servlet事件中得到ServletContext,然后读取配置在web.xml中的相关属性，接着实例化WebApplicationContext,完成其初始化过程。</li>
-<li>这个被初始化的第一个上下文是根上下文，这个根上下文载入后，被绑定到web应用的ServletContex上。任何需要访问根上下文的应用程序代码都可以从WebApplicationContextUtils的静态方法中得到。</li>
-<li>在ContextLoaderListener中，实现的是ServletContextListener接口，这个接口的方法回结合Web容器的生命周期被调用。ServletContextListener是ServletContext的监听者。如果ServletContext发生了变化，会触发相应的事件，做出预先设计的响应。</li>
-</ul>
-</li>
-</ol>
-
           
         
       
@@ -2251,8 +2157,8 @@ soa服务器层优化
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
               
@@ -2286,8 +2192,10 @@ soa服务器层优化
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">Tags</span>
                   
                 </div>
               
@@ -2340,7 +2248,7 @@ soa服务器层优化
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
 
 
 
