@@ -284,6 +284,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/Druid源码解析之数据库连接池总论/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/20/Druid源码解析之数据库连接池总论/" itemprop="url">
+                  Druid源码解析之数据库连接池总论
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-20 18:17:52" itemprop="dateCreated datePublished" datetime="2018-08-20T18:17:52+08:00">2018-08-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-21 16:12:19" itemprop="dateModified" datetime="2018-08-21T16:12:19+08:00">2018-08-21</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-应用程序直接获取数据连接的缺点"><a href="#1-应用程序直接获取数据连接的缺点" class="headerlink" title="1.应用程序直接获取数据连接的缺点"></a>1.应用程序直接获取数据连接的缺点</h2><ol>
+<li>用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。</li>
+<li>大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、</li>
+</ol>
+<h2 id="2-使用数据库连接池优化程序性能"><a href="#2-使用数据库连接池优化程序性能" class="headerlink" title="2.使用数据库连接池优化程序性能"></a>2.使用数据库连接池优化程序性能</h2><ol>
+<li>数据库连接池的概念<ol>
+<li>数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。</li>
+<li>对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到程序的性能指标。</li>
+<li>数据库连接池负责分配，管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</li>
+<li>数据库连接池在初始化时将创建一定数量的数据库连接池放到连接池中，这些数据库连接的数量由最小数据库连接数来设定。无论这些数据库连接是否被使用，连接池都将保证至少拥有这么多的连接数量。连接池的最大数据库连接数量限定了这个连接池能占有的最大连接数，当应用程序向连接池请求连接数超过最大连接数量时，这些请求将会被加入到等待队列中。</li>
+<li>数据库连接池的最小连接数和最大连接数的设置需要考虑一下几个因素：<ol>
+<li>最小连接数:是连接池一直保持的数据库连接，所以如果应用程序对数据库连接使用量不大，将会有大量数据库连接资源被浪费；</li>
+<li>最大连接数:是连接池能申请的最大连接数，如果数据库连接请求超过次数，后面的数据库连接请求将被加入到等待队列中，这会影响到以后的数据库操作。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>编写数据库连接池<ol>
+<li>实现java.sql.DataSource接口,DataSource接口定义了两个重载的getConnection方法:<ol>
+<li>Connection getConnection();</li>
+<li>Connection getConnection(String username, String password);</li>
+</ol>
+</li>
+<li>实现DataSource接口，并实现连接池功能的步骤：<ol>
+<li>在DataSource构造函数中批量创建与数据库的连接，并把创建的连接加入LinkedList对象中；</li>
+<li>实现getConnection方法，让getConnection方法每次调用时，从LinkedList中去一个Connection返回给用户；</li>
+<li>当用户使用完Connection,调用Connection.close()方法时，Collection对象应保证自己返回到LinkedList中，而不是把conn还给数据库。<strong>Collection保证将自己返回到LinkedList中</strong>；</li>
+</ol>
+</li>
+<li>部分核心代码<br> `proxyConn = (Connection) Proxy.newProxyInstance(this.getClass().getClassLoader(),conn.getClass().getInterfaces(),new InvocationHandler(){<pre><code>public Object invoke(Object proxy,Method method,Object[] args) {
+    if(method.getName().equals(&quot;close&quot;)) {
+        pool.addLast(conn);
+        return null;
+    }
+    return method.invoke(conn,args);
+}
+</code></pre> })` </li>
+</ol>
+</li>
+<li>开源数据库连接池<ol>
+<li>很多WEB服务器都提供了DataSource的实现，即连接池的实现。把DataSource的实现，按其英文含义称之为数据源，数据源中包含了数据库连接池的实现。</li>
+<li>DBCP C3P0 使用了数据库连接池，就不需要在编写连接数据库代码了，直接从数据源获得数据库的连接。</li>
+<li>DBCP数据源:tomcat采用该连接池</li>
+<li>C3P0数据源:dbcp没有自动回收空闲连接的功能，c3p0有自动回收空闲连接功能</li>
+<li>Tomcat数据源</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/计算机网络总结复习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1822,267 +2021,6 @@ SQLSelect select = selectParser.select();
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/消息队列之消息队列的设计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/消息队列之消息队列的设计/" itemprop="url">
-                  消息队列之消息队列的设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 16:46:53 / Updated at: 18:03:13" itemprop="dateCreated datePublished" datetime="2018-08-09T16:46:53+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="消息队列的设计"><a href="#消息队列的设计" class="headerlink" title="消息队列的设计"></a>消息队列的设计</h2><ul>
-<li>使用场景<ul>
-<li>业务解耦 最终一致性 广播 削峰填谷 流量控制</li>
-<li>强一致性用RPC</li>
-</ul>
-</li>
-<li>如何设计一个消息队列<ul>
-<li>配备Broker来堆积消息，消息的转存，最简单的消息队列可以做成一个消息转发器，把一次RPC看成2次RPC。</li>
-<li>首先Build一个整体数据流，P-B-C;</li>
-<li>利用RPC将数据流串起来，然后考虑RPC的高可用，尽量做到<strong>无状态</strong>；</li>
-<li>考虑如何承载消息堆积，并且在合适的时机投递消息，最加方式就是存储。存储的选型需要综合考虑性能和可靠性，开发维护成本等等。</li>
-<li>为了广播功能，我们需要维护消费关系，利用ZK或其他。</li>
-</ul>
-</li>
-<li><p>高级特性</p>
-<ul>
-<li><p>RPC通信协议</p>
-<ul>
-<li>消息队列就是2次RPC加一个转存。加上消费端的确认所以大概是3次。从而牵涉到负载均衡，服务发现，通信协议，序列化等。</li>
-<li>利用现有的RPC框架。</li>
-</ul>
-</li>
-<li><p>高可用</p>
-<ul>
-<li>所有的高可用都依赖于rpc和存储的高可用。</li>
-<li>幂等</li>
-</ul>
-</li>
-<li>服务端承载消息堆积的能力<ul>
-<li>错峰流控最终可达</li>
-<li>持久化非持久化</li>
-</ul>
-</li>
-<li>消费关系解析<ul>
-<li>点对点 </li>
-<li>广播</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>更高特性<ul>
-<li>可靠投递（最终一致性）<ul>
-<li>完全不丢消息—&gt;消息重复—&gt;每次要发生不可靠的事情之前，先将消息落地，然后发送。当失败或者不知道成功失败时，消息状态时待发送，定时任务不停的轮询所有待发送消息，最终一定可达。</li>
-<li>具体：<ul>
-<li>Producer往broker发送消息之前，先落地；请求到server后，server确保数据落地后再告诉客户端发送成功。</li>
-<li>支持广播的消息队列需要对每个待发送的endpoint，持久化一个发送状态，直到所有endpoint状态都Ok才可以删除消息。</li>
-<li>对于各种不确定(超时，宕机，消息没有送达，送达后没有落地，数据落地后没有回复)都属于消息没有送达。</li>
-<li>重推消息所面临的就是消息重复。重复和丢失就像两个噩梦。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>消费确认<ul>
-<li>当Broker把消息投递给消费者后，消费者可以立即响应收到这个消息。但是这只是第一步，能否消费却不一定。或许是因为消费能力的问题，系统的符合已经不能处理这个消息；或者刚才状态机里面提到的消息不是想要的，主动要求重复。</li>
-<li>消息的送达和消息的处理分开，实现了消息队列的本质。</li>
-<li>对于reject和error，需要特别说明，滑动窗口/池</li>
-</ul>
-</li>
-<li>重复消息和顺序消息<ul>
-<li>顺序消息-&gt;发送方到服务方接收者都是单点单线程。</li>
-<li>没有绝对的顺序消息。</li>
-<li>在保证不丢消息的情况下，减少重复消息，不保证消息的投递顺序。</li>
-<li>消息重复：如何鉴别，并幂等处理，如何减少重复消息的投递。</li>
-<li>每个消息都有唯一身份。通过数据库/bloomfilter/分布式kv中的key都可以进行去重。</li>
-<li>通过版本号识别消息重复，状态机识别</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>消息队列的事务 — RocketMQ</p>
-<ul>
-<li>2PC<ul>
-<li>prepare阶段—投票阶段，协调者向参与者确认是否可以共同提交。</li>
-<li>commit阶段—得到全部参与者的所有回到后，协调者向所有的参与者发布共同提交或者共同回滚的指令。</li>
-<li>2pc的问题：超时状态，在发送完提交指令后，参与者没有收到提交或者回滚的指令时，此时不会是否资源。不足：同步阻塞 单点问题 数据不一致 保守</li>
-</ul>
-</li>
-<li><p>3PC</p>
-<ul>
-<li>在commit之前增加了preCommit过程，使得在参与者收不到确认时，依然可以从容commit或者rollback,避免资源锁定太久而导致浪费。缺点：实现复杂 </li>
-</ul>
-</li>
-<li><p>TCC补偿性事务</p>
-<ul>
-<li>分为try confirm cancel</li>
-<li>事务管理器记录全局事务的推进状态，以及子事务的执行状态，负责推进各个子事务共同进行提交或者回滚。同时负责在子事务处理超时后不停重试，重试不成功后转手工处理，保证事务的最终一致性。</li>
-<li>优点：在尝试阶段仅仅时业务系统做验测，并保留业务资源，并没有真正提交。TCC仅需要释放保留资源，降低补偿成本。隔离性高</li>
-</ul>
-</li>
-<li>事务消息<ul>
-<li>事务消息的本质：消费加积分业务</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>RocketMQ事务消息<ul>
-<li>设计原则是为了解决Producer端的消息发送与本地事务执行的原子性问题。</li>
-<li>RocketMQ的设计中broker与producer端的双向通信能力，使得broker天生可以作为一个事务协调者存在；</li>
-<li>RocketMQ本身提供存储机制，为事务消息提供持久化能力；</li>
-<li>RocketMQ的高可用机制以及可靠消息设计，为事务消息在系统发生异常时，依然能够保证事务达到最终一致性。</li>
-</ul>
-</li>
-<li>RocketMQ事务消息设计<ul>
-<li>事务消息作为一种异步确保型事务，将两个事务分支通过MQ进行异步解耦，RocketMQ事务消息的设计流程借鉴了两阶段提交理论。</li>
-<li>过程：<ul>
-<li>事务发起方首先发送prepare消息到MQ;</li>
-<li>在发送prepare消息成功后执行本地事务;</li>
-<li>根据本地事务执行结果返回commit或者是rollback;</li>
-<li>如果消息是rollback，MQ将删除该prepare消息不进行下发，如果是commit消息，MQ将会把这个消息发送给consumer端。</li>
-<li>如果执行本地事务过程中，执行端挂掉，或者超时，MQ将会不停地询问其同组的其他producer来获取状态。</li>
-</ul>
-</li>
-<li>RocketMQ通过使用HalfTopic以及Operation Topic两个内部队列来存储事务消息推送状态。<ul>
-<li>Half Topic对应队列中存放prepare消息，Operation Topic对应的队列则存放了prepare message对应的commit/rollback消息，消息体中则是prepare message对应的offset，服务端通过对比两个队列的差值来找到尚未提交的超时事务进行回查。</li>
-</ul>
-</li>
-<li>从用户侧来说，用户需要分别实现本地事务执行，以及本地事务回查方法，只需要关注本地事务的执行状态即可。</li>
-<li>在service层，对事物消息的两阶段提交进行了抽象，同时针对超时事务实现了回查逻辑，通过不断扫描当前事务推进状态，来不断反向请求Producer端获取超时事务的执行状态，在避免事务挂起的同时，也避免了Producer端的单点故障。</li>
-<li>在存储层，RocketMQ通过Bridge封装了与底层队列存储的相关操作，用以操作两个对应的内部队列，用户也可以通过其他存储介质来实现自己的service，RocketMQ会通过ServiceProvider加载进来。</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2130,7 +2068,7 @@ SQLSelect select = selectParser.select();
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -2177,7 +2115,9 @@ SQLSelect select = selectParser.select();
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>

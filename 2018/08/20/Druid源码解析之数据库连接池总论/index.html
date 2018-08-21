@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="1.SpringAOP概述 常见AOP技术:事务管理，安全检查，缓存，对象池管管理。 静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。 动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而">
-<meta name="keywords" content="SpringAOP">
+  <meta name="description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
+<meta name="keywords" content="Druid 数据库连接池">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码解析之SpringAOP实现">
-<meta property="og:url" content="http://yoursite.com/2018/08/08/Spring源码解析之AOP实现/index.html">
+<meta property="og:title" content="Druid源码解析之数据库连接池总论">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/Druid源码解析之数据库连接池总论/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="1.SpringAOP概述 常见AOP技术:事务管理，安全检查，缓存，对象池管管理。 静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。 动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而">
+<meta property="og:description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-08T13:56:08.135Z">
+<meta property="og:updated_time" content="2018-08-21T08:12:19.861Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码解析之SpringAOP实现">
-<meta name="twitter:description" content="1.SpringAOP概述 常见AOP技术:事务管理，安全检查，缓存，对象池管管理。 静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。 动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而">
+<meta name="twitter:title" content="Druid源码解析之数据库连接池总论">
+<meta name="twitter:description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/08/Spring源码解析之AOP实现/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/20/Druid源码解析之数据库连接池总论/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>Spring源码解析之SpringAOP实现 | Rocky for Everything</title>
+  <title>Druid源码解析之数据库连接池总论 | Rocky for Everything</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/Spring源码解析之AOP实现/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/Druid源码解析之数据库连接池总论/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky ZhouJin">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码解析之SpringAOP实现
+          <h1 class="post-title" itemprop="name headline">Druid源码解析之数据库连接池总论
               
             
           </h1>
@@ -327,12 +327,24 @@
                 
               
 
-              <time title="Post created: 2018-08-08 14:50:15 / Updated at: 21:56:08" itemprop="dateCreated datePublished" datetime="2018-08-08T14:50:15+08:00">2018-08-08</time>
+              <time title="Post created: 2018-08-20 18:17:52" itemprop="dateCreated datePublished" datetime="2018-08-20T18:17:52+08:00">2018-08-20</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-21 16:12:19" itemprop="dateModified" datetime="2018-08-21T16:12:19+08:00">2018-08-21</time>
               
             
           </span>
@@ -365,59 +377,54 @@
       
 
       
-        <h2 id="1-SpringAOP概述"><a href="#1-SpringAOP概述" class="headerlink" title="1.SpringAOP概述"></a>1.SpringAOP概述</h2><ul>
-<li>常见AOP技术:事务管理，安全检查，缓存，对象池管管理。<ol>
-<li>静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。</li>
-<li>动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而是运行时生成目标类的代理类，该代理类要么与目标接口是相同的接口，要么是目标类的子类。采用运行时动态地，在内存中临时生成代理类。</li>
-<li>AOP代理是由AOP框架生成了一个代理对象，该对象作为目标对象使用。AOP代理包含了对目标对象的全部方法，差别在于对于特定切入点添加了增强处理，并回调了目标对象的方法。</li>
-<li>Cglib生成代理类:<ol>
-<li>Enhancer en = new Enhance();</li>
-<li>en.setsuperClass(Chinese.class);</li>
-<li>en.setCallback(new AroundAvice());</li>
-<li>return (Chinese) en.create();</li>
+        <h2 id="1-应用程序直接获取数据连接的缺点"><a href="#1-应用程序直接获取数据连接的缺点" class="headerlink" title="1.应用程序直接获取数据连接的缺点"></a>1.应用程序直接获取数据连接的缺点</h2><ol>
+<li>用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。</li>
+<li>大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、</li>
+</ol>
+<h2 id="2-使用数据库连接池优化程序性能"><a href="#2-使用数据库连接池优化程序性能" class="headerlink" title="2.使用数据库连接池优化程序性能"></a>2.使用数据库连接池优化程序性能</h2><ol>
+<li>数据库连接池的概念<ol>
+<li>数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。</li>
+<li>对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到程序的性能指标。</li>
+<li>数据库连接池负责分配，管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</li>
+<li>数据库连接池在初始化时将创建一定数量的数据库连接池放到连接池中，这些数据库连接的数量由最小数据库连接数来设定。无论这些数据库连接是否被使用，连接池都将保证至少拥有这么多的连接数量。连接池的最大数据库连接数量限定了这个连接池能占有的最大连接数，当应用程序向连接池请求连接数超过最大连接数量时，这些请求将会被加入到等待队列中。</li>
+<li>数据库连接池的最小连接数和最大连接数的设置需要考虑一下几个因素：<ol>
+<li>最小连接数:是连接池一直保持的数据库连接，所以如果应用程序对数据库连接使用量不大，将会有大量数据库连接资源被浪费；</li>
+<li>最大连接数:是连接池能申请的最大连接数，如果数据库连接请求超过次数，后面的数据库连接请求将被加入到等待队列中，这会影响到以后的数据库操作。</li>
 </ol>
 </li>
-<li>Advice PointCut Advisor(Adivce PointCut)</li>
 </ol>
 </li>
-</ul>
-<h2 id="2-Spring-AOP的设计与实现"><a href="#2-Spring-AOP的设计与实现" class="headerlink" title="2.Spring AOP的设计与实现"></a>2.Spring AOP的设计与实现</h2><ul>
-<li>动态代理特性:为任意java对象创建代理对象，通过ReflectionAPI来实现。</li>
-<li>InvocationHandler-&gt;invoke(Object proxy,Method method, Object[] args)<ul>
-<li>第一个参数是代理对象</li>
-<li>第二个参数是Method方法对象，代表被调用的方法</li>
-<li>第三个参数是被调用方法中的参数</li>
-</ul>
+<li>编写数据库连接池<ol>
+<li>实现java.sql.DataSource接口,DataSource接口定义了两个重载的getConnection方法:<ol>
+<li>Connection getConnection();</li>
+<li>Connection getConnection(String username, String password);</li>
+</ol>
 </li>
-</ul>
-<ul>
-<li>应用场景：日志和事务</li>
-<li><p>建立AopProxy代理对象</p>
-<ul>
-<li>设计原理：代理对象的生成，通过配置和调用ProxyFactoryBean来完成。ProxyFactoryBean封装了代理对象的生成，包括Jdk动态代理和Cglib两种方式。</li>
-</ul>
+<li>实现DataSource接口，并实现连接池功能的步骤：<ol>
+<li>在DataSource构造函数中批量创建与数据库的连接，并把创建的连接加入LinkedList对象中；</li>
+<li>实现getConnection方法，让getConnection方法每次调用时，从LinkedList中去一个Connection返回给用户；</li>
+<li>当用户使用完Connection,调用Connection.close()方法时，Collection对象应保证自己返回到LinkedList中，而不是把conn还给数据库。<strong>Collection保证将自己返回到LinkedList中</strong>；</li>
+</ol>
 </li>
-<li><p>配置ProxyFactoryBean</p>
-<ul>
-<li>定义通知器Advisor(Advice,PointCut)来定义一个Bean定义了需要对目标对象进行增强的切面行为，也就是Advice通知。</li>
-<li>定义ProxyFactoryBean，封装了AOP功能的主要类。需要设定与Aop实现相关的重要属性，如proxyInterface,interceptorNames(通知器名)和target等。</li>
-</ul>
+<li>部分核心代码<br> `proxyConn = (Connection) Proxy.newProxyInstance(this.getClass().getClassLoader(),conn.getClass().getInterfaces(),new InvocationHandler(){<pre><code>public Object invoke(Object proxy,Method method,Object[] args) {
+    if(method.getName().equals(&quot;close&quot;)) {
+        pool.addLast(conn);
+        return null;
+    }
+    return method.invoke(conn,args);
+}
+</code></pre> })` </li>
+</ol>
 </li>
-<li>ProxyFactoryBean生成AopProxy代理对象<ul>
-<li>在ProxyFactoryBean中，通过interceptorNames属性来配置已经定义好的通知器Advisor；</li>
-<li>在ProxyFactoryBean中，需要为target目标对象生成Proxy代理对象，为AOP横切面的编织做好准备工作。</li>
-<li>ProxyBeanFactory的AOP实现需要依赖JDK或者CGLIB提供的Proxy特性。从FactoryBean中已getObject()方法作为入口完成。</li>
-<li>getObject()方法是FactoryBean实现的接口，对于target目标对象的增强处理，通过getObject()方法来封装，这些增强是AOP功能的实现提供服务的。</li>
-<li>getObject()方法首先会对通知器链进行初始化，通知器链封装一系列拦截器，所有拦截器都从配置中读取，为代理对象生成做准备。</li>
-<li>生成代理对象时，需要对singleton和prototype进行区分。</li>
-<li>ProxyFactoryBean#initializeAdvisorChain(){第一次通过ProxyFactoryBean去获取对象的时候，完成初始化后，会读取配置中出现的所有通知器，将通知器的名字交给容器的getBean方法}-&gt;getSingletonInstance(){根据AOP框架来判断需要代理的接口}-&gt;getProxy()-&gt;createAopProxy(){返回AopProxy代理对象，分别为JdkDynamicProxy和Cglib2AopProxy}-&gt;isInterface(){jdk动态代理}-&gt;createCglibProxy(){非接口}。</li>
-</ul>
+<li>开源数据库连接池<ol>
+<li>很多WEB服务器都提供了DataSource的实现，即连接池的实现。把DataSource的实现，按其英文含义称之为数据源，数据源中包含了数据库连接池的实现。</li>
+<li>DBCP C3P0 使用了数据库连接池，就不需要在编写连接数据库代码了，直接从数据源获得数据库的连接。</li>
+<li>DBCP数据源:tomcat采用该连接池</li>
+<li>C3P0数据源:dbcp没有自动回收空闲连接的功能，c3p0有自动回收空闲连接功能</li>
+<li>Tomcat数据源</li>
+</ol>
 </li>
-<li>JDK生成AopProxy代理对象<ul>
-<li>首先从Advised对象中取得代理对象的代理接口配置，然后调用Proxy的newInstance()生成Proxy代理对象。并指明三个参数，类装载器代理接口，Proxy回调方法所在的对象，这个对象需要实现InvocationHandler的invoker方法，提供代理对象回调的入口。</li>
-</ul>
-</li>
-</ul>
+</ol>
 
       
     </div>
@@ -438,7 +445,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SpringAOP/" rel="tag"># SpringAOP</a>
+            <a href="/tags/Druid-数据库连接池/" rel="tag"># Druid 数据库连接池</a>
           
         </div>
       
@@ -451,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/" rel="next" title="Spring源码系列之SpringMVC容器加载初始化过程解析">
-                <i class="fa fa-chevron-left"></i> Spring源码系列之SpringMVC容器加载初始化过程解析
+              <a href="/2018/08/20/计算机网络总结复习/" rel="next" title="计算机网络总结复习">
+                <i class="fa fa-chevron-left"></i> 计算机网络总结复习
               </a>
             
           </div>
@@ -460,10 +467,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/09/缓存系列之数据库缓存一致性问题/" rel="prev" title="Redis系列之数据库缓存一致性问题">
-                Redis系列之数据库缓存一致性问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SpringAOP概述"><span class="nav-number">1.</span> <span class="nav-text">1.SpringAOP概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Spring-AOP的设计与实现"><span class="nav-number">2.</span> <span class="nav-text">2.Spring AOP的设计与实现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-应用程序直接获取数据连接的缺点"><span class="nav-number">1.</span> <span class="nav-text">1.应用程序直接获取数据连接的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-使用数据库连接池优化程序性能"><span class="nav-number">2.</span> <span class="nav-text">2.使用数据库连接池优化程序性能</span></a></li></ol></div>
             
 
           </div>

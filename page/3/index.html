@@ -284,6 +284,243 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/Spring源码解析系列之IoC容器初始化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" itemprop="url">
+                  Spring源码解析系列之IoC容器初始化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-06 21:18:46" itemprop="dateCreated datePublished" datetime="2018-08-06T21:18:46+08:00">2018-08-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-07 22:54:33" itemprop="dateModified" datetime="2018-08-07T22:54:33+08:00">2018-08-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="IoC容器初始化"><a href="#IoC容器初始化" class="headerlink" title="IoC容器初始化"></a>IoC容器初始化</h1><h2 id="1-IoC容器系列设计与实现-BeanFactory和ApplicationContext"><a href="#1-IoC容器系列设计与实现-BeanFactory和ApplicationContext" class="headerlink" title="1. IoC容器系列设计与实现 BeanFactory和ApplicationContext"></a>1. IoC容器系列设计与实现 BeanFactory和ApplicationContext</h2><p><strong>在SpringIoC容器设计中，主要由两个容器系列：实现BeanFactory接口的简单容器，另一个是ApplicationContext应用上下文。</strong></p>
+<ul>
+<li>Spring通过定义BeanDefinition来管理基于Spring应用中的各种对象以及它们之间的依赖关系。</li>
+<li>BeanDefinition抽象了Bean的定义，是容器的主要数据类型。</li>
+<li>IoC容器就是用来管理对象依赖关系的，BeanDefinition就是对依赖反转模式中管理的对象依赖关系的数据抽象。</li>
+</ul>
+<h2 id="2-SpringIoC容器的设计"><a href="#2-SpringIoC容器的设计" class="headerlink" title="2.SpringIoC容器的设计"></a>2.SpringIoC容器的设计</h2><p>##第一条线</p>
+<ul>
+<li>BeanFactory定义了基本IoC容器规范，<ul>
+<li>提供getBean()基本方法；</li>
+</ul>
+</li>
+<li>HierarchicalBeanFactory继承了双亲的基本接口，<ul>
+<li>增加了getParentBeanFactory()接口的功能，使BeanFactory具备了双亲IoC容器的管理功能。</li>
+</ul>
+</li>
+<li>ConfigurableBeanFactory接口中，主要定义了一些对BeanFactory的配置功能，<ul>
+<li>setParentBeanFactory()设置双亲IoC容器，</li>
+<li>addBeanPostProcessor()配置Bean后置处理器。<br>##第二条线</li>
+</ul>
+</li>
+<li>ApplicationContext应用上下文为核心，主要有</li>
+<li>BeanFactory</li>
+<li>ListableBeanFactory  <ul>
+<li>getBeanDefinitionNames()</li>
+</ul>
+</li>
+<li>ApplicationContext <ul>
+<li>继承MessageSource,ResourceLoader,ApplicationEventPublisher接口，增加了很多高级特性。</li>
+</ul>
+</li>
+<li>WebApplicationContext || ConfigurableApplicationContext<br>##BeanFactory的使用场景</li>
+<li>DefaultListableBeanfactory XmlBeanFactory ApplicationContext都是附加了某种功能的具体实现。</li>
+<li>通过 &amp; 转义符来得到FactoryBean本身，如&amp;myJndiObject得到FactoryBean</li>
+<li>BeanFactory和FactoryBean区别<ul>
+<li>BeanFactory:就是一个Factory,是IoC容器，或者对象工厂</li>
+<li>FactoryBean:能够生产或者装饰对象生成的工厂</li>
+</ul>
+</li>
+<li>XmlBeanFactoryReader对象来读取resource,并回调给BeanFactory;</li>
+<li>Spring使用Resource来封装I/O操作的类，将Resource作为参数传递给BeanFactory的构造函数。IoC容器从而能够定位到BeanDefinition来完成初始化和依赖注入。<br>##IoC容器使用步骤</li>
+</ul>
+<ol>
+<li>创建一个IoC配置文件的抽象资源，资源中包含BeanDefinition信息；</li>
+<li>创建一个BeanFactory;</li>
+<li>创建一个载入BeanDefinition的读取器，通过回调配置给BeanFactory;</li>
+<li>从定义好的资源读取配置信息。完成载入和注册后，IoC容器就初始化起来了。<br>##ApplicationContext的应用场景</li>
+</ol>
+<ul>
+<li>支持不同的信息源，多语言开发提供基础；</li>
+<li>访问资源；ResourceLoader,Resource;</li>
+<li>支持应用事件；</li>
+<li>提供附加功能。<br>##ApplicationContext容器设计原理</li>
+<li>refresh()</li>
+<li>怎样从文件系统中加载XML的bean定义资源<br>##IoC容器的初始化过程</li>
+<li>主要线索：<ul>
+<li>Resource定位:统一的Resource接口来完成，对各种形式的BeanDefinition提供了统一接口。如FileSystemResource,ClassPathResource.</li>
+<li>载入:Bean表示为IoC容器内部数据结构-&gt;BeanDefinition.</li>
+<li>注册:向IoC容器BeanFactory注册BeanDefinition，调用BeanDefinitionRegistry接口实现。内部为将BeanDefinition注入到HashMap中，通过HashMap来持有这些BeanDefinition.</li>
+</ul>
+</li>
+<li>Resource定位<ul>
+<li>由refresh()来触发，在FileSystemBeanFactory的构造函数中启动的-&gt;createBeanFactory()创建了IoC容器来供ApplicationContext使用；</li>
+<li>refreshBeanFactory()-&gt;getResourceByPath(String path);</li>
+<li>ClassPathResource resource = new ClassPathResource(“bean.xml”);</li>
+</ul>
+</li>
+<li>BeanDefinition的载入和解析<ul>
+<li>初始化入口:refresh()-&gt;初始化BeanDefinition,提供Bean的生命周期管理</li>
+<li>refresh()-&gt;在子类中启动refreshBeanFactory,在此处创建BeanFactory,如果已经有容器存在,就需要把已有的容器销毁或关闭，保证refresh后创建的容器是新的。-&gt;prepareBeanFactory-&gt;postProcessBeanFactory(beanFactory)-&gt;invokeBeanFactoryProcessors(beanFactory)-&gt;registerBeanPostProcessors(beanFactory)-&gt;initMessageSource()-&gt;initApplicationEventMulticaster()-&gt;onRefresh()-&gt;registerListeners()-&gt;finishBeanFactoryInitialization(beanFactory)-&gt;finishRefresh();</li>
+<li>refreshBeanFactory-&gt;loadBeanDefinitions(beanFactory)</li>
+<li>loadBeanDefinitions(beanFactory)中初始化读取器XmlBeanDefinitionReader,并将其在IoC容器中设置好-&gt;loadBeanDefinitions(reader)载入过程委托给BeanDefinitionReader来完成-&gt;loadBeanDefinitions(Resource resource)在读取器中，得到代表XML文件的Resource,这个对象封装了Xml文件的I/O操作，读取器可以打开I/O流后得到XML的文件对象。通过这个文件对象就可以按照Spring的Bean定义规则来对这个Xml的文档树进行解析了，这个解析过程交个BeanDefinitionDelegate来完成。</li>
+<li>loadBeanDefinitions(Resource resource)-&gt;doLoadBeanDefinitions(inputSource,resource)-&gt;Document doc = this,documentLoader.loadocument()获取xml文件的Document对象，解析由documentLoader完成。</li>
+<li>Spring的Bean语义要求进行解析转化为BeanDefinition数据结构是在registerBeanDefinitions(doc,resource)中完成,具体过程由BeanDefinitionDocmentReader完成，并且对Bean的数量进行统计。</li>
+<li>BeanDefinition的载入分成两部分:<ul>
+<li><strong>调用Xml解析器得到document对象</strong>但是并没有按照spring规则进行解析；</li>
+<li><strong>按照spring规则进行解析是在documentReader中实现。完成BeanDefinition的处理，结果由BeanDefinitionHolder对象持有</strong></li>
+<li><strong>BeanDefinitionHolder对象除了持有BeanDefinition对象外,还持有其他与BeanDefinition的使用相关的信息，如Bean的名字，别名集合等。</strong></li>
+<li>解析过程由BeanDefinitionParserDelegate来实现。</li>
+</ul>
+</li>
+<li>BeanDefinitionParserDelegate完成BeanDefinition的解析，这个类中包含了各种Spring Bean的定义规则的处理。如Bean元素的处理。如id,name,aliase等属性元素。将这些值读出来，设置到BeanDefitionHolder中。</li>
+<li>对于其他元素配置的解析，由parseBeanDefinitionElement来完成。解析完成后放入BeanDefinitionHolder中。</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -650,7 +887,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -697,7 +934,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>
