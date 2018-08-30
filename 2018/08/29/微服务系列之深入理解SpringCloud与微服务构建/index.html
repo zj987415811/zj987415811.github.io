@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+<meta name="keywords" content="SpringCloud 微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务系列之深入理解SpringCloud与微服务构建">
+<meta property="og:url" content="http://yoursite.com/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-30T10:32:03.522Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务系列之深入理解SpringCloud与微服务构建">
+<meta name="twitter:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>微服务系列之深入理解SpringCloud与微服务构建 | Rocky for Everything</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rocky for Everything</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">慢慢喜欢你</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archiv</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微服务系列之深入理解SpringCloud与微服务构建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-29 16:25:35" itemprop="dateCreated datePublished" datetime="2018-08-29T16:25:35+08:00">2018-08-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-30 18:32:03" itemprop="dateModified" datetime="2018-08-30T18:32:03+08:00">2018-08-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><ol>
+<li>系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。</li>
+<li>微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。</li>
+<li>微服务提出者Martin Fowler<h2 id="第2章-SpringCloud简介"><a href="#第2章-SpringCloud简介" class="headerlink" title="第2章 SpringCloud简介"></a>第2章 SpringCloud简介</h2><h3 id="2-1-微服务应该具备的功能"><a href="#2-1-微服务应该具备的功能" class="headerlink" title="2.1 微服务应该具备的功能"></a>2.1 微服务应该具备的功能</h3></li>
+<li>服务:一个独立运行的单元组件，每个单元组件运行在独立的进程中，组件与组件之间通常使用HTTP的通信机制进行通信。</li>
+<li>微服务的特点:<ol>
+<li>按照业务来划分服务，单个服务代码量小，业务单一，易于维护；</li>
+<li>每个微服务都有自己独立的基础组件，如数据库，缓存，且运行在独立的进程中；</li>
+<li>微服务之间的通信通过Http协议或者消息组件，且具有容错能力；</li>
+<li>微服务有一套服务治理的解决方案，服务之间不耦合，可以随时加入和剔除服务；</li>
+<li>单个微服务能够集群化部署，并且负载均衡能力；</li>
+<li>整个微服务系统有一个完整的安全机制，包括用户验证，权限验证，资源保护等；</li>
+<li>链路追踪的能力；</li>
+<li>完整的实时日志系统。<h3 id="2-1-1-服务的注册与发现"><a href="#2-1-1-服务的注册与发现" class="headerlink" title="2.1.1 服务的注册与发现"></a>2.1.1 服务的注册与发现</h3></li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>服务粒度小，服务数量众多，服务之间相互依赖成网状，需要服务注册中心来同一管理微服务实例，方便查看每一个微服务实例的健康状态。</li>
+<li>服务注册是指向服务注册中心注册一个服务实例，服务提供者将自己的服务信息(如服务名，IP地址等)告知服务注册中心。</li>
+<li>服务发现是指当服务消费者需要消费另一个服务时，服务注册中心能够告知服务消费者它所要消费服务的实例信息（服务名，IP地址等）。</li>
+<li>通常一个服务既是服务提供者也是服务消费者，使用Http协议或者消息组件进行服务费。</li>
+<li>注册中心会提供服务的健康检查方案，检查被注册的服务是否可用。通常实例注册后，会定时向服务注册中心提供心跳，以表明自己还处于可用状态。当一个服务实例停止向服务注册中心提供心跳一段时间后，服务注册中心会认为该服务实例不可用，将会从服务注册列表中剔除。</li>
+<li>如果这个被剔除掉的服务实例过一段时间重新加入服务器注册中心列表中，就重新恢复心跳。</li>
+<li>微服务的服务注册组件都回提供服务的健康状况查看UI界面，通过界面可以指导服务的健康状态。<h3 id="2-1-2-服务的负载均衡"><a href="#2-1-2-服务的负载均衡" class="headerlink" title="2.1.2 服务的负载均衡"></a>2.1.2 服务的负载均衡</h3></li>
+<li>微服务架构中，服务之间相互调用通过http通信协议来实现。网络往往不可靠，为了保证高可用，服务单元往往需要集群化部署。===&gt;引发负载均衡</li>
+<li>服务消费者集成了负载均衡组件，该组件回向服务消费者提供获取的服务注册列表，并隔一段时间重新刷新该列表。</li>
+<li>注册中心集群化。<h4 id="2-1-3-集群的容错"><a href="#2-1-3-集群的容错" class="headerlink" title="2.1.3 集群的容错"></a>2.1.3 集群的容错</h4></li>
+<li>部分服务不可用，引发阻塞，消耗系统资源，引发雪崩。</li>
+<li>解决方案：熔断机制<ol>
+<li>当一个服务处理用户请求失败次数小于设定的阈值时，熔断器处于关闭状态，服务正常</li>
+<li>当失败次数大于设定阈值时，说明服务出现了故障，打开熔断器，所有该服务的请求会执行快速失败，不执行业务逻辑。</li>
+<li>当处于打开状态的熔断器时，一段时间后会处于半打开状态，并执行一定数量的请求，剩余的请求会执行快速失败，如果执行请求失败，则继续打开熔断器；若成功了，则将熔断器关闭。 </li>
+</ol>
+</li>
+<li>熔断器的附加功能：<ol>
+<li>将资源隔离，如果某个API出现故障，将该API隔离，不会影响其他API接口。被隔离的API接口会执行快速失败的逻辑，不会等待，请求不会阻塞。</li>
+<li>服务降级功能。当服务处于正常状态时，大量请求在短时间内同时涌入，超过了服务的处理能力，这是熔断器打开可以将服务降级，以免服务器因负载过高而出现故障。</li>
+<li>自我修复能力。比如网络短时间内不可用，熔断器被打开。如果不能自我监控，自我检测和自我修复，那么需要开发人员手动去关闭熔断器，会增加开发工作量。</li>
+<li>Netfix的Hystrix熔断器组件功能非常强大，有熔断器功能，熔断器状态检测，UI，开发人员或者运维人员通过UI界面能够直观看到熔断器的状态和各种性能指标。<h4 id="2-1-4-服务网关"><a href="#2-1-4-服务网关" class="headerlink" title="2.1.4 服务网关"></a>2.1.4 服务网关</h4></li>
+<li>微服务系统通过将资源以API接口的形式暴露给外界来提供服务。API接口资源通常是由服务网关统一暴露，内部服务不直接对外提供API资源暴露，将内部服务隐藏。</li>
+<li>API网关通常有请求转发的作用，可能需要负责一定的安全验证，如请求是否合法，对某一资源是否具有操作权限等。</li>
+<li>通常网关层以集群形式存在，在服务网关层之前，会加上负载均衡层，通常为nginx双机热备，通过一定路由策略，将请求转发到网管层。</li>
+<li>到达网关层后，经过一系列用户身份验证，权限判断，最终转发到具体的服务。</li>
+<li>服务经过一些列的逻辑运算和数据操作，最终将结果返回给用户。</li>
+<li>网关层的意义：<ol>
+<li>网关将所有的API接口资源统一聚合，对外统一暴露，外界系统调用的API接口都是网关对外暴露的API接口。</li>
+<li>身份认证，权限认证，防止非法请求操作API接口，对内部服务起保护作用。</li>
+<li>网关可以实现监控功能，实时日志输出，对请求进行记录。</li>
+<li>网关可以用来做流控，在流量情况下，对服务进行降级。</li>
+<li>API接口从内部服务分离出来，方便测试。<h4 id="2-1-5-服务配置的统一管理"><a href="#2-1-5-服务配置的统一管理" class="headerlink" title="2.1.5 服务配置的统一管理"></a>2.1.5 服务配置的统一管理</h4></li>
+</ol>
+</li>
+<li>数据库配置，日志是输出级别配置，不同环境不一样，管理复杂。</li>
+<li>SpringCloud的Config组件，阿里Diamond，百度Disconf，携程Apollo等。</li>
+<li>大致过程：<ol>
+<li>Config Server读取配置文件仓库的配置信息，其中配置文件存放在配置服务的本地仓库，也可以放在远程Git仓库。</li>
+<li>配置服务启动后，读取配置文件信息，读取完成配置信息存放在配置服务的内存中。</li>
+<li>当启动服务A,B是，由于服务A，B指定了向配置服务读取配置信息，服务A，B向配置服务读取配置信息。</li>
+<li>当服务配置信息需要修改且修改完成后，向配置服务发送Post请求进行刷新，这时服务A,B会向配置服务重写读取配置文件。<h4 id="2-1-6-服务链路追踪"><a href="#2-1-6-服务链路追踪" class="headerlink" title="2.1.6 服务链路追踪"></a>2.1.6 服务链路追踪</h4></li>
+</ol>
+</li>
+<li>服务单元数量多且复杂，服务与服务之间的调用非常复杂，出现异常和错误很难追踪；</li>
+<li>实现分布式链路追踪，去跟进一个请求到底有哪些服务参与，参与的顺序，使得每个请求链路清晰可见，方便问题定位。<h3 id="2-2-Sprin-Cloud"><a href="#2-2-Sprin-Cloud" class="headerlink" title="2.2 Sprin Cloud"></a>2.2 Sprin Cloud</h3></li>
+<li>基于SpringBoot—&gt;简化开发和部署的过程，简化Spring复杂的配置和依赖管理；</li>
+<li>通过起步依赖和内置Servlet容器就能快速搭建起一个Web工程。 </li>
+<li>SpringCloud首要目标是通过一些列开发组件和框架，快速搭建分布式微服务系统。<h4 id="2-2-1-常用组件"><a href="#2-2-1-常用组件" class="headerlink" title="2.2.1 常用组件"></a>2.2.1 常用组件</h4><h3 id="2-3-Dubbo"><a href="#2-3-Dubbo" class="headerlink" title="2.3 Dubbo"></a>2.3 Dubbo</h3></li>
+<li>RPC调用:封装了长连接NIO框架，采用多线程模式；</li>
+<li>集群容错：提供了基于接口方法的远程调用功能。集群容错:实现了负载均衡，失败容错；服务发现:集成了Zookeeper,用于服务注册和发现。</li>
+<li>SpringCloud通信方式基于http restful风格，服务与服务之间五耦合，无状态，语言平台普适。</li>
+<li>Dubbo基于远程调用，对接口平台和语言有强依赖。跨平台调用更需要额外依赖。 <h3 id="2-4-Kubernetes简介"><a href="#2-4-Kubernetes简介" class="headerlink" title="2.4 Kubernetes简介"></a>2.4 Kubernetes简介</h3>1.Kubernetes是一个容器集群管理系统，为容器化的应用程序提供部署运行，维护，扩展，资源调度，服务发现等功能呢。</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-构建微服务的准备"><a href="#3-构建微服务的准备" class="headerlink" title="3.构建微服务的准备"></a>3.构建微服务的准备</h2><h3 id="3-3-构建啊工具Maven使用"><a href="#3-3-构建啊工具Maven使用" class="headerlink" title="3.3 构建啊工具Maven使用"></a>3.3 构建啊工具Maven使用</h3><pre><code>1. 基于工程对象模型，Maven可以管理项目构建整个生命周期，包括清理，编译，打包，测试等环节。
+2. 构建一个项目需要的流程：
+    1. 生成源码； 2. 从源码中生存文档；3.编译源码；4.测试；5.将源码打包成Jar,运行在服务器，仓库或者其他位置。
+</code></pre><h4 id="3-3-1-Maven核心概念"><a href="#3-3-1-Maven核心概念" class="headerlink" title="3.3.1 Maven核心概念"></a>3.3.1 Maven核心概念</h4><pre><code>1. 核心是pom文件，pom文件以及xml文件的形式表示的资源，依赖jar,插件，构建文件等。
+2. 工作过程：
+    1. Maven 读取pom文件，构建的生命周期各阶段和目标；
+    2. 依赖---&gt;Maven本地仓库；
+    3. 构建插件
+    4. 构建Profile
+3. 首先读取pom文件，pom文件时Maven核心，所有的项目依赖，插件都在pom文件中统一管理。
+4. 下载依赖jar到本地仓库。Maven命令执行时，首先会检查pom文件的依赖jar，当检测本地没有安装jar时，会默认Maven的中央仓库下载依赖Jar，中央仓库地址为:/.
+5. 依赖下载后，会存放在本地仓库中，如果下载不成功，该命令无法执行通过。
+6. 执行构建的生命周期。Maven的构建过程会被分解成构建阶段和构建目标，共同构成了Maven的生命周期。
+7. 执行构建插件。插件可以更方便地执行构建各个阶段，可以用插件实现一些额外功能。
+</code></pre><h4 id="3-3-2-编写Pom文件"><a href="#3-3-2-编写Pom文件" class="headerlink" title="3.3.2 编写Pom文件"></a>3.3.2 编写Pom文件</h4><pre><code>1. pom文件是一个xml文件，用于描述项目用到的资源，项目依赖，插件，代码位置等信息。
+2. pom.xml文件一般放在根目录。
+</code></pre><h4 id="3-3-3-Maven构建项目的生命周期"><a href="#3-3-3-Maven构建项目的生命周期" class="headerlink" title="3.3.3 Maven构建项目的生命周期"></a>3.3.3 Maven构建项目的生命周期</h4><pre><code>1. Maven工程中，默认定义了构建工程的生命周期，本身集成了这些插件。
+2. validate initialize compile test package verify install deploy
+</code></pre><h4 id="3-3-4-常用Maven命令"><a href="#3-3-4-常用Maven命令" class="headerlink" title="3.3.4 常用Maven命令"></a>3.3.4 常用Maven命令</h4><pre><code>1. mvn clean 删除工程target下所有文件；
+2. mvn package将工程打为jar包
+3. 上述由一些列命令构成：
+    1. 验证verify
+    2. 编译compile
+    3. 处理代码
+    4. 生成资源文件
+    5. 生成Jar包
+    6. 测试
+4. mvn package -Dmaven.test.ship=ture，打包跳过测试；
+5. mvn compile 编译代码工程，不生成jar包；
+6. mvn install 包含了mvn package的所有过程，并且将生成的jar包安装到本地仓库。
+7. mvn spring-boot:run 使用spring-boot插件，启动Springboot工程；
+8. mvn test 测试；
+9. mvn idea:idea 生成idea项目
+10. mvn mvnLjar只打jar包
+11. mvn vaildate 检验资源是否可用。
+</code></pre><h2 id="4-Spring-Boot"><a href="#4-Spring-Boot" class="headerlink" title="4.Spring Boot"></a>4.Spring Boot</h2><pre><code>1. 特点：自动配置，起步依赖，Actuator对运行状态的监控。
+2. 安全，度量，监控检查，内嵌Servlet容器，外置设置
+</code></pre><h3 id="4-1-构建SpringBoot项目"><a href="#4-1-构建SpringBoot项目" class="headerlink" title="4.1 构建SpringBoot项目"></a>4.1 构建SpringBoot项目</h3><pre><code>1. @SpringBootApplication注解包含了@SpringBootConfiguration,@EnableAutoConfiguration和@    ComponentScan，开启包扫描配置和自动配置的功能；
+2. @RestController = @Controller + @ResponseBody；
+3. @RequestMapping = 配置请求地址的Url映射； 
+4. 测试:
+    1. @RunWith(SpringRunner.class) 和 SpringBootTest注解。
+    2. @SpringBootTest注解加上Web测试环境的端口为随机端口的配置 
+</code></pre><h3 id="4-2-SpringBoot-配置文件详解"><a href="#4-2-SpringBoot-配置文件详解" class="headerlink" title="4.2 SpringBoot 配置文件详解"></a>4.2 SpringBoot 配置文件详解</h3><h4 id="4-2-1-自定义属性"><a href="#4-2-1-自定义属性" class="headerlink" title="4.2.1 自定义属性"></a>4.2.1 自定义属性</h4><pre><code>1. 默认创建application.properties;同时也支持yml格式的文件；
+2. 读取配置文件的值:在变量上加上@Value(&quot;${属性名}&quot;)；
+</code></pre><h4 id="4-2-2-将配置文件的属性赋给实体类"><a href="#4-2-2-将配置文件的属性赋给实体类" class="headerlink" title="4.2.2 将配置文件的属性赋给实体类"></a>4.2.2 将配置文件的属性赋给实体类</h4><pre><code>1. 当有多个配置属性的时候，通常会把这些属性名创建一个JavaBean变量，并将属性值赋给JavaBean变量。
+2. random.int 生成整型值，random.uuid生成一个uuid,random.value随机生成一个值，random.value(10)随机生成一个小于10整数。
+3. 在一个Bean类上加一个注解@ConfigurationProperies,表明该类为配置属性类，并且加上配置的prefix,并且加上@Component注解。
+</code></pre><h4 id="4-2-3-自定义配置文件"><a href="#4-2-3-自定义配置文件" class="headerlink" title="4.2.3 自定义配置文件"></a>4.2.3 自定义配置文件</h4><pre><code>1. 如在resource下自定义一个test.properties配置文件：
+    com.my.name = rocky
+    com.my.age = 23
+2. 此时需要在类名上加上@Configuration,@PropertySource和@ConfigurationProperties这3个注解。
+</code></pre><h3 id="4-3-运行状态监控Actuator"><a href="#4-3-运行状态监控Actuator" class="headerlink" title="4.3 运行状态监控Actuator"></a>4.3 运行状态监控Actuator</h3><h3 id="4-4-SpringBoot-整合JPA"><a href="#4-4-SpringBoot-整合JPA" class="headerlink" title="4.4 SpringBoot 整合JPA"></a>4.4 SpringBoot 整合JPA</h3><h3 id="4-5-SpringBoot-整合Redis"><a href="#4-5-SpringBoot-整合Redis" class="headerlink" title="4.5 SpringBoot 整合Redis"></a>4.5 SpringBoot 整合Redis</h3><pre><code>1. Redis简介
+2. 加入redis依赖
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringCloud-微服务/" rel="tag"># SpringCloud 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/28/微服务系列之源初/" rel="next" title="微服务系列之源初">
+                <i class="fa fa-chevron-left"></i> 微服务系列之源初
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin</p>
+              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">Tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-SpringCloud简介"><span class="nav-number"></span> <span class="nav-text">第2章 SpringCloud简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-微服务应该具备的功能"><span class="nav-number">1.</span> <span class="nav-text">2.1 微服务应该具备的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-服务的注册与发现"><span class="nav-number">2.</span> <span class="nav-text">2.1.1 服务的注册与发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-服务的负载均衡"><span class="nav-number">3.</span> <span class="nav-text">2.1.2 服务的负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-集群的容错"><span class="nav-number">3.1.</span> <span class="nav-text">2.1.3 集群的容错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-服务网关"><span class="nav-number">3.2.</span> <span class="nav-text">2.1.4 服务网关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-服务配置的统一管理"><span class="nav-number">3.3.</span> <span class="nav-text">2.1.5 服务配置的统一管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-6-服务链路追踪"><span class="nav-number">3.4.</span> <span class="nav-text">2.1.6 服务链路追踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Sprin-Cloud"><span class="nav-number">4.</span> <span class="nav-text">2.2 Sprin Cloud</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-常用组件"><span class="nav-number">4.1.</span> <span class="nav-text">2.2.1 常用组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Dubbo"><span class="nav-number">5.</span> <span class="nav-text">2.3 Dubbo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Kubernetes简介"><span class="nav-number">6.</span> <span class="nav-text">2.4 Kubernetes简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-构建微服务的准备"><span class="nav-number"></span> <span class="nav-text">3.构建微服务的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-构建啊工具Maven使用"><span class="nav-number">1.</span> <span class="nav-text">3.3 构建啊工具Maven使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-Maven核心概念"><span class="nav-number">1.1.</span> <span class="nav-text">3.3.1 Maven核心概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-编写Pom文件"><span class="nav-number">1.2.</span> <span class="nav-text">3.3.2 编写Pom文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-Maven构建项目的生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">3.3.3 Maven构建项目的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-4-常用Maven命令"><span class="nav-number">1.4.</span> <span class="nav-text">3.3.4 常用Maven命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Spring-Boot"><span class="nav-number"></span> <span class="nav-text">4.Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-构建SpringBoot项目"><span class="nav-number">1.</span> <span class="nav-text">4.1 构建SpringBoot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SpringBoot-配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">4.2 SpringBoot 配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-自定义属性"><span class="nav-number">2.1.</span> <span class="nav-text">4.2.1 自定义属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-将配置文件的属性赋给实体类"><span class="nav-number">2.2.</span> <span class="nav-text">4.2.2 将配置文件的属性赋给实体类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-自定义配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">4.2.3 自定义配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-运行状态监控Actuator"><span class="nav-number">3.</span> <span class="nav-text">4.3 运行状态监控Actuator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-SpringBoot-整合JPA"><span class="nav-number">4.</span> <span class="nav-text">4.4 SpringBoot 整合JPA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-SpringBoot-整合Redis"><span class="nav-number">5.</span> <span class="nav-text">4.5 SpringBoot 整合Redis</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
