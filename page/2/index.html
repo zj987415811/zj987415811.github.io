@@ -284,10 +284,1091 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/计算机网络总结复习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/20/计算机网络总结复习/" itemprop="url">
+                  计算机网络总结复习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-20 16:09:39 / Updated at: 16:12:39" itemprop="dateCreated datePublished" datetime="2018-08-20T16:09:39+08:00">2018-08-20</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="计算机网络复习"><a href="#计算机网络复习" class="headerlink" title="计算机网络复习"></a>计算机网络复习</h2><p>1.域名访问流程<br>    1.ip地址查找<br>        1.浏览器查找缓存，是否有ip地址，无则继续<br>        2.操作系统操作缓存，无则继续<br>        3.路由器查找缓存，无则继续<br>        4.本地服务器查找缓存，无则继续<br>        5.根-&gt;顶级-&gt;权威<br>        6.告知其ip地址<br>    2.主机获取ip地址端口建立tcp连接，3次握手<br>    3.浏览器发送请求报文<br>    4.服务器接收报文，并向客户机发出确认请求；<br>    5.客户机收到后，发送确认已接收，完成tcp建立<br>    6.浏览器发出http协议的get请求等；<br>    7.服务器响应，并指定文件发送给浏览器；<br>    8.浏览器显示所有页面<br>2.版本2<br>    1.浏览器输入URL<br>    2.浏览器查看缓存，如果请求资源新鲜，则显示（建立连接？）<br>    3.浏览器缓存<br>        1.如果未还缓存，发起新请求<br>        2.浏览器查看缓存，如果新鲜，返回给客户端<br>        3.浏览器解析URL获取协议，主机，端口号，path<br>        4.组装HTTP请求报文<br>        5.浏览器获取主机ip地址，过程如下：<br>            1.浏览器缓存<br>            2.操作系统缓存<br>            3.hosts文件缓存<br>            4.路由器缓存<br>            5.isp DNS缓存<br>            6.DNS递归查询<br>        6.打开socket与ip地址，建立tcp连接<br>        7.TCP建立后发送http请求报文<br>        8.服务器接受请求并解析，将请求转发到服务器程序<br>        9.检查是否缓存信息，以及缓存信息是否新鲜<br>        10.将请求信息返回给浏览器<br>        11.四次挥手<br>        12.资源缓存<br>    版本3<br>    1.浏览器先尝试从hosts文件获取对应的ip地址。如果没有，则使用DNS协议来获取IP.<br>        1.浏览器查找缓存，是否有ip地址，无则继续<br>        2.操作系统操作缓存，无则继续<br>        3.路由器查找缓存，无则继续<br>        4.本地服务器查找缓存，无则继续<br>        5.根-&gt;顶级-&gt;权威<br>        6.告知其ip地址<br>    2.使用TCP协议，建立tcp连接。<br>        前提：需要用到ip协议 ARP协议<br>        1.发送syn x<br>        2.服务器发送syn ack x+1 y<br>        3.客户端发送syn ack y+1<br>    3.使用Http协议请求网页内容<br>    版本4<br>    1.总论：<br>        i.域名解析成ip地址；<br>        ii.与目的主机进行tcp连接(三次握手);<br>        iii.发送与收取数据(浏览器与目的主机开始http访问过程);<br>        iv.与目的主机断开tcp连接;<br>    2.域名解析成ip地址<br>        i.浏览器向本机DNS模块发出DNS请求，DNS模块生成相关的DNS报文;<br>        ii.DNS模块将生成的DNS报文传递给传输层的UDP协议单元;<br>        iii.UDP协议单元将该书封装成UDP数据报，传递给网络层的IP协议单元;<br>        iv.IP协议单元将该数据封装成IP数据包，其目的ip地址为DNS服务器的ip地址;封装好的ip数据包将传递给数据链路层的协议单元<br>        v.发送时在ARP缓存中查询相关数据，如果没有就发送ARP广播(包含带查询的IP地址，收到广播的主机检验主机的IP,符合条件的主机将含有自己MAC地址的ARP包发送给ARP广播的主机)请求，等待ARP回应;<br>        vi.得到ARP回应后，将IP地址与路由的下一跳MAC地址对应信息写入ARP缓存表;写入缓存后，以路由下一跳的地址填充目的的MAC地址，以数据帧形式转发;转发可能进行多次;<br>        vii.DNS请求到达DNS服务器的数据链路层协议单元;DNS服务器的数据链路层协议单元解析数据帧，将内部的ip数据包传递给网络层IP协议单元；DNS服务器的IP协议单元解析IP数据包，将内部的UDP数据报传递给传输层UDP协议单元;DNS服务器的UDP协议单元解析收到的UDP数据报，将内部的DNS报文传递给DNS服务单元;<br>        viii.DNS服务单元将域名解析成对应IP地址，产生DNS响应报文;DNS回应报文-&gt;UDP-IP-MAC-&gt;我的主机;本地主机收到数据帧，将数据帧-&gt;IP-&gt;UDP-&gt;浏览器;将域名解析结果以域名和IP地址对用形式写入DNS缓存表；<br>    3.与目的主机进行tcp连接<br>        1.SYN seq = x;<br>        2.SYN ACK Ack=x+1;seq = y;<br>        3.ACK Ack = y+1;<br>    4.发送与收取数据(浏览器与目的主机开始HTTP访问过程)<br>        1.浏览器向域名发出GET方法报文;—&gt;HTTP请求<br>        2.报文通过TCP-&gt;IP(DNS)-&gt;MAC(ARP)-&gt;网关-&gt;目的主机；<br>        3.目的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP，HTTP协议单元会回应HTTP协议格式封装好的HTML形式数据；—&gt;HTTP响应：从请求信息中获取客户机想要访问的主机名，从请求信息中获客户机想要访问的web应用。从请求信息中获取客户机要访问的web资源。（即各种文件，图片，视频，文本等）读取响应的主机下web应用，web资源，用读取的web资源数据，创建一个HTTP响应。<br>        4.该HTML通过TCP-&gt;IP-&gt;MAC-&gt;网关-&gt;我的主机<br>        5.我的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP-&gt;浏览器，浏览器以网页形式显示HTML内容。<br>    5.与目的主机断开TCP连接(四次挥手)<br>        1.浏览器向目的主机发出TCP连接结束的请求报文，此时进入FIN WAIT状态；该报文FIN标志位设为1，表示结束请求；TCP结束请求报文通过IP(DNS)-&gt;MAC(ARP)-&gt;网关-&gt;目的主机;目的主机收到数据帧，通过IP-&gt;TCP,TCP协议单元回应结束应答报文；<br>        2.目的主机收到数据帧，通过IP-&gt;TCP,TCP协议单元回应结束应答报文；<br>        3.当前收到回应，因为目的主机还有数据要传，不急于断开连接；<br>        4.该报文中ACK标志设为1，表示收到结束请求；<br>        5.目的数据发送完所有数据后，向客户端发出TCP连接结束请求报文；该报文把FIN标志位设为1，表示结束请求；TCP结束请求报文通过IP-&gt;MAC-&gt;网关-&gt;我的主机；<br>        6.客户端收到数据帧，通过IP-&gt;TCP，TCP协议单元回应结束应答报文，此时进入TimeWait状态；<br>        7.该报文中FIN均设为1，表示结束应答；<br>        8.目的主机关闭连接；Time Wait等待结束后。</p>
+<p>3.TCP/UDP区别<br>    1.TCP 面向连接可靠运输协议 UDP面向非连接不可靠<br>    2.TCP报文段首部20字节，UDP报文段8字节<br>    3.TCP有拥塞控制和流量控制，而UDP没有<br>    4.TCP连接过程有3次握手，4次挥手，时延较大，UDP时延较小<br>    5.TCP是一对一连接 UDP可以一对一一对多<br>4.GET/POST的区别<br>    1.get请求会被缓存，保留在浏览器历史记录中，可作为收藏书签，不应再处理敏感数据时使用，有请求长度限制；<br>    2.post请求不会被缓存，不会保留书签和浏览器历史记录；<br>    3.对长度没要求；<br>5.DNS使用的协议<br>    1.既使用TCP也使用UDP,UDP报文长度最大512字节，当DNS查询超过512字节时，协议的TC标志出现删除标志，这时候使用TCP发送。<br>    2.区域传送时使用TCP:<br>        1.辅域名服务器会定时向主域名服务器进行查询以便了解数据是否有变动。如有变动，执行一次区域传送，进行数据同步。区域传送将使用TCP而不是UDP；<br>        2.TCP是一种可靠连接，保证了数据的准确性。<br>    3.域名解析使用UDP<br>6.幂等<br>7.Cookie和Session区别<br>    1.Cookie是一种能够让网站服务器把少量数据存储在客户端硬盘或内存，或是从客户端的硬盘读取数据的一种技术。当你浏览某网站时，由web服务器置于硬盘上的一个非常小的文本文件，他可以记录你的用户ID,密码，浏览过的网页，停留信息；<br>    2.Session:当用户请求来自应用程序的web页时，如果该用户还没有会话，则web服务器自动创建一个Session对象。当会话过期或者被抛弃后，服务器终止该会话。<br>    3.Session采用在服务器端保持状态的方案，cookie是在客户端保持状态的方案。由于服务器端保持状态的方案在客户端需要保持一个表示，所以session机制需要借助cookie机制来达到保存标识的目的。<br>    4.Session是服务器用来跟踪用户的一种手段，每个session都有一个唯一标识：SessionID;当服务器创建了Session时，给客户端发送的响应报文包含了SetCookie字段，其中有一个名为sid的键值对，这个键值SessionID,客户端收到后就把cookie保存到浏览器，并发之后发送的请求报表都包含SessionID。Http就通过Session和Cookie这两个发送一起合作来实现用户状态跟踪，Session用于服务端，Cookie用于客户端。<br>8.TCP粘包和拆包产生的原因<br>    1.应用程序写入数据的字节大小大于套接字发送缓冲区大小;<br>    2.进行MSS大小的TCP分段。MSS是最大报文段缩写。<br>    3.payLoad大于MTU进行ip分片。MTU指：一种通信协议的某一层上面所能通过的最大数据包大小。如果IP层有一个数据包要传，而且数据的长度比链路层的MTU大，那么IP层就回进行分片，把数据报分成若干片，让每一个片都不超过MTU。IP分片可以发生在原始发送端主机上，也可以发生在中间路由器上。<br>9.TCP粘包拆包的解决策略<br>    1.消息定长<br>    2.在包尾部增加回车空格等特殊字符进行分割，如FTP；<br>    3.将消息分为消息头和消息尾；<br>    4.其他复杂的协议；<br>10.三次握手<br>    1.建立连接时，客户端发送syn包到服务器，并进入syn_Send状态，等待服务器确认；<br>    2.服务器收到Syn包，必须确认客户的syn，同时也发送自己的syn包，此时服务器进入syn_recv状态；<br>    3.客户端端收到SYN+ACK包，向服务器发送确认包ACK,客户端和服务器进入ESTABLISHED状态，完成3次握手。<br>    4.QA:<br>        i.为了保证服务端能够收到客户端信息并且能够做出正确的应答而进行前两次握手，为了保证客户端能够接收到服务端的信息并能够做出正确的应答而进行后二次握手；<br>        ii.三次握手的本质是信道不可靠，但是通信双方需要就某个问题达成一致，而要解决这个问题，无论你在消息中包含了什么信息，三次通信是理论上的最小值，所以三次握手不是tcp本身的要求，而是为了满足:在不可靠信道上可靠地传输信息，本质需求是，信道不可靠，数据传输要可靠，三次是最小带价值；<br>        iii.为什么进行三次握手：为了防止已失效的链接请求报文又突然传送到服务端，因而产生错误。为了解决网络中存在延迟的重复分组问题。<br>        iv.例：client发出的第一个链接请求报文段并没有丢失，而是在某个网络结点长时间滞留了，以致延误到连接释放以后的某个时间才到达Server。本来这是一个早已失效的报文段，但Server收到此失效的连接请求报文后，就误以为是client再次发出一个新的连接请求。于是就向client发出确认报文段，同一建立连接。假设不采用三次握手，那么server确认就建立连接了。由于现在client并没有发出建立连接的请求，因此不会理睬server的确认，也不会向server发出数据，但server却认为新的运输连接已经建立，并一直等待Client发来数据。这样就浪费了server的资源。防止造成服务端资源浪费。<br>11.Socket<br>    1.网络通信必须的五种信息:连接使用的协议，本地主机的ip地址，本地进程的协议端口，远地主机的IP地址+端口;<br>    2.建立socket:一对套接字，一个运行于客户端，一个运行于服务端。连接分为3个过程：服务器监听，客户端请求，连接确认。<br>12.四次挥手<br>    1.客户端线发送FIN,进入FIN_WAIT状态<br>    2.服务端收到FIN,发送ACK,进入CLOSE_WAIT状态，客户端收到这个ACK,进入FIN_WAIT状态<br>    3.服务端发送FIN，进入LAST_ACK状态<br>    4.客户端收到FIN,发送ACK，进入TIME_WAIT状态，服务端收到ACK,进入CLOSE状态<br>    5.QA:<br>        i.TCP协议是一种面向连接可靠的基于字节流的运输层通信协议。TCP是双全工模式，当主机1发出FIN报文段时，只是表示主机1已经没有数据要发送了。主机1告诉主机2，它的数据已经全部发送完毕了；但是这个时候主机1还是可以接受来自主机2的数据；当主机2返回ACK报文段时，表示它已经知道主机1没有数据发送了，但是主机2可以发送数据到主机1；当主机2发送FIN报文段时候，这个时候表示主机2也没有数据要发送了，就会告诉主机1，之后就断开。<br>        ii.服务端在Listen状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里面发送给客户端。而关闭连接时，当收到对方的FIN。<br>13.TCP如何保证可靠传输<br>    1.三次握手<br>    2.将数据截断为合理的长度。应用数据被分割成TCP认为最适合发送的数据块；按字节编号，合理分片；<br>    3.超时重发。当TCP发出一个段后，它启动一个定时器，如果不能及时收到一个确认就重发；<br>    4.对于收到的请求给出确认响应；<br>    5.校验出包有错，丢弃报文段，不给出响应；<br>    6.对于失序数据进行重新排序，然后才交给应用层；<br>    7.对于重复数据，能够丢弃重复数据；<br>    8.流量控制，TCP连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。这将防止较快主机致使较慢主机的缓冲区溢出。<br>    9.拥塞控制，当网络拥塞时，减少数据的发送。<br>14.详细介绍HTTP<br>    1.1.0和2.0的区别<br>        1.多路复用，允许单一的http/2连接同时发起多重请求-响应消息。<br>        2.二进制分帧，位于应用层和传输层之间。<br>        3.首部压缩<br>        4.HTTP2.0支持服务器推送<br>15.HTTPS和HTTP<br>    1.https协议需要到CA申请证书；<br>    2.http时超文本传输协议，信息是铭文传输;https是具有安全性的ssl加密传输协议；<br>    3.http和https使用的是完全不同的连接方式，用的端口不一样，前者是80，后者是443;<br>    4.http的连接很简单，是无状态的；https协议由SSL+HTTP协议构建的可进行加密传输，身份认证的网络协议；</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/17/手写Java集合类之SkipList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/17/手写Java集合类之SkipList/" itemprop="url">
+                  手写Java集合类之SkipList
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-17 09:24:31 / Updated at: 10:47:09" itemprop="dateCreated datePublished" datetime="2018-08-17T09:24:31+08:00">2018-08-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-SkipList原理"><a href="#1-SkipList原理" class="headerlink" title="1.SkipList原理"></a>1.SkipList原理</h2><ol>
+<li>跳跃表使用概率均衡而不是使用强制性均衡，对于插入和删除结点比传统上的平衡树更为简洁。</li>
+<li>传统向有序链表中插入一个结点所需时间是O(n),查找也是O(n),使用跳跃表可以减少查找所需时间为O(n/2)。</li>
+<li>每个结点不单单只包含指向下一个结点的指针，可能包含很多个指向后续结点的指针，这样就可以跳过一些不必要的结点，从而加快查找，删除等操作。<strong>对于链表内每一个结点包含多少个指向后续元素的指针，这个过程是通过一个随机函数生成器得到。</strong></li>
+<li>跳表的操作<ol>
+<li>重要的数据结构定义</li>
+<li>初始化表</li>
+<li>查找</li>
+<li>插入</li>
+<li>删除</li>
+<li>随机数生成器</li>
+<li>释放表</li>
+<li>性能比较</li>
+</ol>
+</li>
+<li></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/计算机网络 第五章 网络层/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/计算机网络 第五章 网络层/" itemprop="url">
+                  计算机网络 第五章 网络层
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-16 17:50:28 / Updated at: 18:21:48" itemprop="dateCreated datePublished" datetime="2018-08-16T17:50:28+08:00">2018-08-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p>网络层—&gt;将数据从端到端，是端到端的最底层；<br>    1.网络层必须知道网络拓扑结构，所有路由器与链路的集合，并且找出一条好路;<strong>路径规划</strong><br>    2.网络层要仔细选择路由器，避免某些通信线路和路由器负载过重;<strong>负载均衡</strong></p>
+<h2 id="2-网络层设计问题"><a href="#2-网络层设计问题" class="headerlink" title="2.网络层设计问题"></a>2.网络层设计问题</h2><p>1.存储转发数据包交换<br>    1.ISP网络服务提供商的设备和客户端设备<br>    2.一台主机要发送一个数据包：存储-转发数据包交换<br>        1.需要将数据包传递给最近的路由器，路由器可能在它自己的LAN上，也可能在一条通向ISP的点到点链路上；<br>        2.在该数据包到达路由器，并且路由器链路层完成了对它校验和的验证之后，它先被存储在路由器上；<br>        3.沿着路径被转发到下一个路由器，直到到达目标主机；<br>2.提供给传输层的服务<br>    1.设计目标<br>        1.向上提供的服务应该独立于路由器技术；<br>        2.应该向传输层屏蔽路由器数量，类型和拓扑关系；<br>        3.传输层可用的网络地址应该有一个统一编码方案，甚至可以跨越LAN和WAN;<br>    2.面向连接和面向非连接 </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/Druid源码解析之SQL解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/Druid源码解析之SQL解析/" itemprop="url">
+                  Druid源码解析之SQL解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-16 14:18:27 / Updated at: 17:45:30" itemprop="dateCreated datePublished" datetime="2018-08-16T14:18:27+08:00">2018-08-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Druid源码解析之SQL解析"><a href="#Druid源码解析之SQL解析" class="headerlink" title="Druid源码解析之SQL解析"></a>Druid源码解析之SQL解析</h2><p>概述：<br>    SQL解析可以分为三层：</p>
+<pre><code>    - AST抽象语法树，语句解析-&gt; MySqlStatementParser:多个表达式和词组成完整的语句 
+        - SQLParser
+            - errorEndPos:解析出错记录位置
+            - lexer:词法解析
+            - dbType:数据库类型
+        - SQLStatement
+            - exprParser:表达式解析类；
+            - SQLCreateTableParser:建表语句解析类，其他DDL语句在SQLStatement中；
+            - parseValueSize:记录解析结果集大小；
+            - keepComments:是否保留注释；
+            - parseCompleteValues:是否全部解析完成。
+        - MySqlStatementParser
+            - 静态关键词
+            - exprParser:针对MySQL语句的parser;
+    - 表达式解析-&gt; MySqlExprParser:表达式由词组成，用来解析出不同表达式的含义
+        - SQLExprParser 
+            - AGGREGATE_FUNCTIONS 统计函数的关键词
+            - aggregateFunctions 保存统计函数的关键词
+        - MysqlExparser
+            - AGGREGATE_FUNCTIONS 针对mysql统计函数的关键词
+
+    - 词法解析-&gt; MySqlLexer:解析出每个词的词义,部分关键词含义
+        -   symbols_l2
+            features
+            text:保存目前整个SQL语句
+            pos:当前处理位置
+            mark:当前处理此开始位置
+            ch:当前处理字符
+            buf:当前缓存的处理词
+            bufPos:用于取出词的标记，当前从text中取出的词应该是mark位置开始
+            token:当前位于的关键词
+            keywods:所有关键词集合
+            stringVal
+            lines:总行数
+            dbType:数据库类型
+
+- SQL三个重要组成部分：Parser,AST,Visitor
+    - Parser 由两部分组成
+        - Lexer
+        - 表达式
+    - AST Parser的产物，语句经过词法分析，语法分析，其结构需要以一种计算机能读懂的方式表达出来，也就是抽象语法树。
+    - Visitor 遍历这颗语法树，使用visitor模式，从根节点开始遍历，一直到最后一个叶子节点，在这个过程中，不断地收集信息到一个上下文中，整个遍历过程完成后，这棵树所表达的语法含义就被保存到上下文中。使用广度优先遍历方式。
+</code></pre><ol>
+<li><p>涉及到的类</p>
+<ol>
+<li>SQLStatementParser parser = new MySqlStatementParser(sql);</li>
+<li><p>MySqlStatementParser执行父类SQLExprParser的方法，这个过程在静态代码块中定义了一系列字段；<br>static {<br> String[] strings = { “AVG”, “COUNT”, “MAX”, “MIN”, “STDDEV”, “SUM” };</p>
+<pre><code>AGGREGATE_FUNCTIONS_CODES = FnvHash.fnv1a_64_lower(strings, true);
+</code></pre><p> AGGREGATE_FUNCTIONS = new String[AGGREGATE_FUNCTIONS_CODES.length];<br> for (String str : strings) {</p>
+<pre><code>long hash = FnvHash.fnv1a_64_lower(str);
+int index = Arrays.binarySearch(AGGREGATE_FUNCTIONS_CODES, hash);
+AGGREGATE_FUNCTIONS[index] = str;
+</code></pre><p> }<br>}<br>//执行MySqlExprParser的构造方法</p>
+<p>public MySqlExprParser(String sql){<br> this(new MySqlLexer(sql));<br> this.lexer.nextToken();<br>} </p>
+<p>//Lexer构造方法-&gt;SymbolTable初始化</p>
+<p>Map&lt;String, Token&gt; map = new HashMap&lt;String, Token&gt;();</p>
+<p>this.lexer.nextToken();</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>3.SQLStatement sqlStatement = parser.parseStatement();</p>
+<pre><code>- parseStatement()中通过lexer.token选择对应的方法；
+- 如select-&gt;this.parseSelect();
+- 构造MySqlSelectParser对象
+MySqlSelectParser selectParser = createSQLSelectParser();
+SQLSelect select = selectParser.select();
+- select()方法
+    - SQLSelect select = new SQLSelect();
+    - 判断是否是with
+    - 如果不是构造SQLSelectQuery
+        - SQLSelectQuery query = query();query()方法内部
+            - 判断token是否是lparen左括号;
+            - 如果不是直接到MySqlSelectQueryBlock queryBlock = new MySqlSelectQueryBlock();并且设置父类的相关属性；
+            - 如果token是select,判断查询缓存是否为空；如果不为空进行匹配；
+                - selectListCache.match(laxer,queryBlock);
+            - 如果token是select,执行laxer.nextTokenValue();执行下一个token解析；
+            - Token token = lexer.token();得到下一个token后进行解析；
+            - parseSelectList(SQLSelectQueryBlock queryBlock);
+                - 构建selectList,final List&lt;SQLSelectItem&gt; selectList = queryBlock.getSelectList();
+                - parseSelectItem();
+                - expr = new SQLAllColumnExpr();
+                - lexer.nextToken();
+                - return new SQLSelectItem(expr, null, connectByRoot);
+            - parseInto(queryBlock);
+        - 将query设置到SQLSelect中;
+        - SQLOrderBy orderBy = this.parseOrderBy();
+</code></pre><p>4.MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();</p>
+<pre><code>- 父类构造方法
+ public SchemaStatVisitor(String dbType){
+    this(new SchemaRepository(dbType), new ArrayList&lt;Object&gt;());
+    this.dbType = dbType;
+ }
+- SchemaRepository类作为构造函数入参传入，初始化SchemaRepository；
+- 初始化mysql相关：consoleVisitor = new MySqlConsoleSchemaVisitor();
+- 初始化MySqlConsoleSchemaVisitor的父类MySqlASTVisitorAdapter的父类SQLASTVisitorAdapter；
+</code></pre><p>5.sqlStatement.accept(visitor)方法</p>
+<pre><code>- priVisitor(this);这是一个空方法0-0
+- accept0(SQLASTVisitor visitor);
+    - 执行实现类MySqlSchemaStateVisitor的visit(SQLSelectStatement x)；
+        - repository.resolve(x);
+            - 内部构造一个 SchemaResolveVisitor resolveVisitor = createResolveVisitor(options);
+            - createResolveVisitor(SchemaResolveVisitor.Option ...);选择不同类型的数据库；
+        - resolveVisitor.visit(stmt);
+            - 内部执行 resolve(SchemaResolveVisitor visitor, SQLSelect x) 方法         
+            - 创建context环境：SchemaResolveVisitor.Context ctx = visitor.createContext(x);
+            - SQLSelectQuery query = x.getQuery();获取query;
+            - 之后执行accept(visitor)方法；
+</code></pre><p>6.总结：新建MySqlStatementParser</p>
+<pre><code>- 内部新建一个MySqlExprParser-&gt;MySqlLexer-&gt;读取第一个有效词:lexer.nextToken();
+- 新建一个MySqlLexer-&gt;执行父类Lexer构造方法-&gt;初始化关键词
+- new Lexer(String input, CommentHandler commentHandler) 或 new Lexer(String input, boolean skipComment)
+    - input 输入语句
+    - commentHandler 注释处理器
+    - scanChar();读取第一个字符
+- 初始化Lexer后，回到MySqlExprParser构造器，初始化KeyWords集合;
+- 之后回到MySqlStatementParser:调用父类SQLStatementParser方法初始化;
+- new SQLParser(Lexer lexer, String dbType) 完成初始化。 
+</code></pre><p>7.代码分析</p>
+<pre><code>- `// 新建 MySQLParser
+    SQLStatementParser parser = new MySqlStatementParser(sql);
+    // 使用Parser解析生成AST，这里SQLStatement就是AST，解析结果是一个SQLStatement,是一个内部维护了树状逻辑结构的类
+    SQLStatement statement = parser.parseStatement();
+
+    // 使用visitor来访问AST
+    MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+    statement.accept(visitor);
+    `
+- 词法分析
+    - SQLStatementParser parser = new MySqlStatementParser(sql);
+    - 语法分析是SQLParser,词法分析Lexer,在Parser中拥有一个Lexer;
+    - Lexer有两个，Lexer和其子类MySqlLexer;Lexer作为词法分析器，内部具有词汇表，以keywords表示;
+    - keywords是以key为单词，value为Token的字典型结构，Token是单词的类型;
+    - MySqlLexer类，除了父类的keywords外还有自己的keywords;Lexer中维护的是通用的，而MySqlLexer除了有通用还有MySQL数据库SQL方言关键字集合。
+    - Parser是Lexer的使用者；
+    - Lexer需要具备一个函数，能够让命令者命令它解析一个单词，而且Lexer还必须提供一个函数，供使用者获取Lexer上一次解析到的单词亿级单词的类型。
+    - 在Lexer中，nextToken()方法提供了解析一个单词的需求，被调用时，就按顺序从SQL语句的开头到结尾，解析出下一个单词;
+    - token()方法，则返回上一次解析的单词的Token类型，如果Token类型是标识符(Identifier)，Lexer还提供一个stringVal()方法，让使用者拿到标识符值。
+    - nextToken()内部充斥着if语句和switch语句，解析单词时候，是一个个字符地解析，这个方法每次扫描一个字符，都必须判断单词是否结束，用什么方式来验证这个单词等待。这个过程是状态机运作的过程，每解析到一个字符，都要判断当前的状态，以决定应该进入下一个什么状态。
+- parseStatement()方法
+    - if(lexer.token() == Token.XXX) return XXX;
+    - 对应select类型的语句解析
+        if (lexer.token() == Token.SELECT) {
+            statementList.add(parseSelect());
+            continue;
+        }
+    - parseSelect()方法
+        public SQLStatement parseSelect() {
+            MySqlSelectParser selectParser = new MySqlSelectParser(this.exprParser);
+
+            SQLSelect select = selectParser.select();
+
+            if (selectParser.returningFlag) {
+                return selectParser.updateStmt;
+            }
+
+            return new SQLSelectStatement(select, JdbcConstants.MYSQL);
+         }
+        - 初始化一个针对MySQL Select语句的Parser,然后调用select()方法进行解析，把返回结果SQLSelect放到SQLSelectStatement里。而这个SQLSelectStatement就是AST抽象语法树，SQLSelect是他的第一个子节点。
+ - MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+     - 有了AST语法树后，需要一个visitor来访问;
+     - statement调用accept方法，以visitor作为参数，进行访问；statement的实际类型是SQLSelectStatement;
+     - 在Druid中一条SQL语句中的元素，无论高层次还是低层次的元素，都是一个SQLObject,statement,expr,函数，字段，条件都是一种SQLObject。SQLObject是一个接口，accept方法由SQLObject定义，目的是为了让访问者在访问SQLObject时，告知访问者一些事情，在访问过程中手机关于SQLObject的一些信息。
+     - accept()在SQLObjectImpl类实现
+         public final void accept(SQLASTVisitor visitor) {
+                if (visitor == null) {
+                    throw new IllegalArgumentException();
+                }
+
+                visitor.preVisit(this);
+                //真正执行的方法
+                accept0(visitor);
+
+                visitor.postVisit(this);
+         }
+         - 这是一个final方法，所有子类都要遵循这个模板，在accept()前后，visitor会进行一些操作，真正访问流程在acceptor0(visitor)中，这是一个抽象方法。
+     - acceptor0(SQLASTVisitor visitor)
+         protected void accept0(SQLASTVisitor visitor) {
+            if (visitor.visit(this)) {
+                acceptChild(visitor, this.select);
+            }
+            visitor.endVisit(this);
+         }
+        - 首先使用visitor访问自己，然后决定是否访问自己的子元素。
+        - MySqlSchemaStateVisitor的visit()方法:初始化自己的aliasMap,之后返回true;
+            public boolean visit(SQLSelectStatement x) {
+                setAliasMap();
+                return true;
+            }
+        - 然后递归访问子元素
+    - SQLObject负责通知visitor要访问的元素，visitor负责访问相应元素前中后三个过程的逻辑处理。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/SpringBoot实战笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/13/SpringBoot实战笔记/" itemprop="url">
+                  SpringBoot实战笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-13 14:12:24" itemprop="dateCreated datePublished" datetime="2018-08-13T14:12:24+08:00">2018-08-13</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Druid源码解析之初步认识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/Druid源码解析之初步认识/" itemprop="url">
+                  Druid源码解析之初步认识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-10 22:38:12" itemprop="dateCreated datePublished" datetime="2018-08-10T22:38:12+08:00">2018-08-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-13 14:43:19" itemprop="dateModified" datetime="2018-08-13T14:43:19+08:00">2018-08-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##Druid源码解析##</p>
+<ul>
+<li>Druid是什么<ul>
+<li>数据库连接池，提供强大的监控与扩展功能，包含ProxyDriver,一系列内置的JDBC组件库，一个SQL Parser;</li>
+<li>监控组件，监控应用程序的运行情况，包括Web URI,Spring,JDBC等。为了监控执行SQL执行情况，做了一个Filter-Chain模式的ProxyDriver,缺省提供给StatFilter。还做了一个SQL Parser，将数据库连接池，SQL Parser,ProxyDriver合起来做了一个项目，名为Druid.</li>
+<li>亚秒级查</li>
+<li>支持JDBC兼容的数据库，包括Oracle,MySQL,DB。。。等等</li>
+<li>提供快速的聚合能力以及亚秒级的OLAP查询能力，多租户的设计，面向用户分析应用的理想方案</li>
+<li>阿里巴巴线上验证</li>
+<li>强大的监控特性，通过Druid提供的监控功能，可以清楚知道连接池和SQL工作情况,监控SQL执行时间，ResultSet持有时间，返回行数，更新行数，错误次数，错误堆栈信息。<ul>
+<li>SQL执行的耗时区间分布。</li>
+<li>监控连接池的物理连接创建和销毁次数，逻辑连接的申请和关闭次数，非空等待次数,PSCache命中率等。</li>
+<li>为了方便扩展，提供了Filter-Chain模式的扩展API,可以自己编写Filter拦截JDBC中的任何方法，如性能监控，SQL审计，用户名密码加密，日志等待。</li>
+<li>内置StatFilter,日志输出的Log系列Filter,防御SQL注入攻击的WallFilter。</li>
+<li>ExceptionSorter,当一个连接产生不可恢复的异常时，必须立即从连接池中逐出，否则会产生大量错误。</li>
+<li>PSCache内存优化对于支持游标的数据库,大幅度提升SQL执行性能。一个PreparedStatement对应服务器一个游标，可以缓存起来重复执行。</li>
+<li>LRU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Druid如何扩展JDBC？<ul>
+<li>Druid在DruidDataSource和ProxyDriver上提供了Filter-Chain模式的扩展API,类似Servlet的Filter;</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Sofa学习之SofaRPC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
       <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -489,7 +1570,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Sofa源码学习系列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
       <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -624,7 +1705,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Spring源码解析之Spring声明式事务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
       <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -759,7 +1840,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/消息队列之消息队列的设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
       <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -1002,1119 +2083,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/消息队列之Kafka与RocketMQ的对比/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/消息队列之Kafka与RocketMQ的对比/" itemprop="url">
-                  消息队列之Kafka与RocketMQ的对比
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 16:28:03 / Updated at: 16:47:23" itemprop="dateCreated datePublished" datetime="2018-08-09T16:28:03+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="消息队列之Kafka与RocketMQ的对比"><a href="#消息队列之Kafka与RocketMQ的对比" class="headerlink" title="消息队列之Kafka与RocketMQ的对比"></a>消息队列之Kafka与RocketMQ的对比</h2><ul>
-<li>部署和模型<ul>
-<li>部署<ul>
-<li>RocketMQ 主从架构 一主多从 </li>
-<li>Kafka 互为主从 一个Broker既可以是某个分区的主副本也可以是从副本</li>
-</ul>
-</li>
-<li>存储模型<ul>
-<li>Kafka:Topic_A的每个partition都有commitLog来存储消息，每个CommitLog有多个Segment,当Segment写满，或则Segment对应的index写满，或者Segment超时，就会重新创建一个Segment来存储该Partition的消息。每个Segment都有一个index文件，是一个稀疏索引，当Segment写入的消息超过一定数量后，往index写入一条记录。</li>
-<li>RocketMQ:Topic_A有3各ConsummeQueue，两主一备，Broker_A,B,Master对外提供服务。Index可以根据key和temeStamp来查询。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>有序消息<ul>
-<li>kafka:都是一个topic多个partition场景，保证每个Partition里面的消息都是有序的。一个topic可以配置多个partition,producer在发送消息的时候，按照一定的策略选择partition来写消息，保证同一个订单的消息，写到同一个partition上。</li>
-<li>RocketMQ:一个Topic可以有多个consumerQueue,每个queue里面消息是有序的。</li>
-</ul>
-</li>
-<li>发送端负载均衡<ul>
-<li>hash,随机缓存</li>
-</ul>
-</li>
-<li>消费端负载均衡<ul>
-<li>kafka当有consumer加入到comsumerGroup,会发送JoinGroup消息给Coordinator,Coordinator收集到所有的消息，会选择一个主Consumer，把执行的Comsumer消息以及Partition消息发送给他。然后同步告知其他Consumer</li>
-</ul>
-</li>
-<li>数据可靠性<ul>
-<li>kafka:支持同步/异步复制，异步刷盘</li>
-</ul>
-</li>
-<li>消息投递的实时性<ul>
-<li>kafka使用段轮询方式，实时性取决于轮询周期</li>
-<li>RocketMQ使用长轮询，通过push方式实现</li>
-</ul>
-</li>
-<li>消费失败重试<ul>
-<li>Kafka不支持</li>
-<li>RocketMQ支持定时重试</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/消息队列之RocketMQ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/消息队列之RocketMQ/" itemprop="url">
-                  消息队列之RocketMQ
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 15:55:19 / Updated at: 16:27:18" itemprop="dateCreated datePublished" datetime="2018-08-09T15:55:19+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="RocketMQ-介绍"><a href="#RocketMQ-介绍" class="headerlink" title="RocketMQ 介绍"></a>RocketMQ 介绍</h2><ul>
-<li>概述<ul>
-<li>推模式</li>
-<li>拉模式-长连接，低延迟</li>
-</ul>
-</li>
-<li>组成<ul>
-<li>NameServer:轻量级方式提供服务发现和路由功能，每个NameServer存有全量的路由信息，提供对等的读写服务，支持快速扩容。负责对数据源的管理，包括Topic和路由信息的管理，Broker启动的时候会去nameServer注册并定时发送心跳，Producer启动的时候会到NameServer上拉取Topic所属的broker具体地址，然后向具体的broker发送消息。</li>
-<li>Producer:由用户进行分布式部署，消息由producer通过多种负载均衡策略发送到Broker集群，发送低延时，支持快速失败。</li>
-<li>Consumer:由用户部署，支持push和pull两种消费模式，支持集群消费和广播消费，通过实时的消息订阅。</li>
-</ul>
-</li>
-<li>消息模型<ul>
-<li>Message</li>
-<li>Topic</li>
-<li>Queue</li>
-<li>Group</li>
-</ul>
-</li>
-<li>服务端整体架构设计<ul>
-<li>最上层授权和认证部分，TCP基于自行研发的线路层协议，需要编解码以及序列化。</li>
-<li>健康检查</li>
-<li>流控和熔断措施，对系统进行流量保护，针对不同维度的流量控制</li>
-<li>存储</li>
-</ul>
-</li>
-<li>SDK架构图<ul>
-<li>首先发现服务，需要找到发送消息或者接收消息具体的broker,以及broker上topic；</li>
-<li>然后SDK还需要保持长连接活；</li>
-<li>其次流量控制熔断机制</li>
-<li>保证实现高科而用，需要提供补偿机制，重投和重复。</li>
-<li>元信息通知更新消息。</li>
-</ul>
-</li>
-<li><p>技术点</p>
-<ul>
-<li><p>消息的顺序</p>
-<ul>
-<li>RocketMQ全局保序，保证对通道的单一实例操作，单进程，单线程，线程读；</li>
-<li>牺牲吞吐量</li>
-</ul>
-</li>
-<li><p>消息去重：失败重传</p>
-</li>
-<li>分布式挑战：RocketMQ追求AP,通常情况下，通过降级，限流，熔断机制来保证洪峰下的可用性。金融级高频交易典型场景：CP机制，牺牲可用性来保证数据一致性。基于ZAB协议，利用分布式锁和通知机制来保证多副本数据的一致性。</li>
-</ul>
-</li>
-<li>优化<ul>
-<li>JVM停顿 GC 线程池 CPU 内存 网卡</li>
-</ul>
-</li>
-<li><p>对比</p>
-<ul>
-<li>Kafak和RocketMQ都是磁盘消费队列模式，对于同一个消费组，一个分区只支持一个线程新消费消息，过少的分区会导致消费速度大大落后于消息生成速度。在实际的生产环境中，一个topic会设置成多个分区的模式来支持多个消费者。</li>
-<li>分区增大性能下降的原因:Kafka的每个topic，每个分区都会对应一个物理文件，当topic增加时，消息分散的落盘策略会导致磁盘I/O竞争激烈。而RocketMQ所有的消息都保持在同一个物理物件中，topic和分区数对rocketMQ也支持逻辑上的划分，不会增大太多影响。</li>
-<li><p>容量保证的策略：降级，限流，熔断</p>
-<ul>
-<li>降级：暂停边缘服务，保证核心服务的资源。</li>
-<li>在有限资源情况下，所提供的单位时间服务能力是有限的，如果超过了承受能力，可能会带来整个服务的停顿。应用的Crash，进而风险传递给服务调用方造成整个系统的服务能力丧失，进而引发雪崩。</li>
-<li><p>典型的限流算法:漏桶算法和令牌算法</p>
-<ul>
-<li>漏桶算法 一个桶以恒定的速率滴出，上方滴入速率超过滴出速率，就会导致水桶溢出过载。</li>
-<li>令牌桶算法 令牌以恒定速率放入桶，桶内令牌数有上限，每个请求会获取一个令牌，如果没有令牌了，则这个请求时过载的。</li>
-<li>信号量</li>
-</ul>
-</li>
-<li><p>熔断：在分布式系统中，如果调用的远程服务或者资源由于某种原因无法使用时，没有过载保护就会导致请求资源阻塞在服务器上等待从而消耗掉系统或服务器资源。</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/分布式学习之高并发总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/分布式学习之高并发总结/" itemprop="url">
-                  分布式学习之高并发总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 15:26:21 / Updated at: 15:53:48" itemprop="dateCreated datePublished" datetime="2018-08-09T15:26:21+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="分布式学习之高并发总结"><a href="#分布式学习之高并发总结" class="headerlink" title="分布式学习之高并发总结"></a>分布式学习之高并发总结</h2><ul>
-<li><p>千万级高并发总结：</p>
-<ol>
-<li>所有的性能提升，最终落在CPU,内存，IO，网络这4块。</li>
-<li>抽象能力，分类能力，算法</li>
-<li>客户端-&gt;接入层-&gt;后台（搜索，平台，大数据）</li>
-<li>RPC</li>
-<li>消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。</li>
-<li>配置管理：灰度发布，服务降级</li>
-<li>无状态：将有状态的东西剥离到数据层</li>
-<li>分布式服务追踪解决的问题：通过唯一id</li>
-</ol>
-</li>
-<li><p>高并发实时后台服务架构</p>
-<ol>
-<li>流控：扩容 ddos攻击 nginx</li>
-<li>负载均衡</li>
-<li>接入层：校验登陆态 无状态的横向扩展</li>
-<li>逻辑层：<ol>
-<li>前轻后重 RPC服务来提供和实现</li>
-<li>缩短关键业务流程</li>
-<li>降低单个接口处理耗时—代码架构系统部署</li>
-<li>同步变异步：同步接口转化为异步接口 保证吞吐量 I/O多路复用</li>
-<li>隔离:逻辑层具备业务隔离能力，整体隔离，内部隔离</li>
-</ol>
-</li>
-<li>存储层<ol>
-<li>数据快速访问 一致性安全问题 缓存 分库分表</li>
-<li>数据如何同步备份</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>高并发与实时处理技术<ul>
-<li>高并发下缓存治理<ul>
-<li>I/O是导致IT系统无法完成高并发的主要原因。</li>
-<li>解决I/O速度问题就是将计算结果临时存储，也就是缓存。</li>
-<li>缓存治理的困难<ul>
-<li>应用无感的合理使用缓存</li>
-<li>对现有缓存乱使用的迁移</li>
-<li>缓存研发方案—缓存场景隔离化，数据量分配的合理化以及缓存的分离。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>常见并发同步案例分析</p>
-<ul>
-<li><p>订票系统案例</p>
-<ul>
-<li>锁同步：程序层面，多个线程进来，只有一个一个访问。锁有两个层面，一个是java的对象锁，用于线程同步；另一个是数据库锁，如果是分布式系统，只能用数据库端的锁来实现。</li>
-<li>乐观锁和悲观锁 乐观锁在不锁定表的情况，利用业务来控制解决并发问题。保证并发可读+数据存储的排他性+保证性能同时解决并发带来的脏数据问题。</li>
-</ul>
-</li>
-<li><p>股票交易</p>
-<ul>
-<li>表拆分 按业务拆分 时间轴分区</li>
-<li>缓存</li>
-</ul>
-</li>
-<li><p>高并发提高访问效率手段</p>
-<ul>
-<li>瓶颈：服务带宽 web线程连接数 数据库连接查询</li>
-<li>增加带宽，DNS域名解析 负载均衡 前置代理服务器 数据库查询优化，读写分离，分表。</li>
-<li>复制在高并发的情况：尽量使用缓存，用户缓存，信息缓存，大量减少与数据库的交换，提高性能。 找出性能瓶颈，减少额外开销，优化查询语句。单台机器的瓶颈。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>1500万QPS背后的高性能，高可用实时搜索系统架构演变</li>
-<li>12306如何实现流量并发的关键技术<ul>
-<li>关键技术<ul>
-<li>利用云计算资源分担系统查询业务，弹性扩展</li>
-<li>双中心运行架构</li>
-<li>带宽保证</li>
-<li>防恶意抢票</li>
-<li>应急方案</li>
-</ul>
-</li>
-<li>设计思路    <ul>
-<li>关联数据节点设计</li>
-<li>将数据移到内存</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>金融环境高并发方案</li>
-<li></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/分布式学习之秒杀系统架构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/分布式学习之秒杀系统架构/" itemprop="url">
-                  分布式学习之秒杀系统架构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 15:07:08 / Updated at: 15:22:33" itemprop="dateCreated datePublished" datetime="2018-08-09T15:07:08+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##秒杀系统架构##<br>1.秒杀系统特点</p>
-<pre><code>- 瞬时并发量大，大量用户会在同一时间进行抢购，网站瞬时流量访问激增；
-- 库存少：访问请求数量远远大于库存数量，只有少部分用户能够秒杀成功。
-- 业务流程简单：业务流程比较简单，下单减库存。
-</code></pre><p>2.技术难点</p>
-<pre><code>- 对现有业务的冲击
-- 高并发应用负载高
-- 突然增加网络与服务带宽
-- 直接下但
-- 控制商品页面购买按钮高亮
-- 下单前置检查
-</code></pre><p>3.架构思想</p>
-<pre><code>- 限流：限制大部分用户流量，只有少部分用户能够进入后端服务器
-- 削峰：秒杀开始一瞬间，会有大量用户冲击进来，会有一个瞬时流量峰值。通过缓存或者MQ中间件来解决。
-- 异步处理：异步处理模式可以极大提高系统并发量
-- 内存缓存：最大瓶颈是数据库的读写，下单扣减库存，属于磁盘IO,性能低，把部分数据业务逻辑转移到内存缓存，效率极大提升。
-</code></pre><p>4.优化</p>
-<pre><code>客户端优化
-- 秒杀页面优化：页面整体静态化，将静态化页面发送到CDN边缘节点上，压力分散的作用。
-- 防止提前下单：在静态页面加入一个JS,这个js文件包含活动是否开启的标志以及开始时动态下单页面的url参数，同时这个js不会被cdn缓存，会一直请求后端服务。并且很小，活动快要开始时，通过后台接口修改这个js使之生效。
-api接入层优化
-- 限制用户维度访问频率
-- 限制商品维度访问频率
-soa服务器层优化
--后端流量控制，通过消息队列，异步处理，提高并发等方式解决，对于超过系统水位线的请求，使用fail-fast原则拒绝掉。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/Zookeeper系列之分布式事务总结/" itemprop="url">
-                  Zookeeper系列之分布式事务总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 11:44:54 / Updated at: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##1.分布式事务解决方案##</p>
-<ul>
-<li><p>基于XA协议的两阶段提交方案</p>
-<ul>
-<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
-<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
-<li>本地资源管理器 事务协调器</li>
-<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
-</ul>
-</li>
-<li><p>TCC方案</p>
-<ul>
-<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
-<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
-<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
-<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
-<li>缺点：<ul>
-<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
-<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>基于消息的最终一致性方案<ul>
-<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
-<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
-<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
-</ul>
-</li>
-<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
-<li>蚂蚁金服的分布式事务解决方案DTX<ul>
-<li>整体架构：<ul>
-<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
-<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
-<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
-<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
-</ul>
-</li>
-<li>DTX执行<ul>
-<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
-<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Redis缓存系列之数据库缓存一致性问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" itemprop="url">
-                  缓存系列之数据库缓存一致性问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2018-08-09 11:40:48" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2146,7 +2119,7 @@ soa服务器层优化
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Rocky ZhouJin</p>
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
               <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
           </div>
 
@@ -2157,7 +2130,7 @@ soa服务器层优化
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -2212,7 +2185,15 @@ soa服务器层优化
                     
                       
                     
-                    <span class="site-state-item-count">20</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>
@@ -2256,7 +2237,7 @@ soa服务器层优化
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin</span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
 
   
 

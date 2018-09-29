@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="Rocky for Everything">
 <meta property="og:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-30T10:32:03.522Z">
+<meta property="og:updated_time" content="2018-08-31T10:51:17.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务系列之深入理解SpringCloud与微服务构建">
 <meta name="twitter:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
@@ -288,7 +288,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
       <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -344,7 +344,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Updated at: 2018-08-30 18:32:03" itemprop="dateModified" datetime="2018-08-30T18:32:03+08:00">2018-08-30</time>
+                <time title="Updated at: 2018-08-31 18:51:17" itemprop="dateModified" datetime="2018-08-31T18:51:17+08:00">2018-08-31</time>
               
             
           </span>
@@ -505,7 +505,39 @@
 2. 此时需要在类名上加上@Configuration,@PropertySource和@ConfigurationProperties这3个注解。
 </code></pre><h3 id="4-3-运行状态监控Actuator"><a href="#4-3-运行状态监控Actuator" class="headerlink" title="4.3 运行状态监控Actuator"></a>4.3 运行状态监控Actuator</h3><h3 id="4-4-SpringBoot-整合JPA"><a href="#4-4-SpringBoot-整合JPA" class="headerlink" title="4.4 SpringBoot 整合JPA"></a>4.4 SpringBoot 整合JPA</h3><h3 id="4-5-SpringBoot-整合Redis"><a href="#4-5-SpringBoot-整合Redis" class="headerlink" title="4.5 SpringBoot 整合Redis"></a>4.5 SpringBoot 整合Redis</h3><pre><code>1. Redis简介
 2. 加入redis依赖
-</code></pre>
+</code></pre><h2 id="5-服务注册与发现Eureka"><a href="#5-服务注册与发现Eureka" class="headerlink" title="5.服务注册与发现Eureka"></a>5.服务注册与发现Eureka</h2><h3 id="5-1-源码解析Eureka"><a href="#5-1-源码解析Eureka" class="headerlink" title="5.1 源码解析Eureka"></a>5.1 源码解析Eureka</h3><pre><code>1. Register---服务注册
+    当Eureka Client向Euerka Server注册时，Eureka Client提供自身的元数据，如IP地址，端口，运行状态指标Url,主页地址信息
+2. Renew---服务续约
+    Eureka Client每隔30秒发送一次心跳来进行服务续约。通过服务续约来告知Eureka Server该Eureka Client仍然可用，没有出现故障。正常情况下，如果Eureka Server在90s内没有收到Eureka Client的心跳，EurekaServer会将Eureka Client实例从注册列表中删除。
+3. Fetch Registries---获取服务注册列表信息
+    C从S获取服务注册表信息，并将其缓存在本地。C使用服务注册列表信息查找其他服务信息，从而进行RPC。该注册列表信息定时更新，每次返回与缓存可能不同，Eureka Client缓存信息不同，C会自己处理。注册信息不匹配时，C重新获取整个注册表信息。S缓存了所有服务的注册列表信息，并将整个注册列表以及每个应用程序的信息进行压缩，以Json和XML数据格式进行通信。默认使用Json方式来获取服务注册列表信息。
+
+4. Cancel---服务下线
+    C程序关闭时，向S发送下线请求。完成请求后，S将C从list删除。需要在程序关闭时调用方法。
+5. Eviction---服务剔除
+    连续90s没有向Eureka Server发送服务续约，就会将该S从服务注册列表删除。
+</code></pre><h3 id="5-2-1-Eureka高可用架构"><a href="#5-2-1-Eureka高可用架构" class="headerlink" title="5.2.1 Eureka高可用架构"></a>5.2.1 Eureka高可用架构</h3><h3 id="5-2-2-Register服务注册"><a href="#5-2-2-Register服务注册" class="headerlink" title="5.2.2 Register服务注册"></a>5.2.2 Register服务注册</h3><h3 id="5-2-3-Renew服务续约"><a href="#5-2-3-Renew服务续约" class="headerlink" title="5.2.3 Renew服务续约"></a>5.2.3 Renew服务续约</h3><h2 id="6-负载均衡Ribbon"><a href="#6-负载均衡Ribbon" class="headerlink" title="6. 负载均衡Ribbon"></a>6. 负载均衡Ribbon</h2><h3 id="6-1-RestTemplate简介"><a href="#6-1-RestTemplate简介" class="headerlink" title="6.1 RestTemplate简介"></a>6.1 RestTemplate简介</h3><pre><code>1. 是SpringResources中的一个访问第三方Restful API接口的网络请求框架。目的都是为了执行复杂任务提供一个具有默认行为的简单方法。
+2. RestTemplate是用来消费Rest服务的，所有方法都与Rest的Http协议的一些方法紧密相连。
+</code></pre><h3 id="6-2-Ribbon简介"><a href="#6-2-Ribbon简介" class="headerlink" title="6.2 Ribbon简介"></a>6.2 Ribbon简介</h3><pre><code>1. 负载均衡方式:独立进程单元，通过负载均衡策略将请求转发到不同执行单元上，如Nginx；另一种是将负载均衡逻辑以代码形式封装到服务消费者的客户端上，C中维护了一份服务提供者信息列表，通过负载均衡策略将请求分摊给多个服务提供者，从而达到负载均衡的目的。
+2. Ribbon采用第二种方式。有两种使用方式：一种是和RestTemplate结合，另一种是和Feign结合。默认与feign结合。
+3. 源码解析
+</code></pre><h2 id="7-声明式调用Feign"><a href="#7-声明式调用Feign" class="headerlink" title="7.声明式调用Feign"></a>7.声明式调用Feign</h2><h2 id="8-熔断器Hystrix"><a href="#8-熔断器Hystrix" class="headerlink" title="8.熔断器Hystrix"></a>8.熔断器Hystrix</h2><ol>
+<li>分布式系统中，服务与服务之间的依赖错综复杂，一种不可避免的情况就是某些服务出现故障，导致依赖他们的其他服务出现远程调度的线程阻塞。Hystrix具有熔断器功能，能够阻止分布式系统中出现联动故障。Hystrix通过隔离服务访问点阻止联动故障，并提供故障解决方案，从而提高整个分布式系统的弹性。</li>
+<li>高并发情况下，单个服务的延迟会导致整个请求都处于延迟状态，导致服务处于线程饱和状态，资源消耗殆尽。并且因为服务的依赖，导致其他服务也处于阻塞状态，引发雪崩。</li>
+<li>Hystrix设计原则    <ol>
+<li>防止单个服务的故障耗尽整个服务的Serlvet容器线程资源。</li>
+<li>快速失败机制，如果单个服务出现故障，则调用服务的请求快速失败，而不是线程等待。</li>
+<li>提供回退方案，在请求发生故障时，提供设定好的回退方案。</li>
+<li>使用熔断机制，防止故障扩散到其他服务。</li>
+<li>提供熔断器监控组件Hystrix Dashboard,实时监控熔断器状态。</li>
+</ol>
+</li>
+<li>Hystrix工作机制</li>
+</ol>
+<h2 id="9-路由网关Spring-Cloud-Zuul"><a href="#9-路由网关Spring-Cloud-Zuul" class="headerlink" title="9.路由网关Spring Cloud Zuul"></a>9.路由网关Spring Cloud Zuul</h2><ol>
+<li>用于构建边界服务，致力于动态路由，过滤，监控，弹性伸缩和安全。<h3 id="9-1-为什么需要Zuul"><a href="#9-1-为什么需要Zuul" class="headerlink" title="9.1 为什么需要Zuul"></a>9.1 为什么需要Zuul</h3><h3 id="9-2-Zuul工作原理"><a href="#9-2-Zuul工作原理" class="headerlink" title="9.2 Zuul工作原理"></a>9.2 Zuul工作原理</h3></li>
+</ol>
+
       
     </div>
 
@@ -547,6 +579,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/03/Dubbo系列之Dubbo可扩展性SPI/" rel="prev" title="Dubbo系列之Dubbo可扩展性SPI">
+                Dubbo系列之Dubbo可扩展性SPI <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -605,7 +641,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Rocky ZhouJin</p>
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
               <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
           </div>
 
@@ -616,7 +652,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -671,7 +707,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">20</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>
@@ -707,7 +751,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-SpringCloud简介"><span class="nav-number"></span> <span class="nav-text">第2章 SpringCloud简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-微服务应该具备的功能"><span class="nav-number">1.</span> <span class="nav-text">2.1 微服务应该具备的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-服务的注册与发现"><span class="nav-number">2.</span> <span class="nav-text">2.1.1 服务的注册与发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-服务的负载均衡"><span class="nav-number">3.</span> <span class="nav-text">2.1.2 服务的负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-集群的容错"><span class="nav-number">3.1.</span> <span class="nav-text">2.1.3 集群的容错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-服务网关"><span class="nav-number">3.2.</span> <span class="nav-text">2.1.4 服务网关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-服务配置的统一管理"><span class="nav-number">3.3.</span> <span class="nav-text">2.1.5 服务配置的统一管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-6-服务链路追踪"><span class="nav-number">3.4.</span> <span class="nav-text">2.1.6 服务链路追踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Sprin-Cloud"><span class="nav-number">4.</span> <span class="nav-text">2.2 Sprin Cloud</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-常用组件"><span class="nav-number">4.1.</span> <span class="nav-text">2.2.1 常用组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Dubbo"><span class="nav-number">5.</span> <span class="nav-text">2.3 Dubbo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Kubernetes简介"><span class="nav-number">6.</span> <span class="nav-text">2.4 Kubernetes简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-构建微服务的准备"><span class="nav-number"></span> <span class="nav-text">3.构建微服务的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-构建啊工具Maven使用"><span class="nav-number">1.</span> <span class="nav-text">3.3 构建啊工具Maven使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-Maven核心概念"><span class="nav-number">1.1.</span> <span class="nav-text">3.3.1 Maven核心概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-编写Pom文件"><span class="nav-number">1.2.</span> <span class="nav-text">3.3.2 编写Pom文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-Maven构建项目的生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">3.3.3 Maven构建项目的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-4-常用Maven命令"><span class="nav-number">1.4.</span> <span class="nav-text">3.3.4 常用Maven命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Spring-Boot"><span class="nav-number"></span> <span class="nav-text">4.Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-构建SpringBoot项目"><span class="nav-number">1.</span> <span class="nav-text">4.1 构建SpringBoot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SpringBoot-配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">4.2 SpringBoot 配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-自定义属性"><span class="nav-number">2.1.</span> <span class="nav-text">4.2.1 自定义属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-将配置文件的属性赋给实体类"><span class="nav-number">2.2.</span> <span class="nav-text">4.2.2 将配置文件的属性赋给实体类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-自定义配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">4.2.3 自定义配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-运行状态监控Actuator"><span class="nav-number">3.</span> <span class="nav-text">4.3 运行状态监控Actuator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-SpringBoot-整合JPA"><span class="nav-number">4.</span> <span class="nav-text">4.4 SpringBoot 整合JPA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-SpringBoot-整合Redis"><span class="nav-number">5.</span> <span class="nav-text">4.5 SpringBoot 整合Redis</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-SpringCloud简介"><span class="nav-number"></span> <span class="nav-text">第2章 SpringCloud简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-微服务应该具备的功能"><span class="nav-number">1.</span> <span class="nav-text">2.1 微服务应该具备的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-服务的注册与发现"><span class="nav-number">2.</span> <span class="nav-text">2.1.1 服务的注册与发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-服务的负载均衡"><span class="nav-number">3.</span> <span class="nav-text">2.1.2 服务的负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-集群的容错"><span class="nav-number">3.1.</span> <span class="nav-text">2.1.3 集群的容错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-服务网关"><span class="nav-number">3.2.</span> <span class="nav-text">2.1.4 服务网关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-服务配置的统一管理"><span class="nav-number">3.3.</span> <span class="nav-text">2.1.5 服务配置的统一管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-6-服务链路追踪"><span class="nav-number">3.4.</span> <span class="nav-text">2.1.6 服务链路追踪</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Sprin-Cloud"><span class="nav-number">4.</span> <span class="nav-text">2.2 Sprin Cloud</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-常用组件"><span class="nav-number">4.1.</span> <span class="nav-text">2.2.1 常用组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Dubbo"><span class="nav-number">5.</span> <span class="nav-text">2.3 Dubbo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Kubernetes简介"><span class="nav-number">6.</span> <span class="nav-text">2.4 Kubernetes简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-构建微服务的准备"><span class="nav-number"></span> <span class="nav-text">3.构建微服务的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-构建啊工具Maven使用"><span class="nav-number">1.</span> <span class="nav-text">3.3 构建啊工具Maven使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-Maven核心概念"><span class="nav-number">1.1.</span> <span class="nav-text">3.3.1 Maven核心概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-编写Pom文件"><span class="nav-number">1.2.</span> <span class="nav-text">3.3.2 编写Pom文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-Maven构建项目的生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">3.3.3 Maven构建项目的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-4-常用Maven命令"><span class="nav-number">1.4.</span> <span class="nav-text">3.3.4 常用Maven命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Spring-Boot"><span class="nav-number"></span> <span class="nav-text">4.Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-构建SpringBoot项目"><span class="nav-number">1.</span> <span class="nav-text">4.1 构建SpringBoot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SpringBoot-配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">4.2 SpringBoot 配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-自定义属性"><span class="nav-number">2.1.</span> <span class="nav-text">4.2.1 自定义属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-将配置文件的属性赋给实体类"><span class="nav-number">2.2.</span> <span class="nav-text">4.2.2 将配置文件的属性赋给实体类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-自定义配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">4.2.3 自定义配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-运行状态监控Actuator"><span class="nav-number">3.</span> <span class="nav-text">4.3 运行状态监控Actuator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-SpringBoot-整合JPA"><span class="nav-number">4.</span> <span class="nav-text">4.4 SpringBoot 整合JPA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-SpringBoot-整合Redis"><span class="nav-number">5.</span> <span class="nav-text">4.5 SpringBoot 整合Redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-服务注册与发现Eureka"><span class="nav-number"></span> <span class="nav-text">5.服务注册与发现Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-源码解析Eureka"><span class="nav-number">1.</span> <span class="nav-text">5.1 源码解析Eureka</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-Eureka高可用架构"><span class="nav-number">2.</span> <span class="nav-text">5.2.1 Eureka高可用架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-Register服务注册"><span class="nav-number">3.</span> <span class="nav-text">5.2.2 Register服务注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-Renew服务续约"><span class="nav-number">4.</span> <span class="nav-text">5.2.3 Renew服务续约</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-负载均衡Ribbon"><span class="nav-number"></span> <span class="nav-text">6. 负载均衡Ribbon</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-RestTemplate简介"><span class="nav-number">1.</span> <span class="nav-text">6.1 RestTemplate简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-Ribbon简介"><span class="nav-number">2.</span> <span class="nav-text">6.2 Ribbon简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-声明式调用Feign"><span class="nav-number"></span> <span class="nav-text">7.声明式调用Feign</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-熔断器Hystrix"><span class="nav-number"></span> <span class="nav-text">8.熔断器Hystrix</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-路由网关Spring-Cloud-Zuul"><span class="nav-number"></span> <span class="nav-text">9.路由网关Spring Cloud Zuul</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-为什么需要Zuul"><span class="nav-number">1.</span> <span class="nav-text">9.1 为什么需要Zuul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-Zuul工作原理"><span class="nav-number">2.</span> <span class="nav-text">9.2 Zuul工作原理</span></a></li></ol></div>
             
 
           </div>
@@ -731,7 +775,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin</span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
 
   
 
