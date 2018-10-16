@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+  <meta name="description" content="第2章 Kubernetes核心原理1.Kubernetes API Server分析 功能和地位       提供了集群管理的API接口； 成为集群内各个功能模块之间数据交互和通信的中心枢纽； 拥有完备的集群安全机制。   如何访问K8S API K8S API通过K8S apiserver进程提供服务，运行于master节点。该进程有2个端口： 本地端口 该端口用于接收Http请求； 默认值为">
 <meta name="keywords" content="k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s系列之k8s核心原理">
 <meta property="og:url" content="http://yoursite.com/2018/09/29/k8s系列之k8s核心原理/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:description" content="第2章 Kubernetes核心原理1.Kubernetes API Server分析 功能和地位       提供了集群管理的API接口； 成为集群内各个功能模块之间数据交互和通信的中心枢纽； 拥有完备的集群安全机制。   如何访问K8S API K8S API通过K8S apiserver进程提供服务，运行于master节点。该进程有2个端口： 本地端口 该端口用于接收Http请求； 默认值为">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-29T06:29:49.722Z">
+<meta property="og:updated_time" content="2018-09-29T06:46:51.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s系列之k8s核心原理">
-<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta name="twitter:description" content="第2章 Kubernetes核心原理1.Kubernetes API Server分析 功能和地位       提供了集群管理的API接口； 成为集群内各个功能模块之间数据交互和通信的中心枢纽； 拥有完备的集群安全机制。   如何访问K8S API K8S API通过K8S apiserver进程提供服务，运行于master节点。该进程有2个端口： 本地端口 该端口用于接收Http请求； 默认值为">
 
 
 
@@ -327,7 +327,7 @@
                 
               
 
-              <time title="Post created: 2018-09-29 14:22:49 / Updated at: 14:29:49" itemprop="dateCreated datePublished" datetime="2018-09-29T14:22:49+08:00">2018-09-29</time>
+              <time title="Post created: 2018-09-29 14:22:49 / Updated at: 14:46:51" itemprop="dateCreated datePublished" datetime="2018-09-29T14:22:49+08:00">2018-09-29</time>
             
 
             
@@ -365,7 +365,31 @@
       
 
       
-        
+        <h2 id="第2章-Kubernetes核心原理"><a href="#第2章-Kubernetes核心原理" class="headerlink" title="第2章 Kubernetes核心原理"></a>第2章 Kubernetes核心原理</h2><h3 id="1-Kubernetes-API-Server分析"><a href="#1-Kubernetes-API-Server分析" class="headerlink" title="1.Kubernetes API Server分析"></a>1.Kubernetes API Server分析</h3><ol>
+<li>功能和地位    </li>
+</ol>
+<ul>
+<li>提供了集群管理的API接口；</li>
+<li>成为集群内各个功能模块之间数据交互和通信的中心枢纽；</li>
+<li>拥有完备的集群安全机制。</li>
+</ul>
+<ol start="2">
+<li>如何访问K8S API<ol>
+<li>K8S API通过K8S apiserver进程提供服务，运行于master节点。该进程有2个端口：<ol>
+<li>本地端口<ol>
+<li>该端口用于接收Http请求；</li>
+<li>默认值为8080，可以通过修改–insecure-port值来修改默认值。</li>
+<li>默认ip地址是localhost,通过修改–insecure-bing-address的值来修改该IP地址；</li>
+<li>非认证或授权的Http请求通过该端口访问API Server。</li>
+</ol>
+</li>
+<li>安全端口</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
       
     </div>
 
@@ -407,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/Netty系列之netty体系和概念/" rel="prev" title="Netty系列之netty体系和概念">
+                Netty系列之netty体系和概念 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -451,8 +479,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -467,7 +504,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -530,7 +567,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">24</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>
@@ -556,6 +597,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-Kubernetes核心原理"><span class="nav-number">1.</span> <span class="nav-text">第2章 Kubernetes核心原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Kubernetes-API-Server分析"><span class="nav-number">1.1.</span> <span class="nav-text">1.Kubernetes API Server分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

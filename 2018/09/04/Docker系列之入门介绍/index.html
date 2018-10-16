@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="Rocky for Everything">
 <meta property="og:description" content="title: Docker系列之入门介绍date: 2018-09-04 16:09:26tags: Docker 1. 基本概念1. 镜像 2. 容器 3. 仓库  2.Docker镜像1. 操作系统分为内核和用户空间。对于linux而言内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像，就相当于一个root文件系统。 2. 分层存储 3.Docker容器1. 镜像和容">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-06T06:32:40.056Z">
+<meta property="og:updated_time" content="2018-10-08T10:57:13.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rocky for Everything">
 <meta name="twitter:description" content="title: Docker系列之入门介绍date: 2018-09-04 16:09:26tags: Docker 1. 基本概念1. 镜像 2. 容器 3. 仓库  2.Docker镜像1. 操作系统分为内核和用户空间。对于linux而言内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像，就相当于一个root文件系统。 2. 分层存储 3.Docker容器1. 镜像和容">
@@ -343,7 +343,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Updated at: 2018-09-06 14:32:40" itemprop="dateModified" datetime="2018-09-06T14:32:40+08:00">2018-09-06</time>
+                <time title="Updated at: 2018-10-08 18:57:13" itemprop="dateModified" datetime="2018-10-08T18:57:13+08:00">2018-10-08</time>
               
             
           </span>
@@ -387,6 +387,29 @@
 2. 拉取镜像:docker pull [地址] [仓库名]
 3. 启动容器:docker run --it --rm [地址+仓库名]
 4. 列出镜像:docker images
+</code></pre><h2 id="4-镜像"><a href="#4-镜像" class="headerlink" title="4.镜像"></a>4.镜像</h2><pre><code>1. 联合文件系统
+2. 镜像分层结构
+3. 镜像的写时复制
+</code></pre><h2 id="5-镜像的命令"><a href="#5-镜像的命令" class="headerlink" title="5.镜像的命令"></a>5.镜像的命令</h2><pre><code>1. docker pull
+2. docker search
+3. docker images
+4. docker inspect
+5. docker rmi 
+6. docker save 
+7. docker load
+</code></pre><h2 id="6-Docker-Hub简介"><a href="#6-Docker-Hub简介" class="headerlink" title="6.Docker Hub简介"></a>6.Docker Hub简介</h2><pre><code>1. 镜像仓库:docker login -u -p
+2. 搭建仓库
+</code></pre><h2 id="7-管理和使用容器"><a href="#7-管理和使用容器" class="headerlink" title="7.管理和使用容器"></a>7.管理和使用容器</h2><pre><code>1. docker create
+2. docker run 
+3. docker ps
+4. docker daemon
+5. docker start
+6. docker stop
+7. docker pause
+8. docker unpause
+9. docker rm
+10. docker top
+11. docker log
 </code></pre>
       
     </div>
@@ -496,7 +519,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -559,7 +582,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">24</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">Tags</span>
                   
                 </div>
@@ -595,7 +622,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本概念"><span class="nav-number">1.</span> <span class="nav-text">1. 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker镜像"><span class="nav-number">2.</span> <span class="nav-text">2.Docker镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Docker容器"><span class="nav-number">3.</span> <span class="nav-text">3.Docker容器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本概念"><span class="nav-number">1.</span> <span class="nav-text">1. 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker镜像"><span class="nav-number">2.</span> <span class="nav-text">2.Docker镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Docker容器"><span class="nav-number">3.</span> <span class="nav-text">3.Docker容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-镜像"><span class="nav-number">4.</span> <span class="nav-text">4.镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-镜像的命令"><span class="nav-number">5.</span> <span class="nav-text">5.镜像的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Docker-Hub简介"><span class="nav-number">6.</span> <span class="nav-text">6.Docker Hub简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-管理和使用容器"><span class="nav-number">7.</span> <span class="nav-text">7.管理和使用容器</span></a></li></ol></div>
             
 
           </div>
