@@ -1,383 +1,192 @@
 <!DOCTYPE html>
+<html lang="en">
 
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="">
+<!-- Head tag -->
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '6.3.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。   微服务设计读书笔记0. 前言微服务是一种分布式解决方案，推动细粒度服务的使用，这些服务协同工作，并且每个服务都有自己的生命周期。微服务主要围绕业务领域建模，所">
-<meta name="keywords" content="微服务设计读书笔记">
-<meta property="og:type" content="article">
-<meta property="og:title" content="微服务系列之源初">
-<meta property="og:url" content="http://yoursite.com/2018/08/28/微服务系列之源初/index.html">
-<meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。   微服务设计读书笔记0. 前言微服务是一种分布式解决方案，推动细粒度服务的使用，这些服务协同工作，并且每个服务都有自己的生命周期。微服务主要围绕业务领域建模，所">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-27T07:52:48.253Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微服务系列之源初">
-<meta name="twitter:description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。   微服务设计读书笔记0. 前言微服务是一种分布式解决方案，推动细粒度服务的使用，这些服务协同工作，并且每个服务都有自己的生命周期。微服务主要围绕业务领域建模，所">
-
-
-
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2018/08/28/微服务系列之源初/"/>
-
-
-
-<script type="text/javascript" id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>微服务系列之源初 | Rocky for Everything</title>
-  
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
-
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
-
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
-  </style>
-</noscript>
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          微服务系列之源初 - undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/08/28/微服务系列之源初/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="default">
 
-  
-  
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('')
+            /*post*/
+        
+    }
     
-  
+</style>
 
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Rocky for Everything</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-    
-      
-        <p class="site-subtitle">慢慢喜欢你</p>
-      
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-    <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Startseite</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archiv</a>
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/28/微服务系列之源初/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
-      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rocky for Everything">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">微服务系列之源初
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-              
-
-              <time title="Post created: 2018-08-28 11:10:23" itemprop="dateCreated datePublished" datetime="2018-08-28T11:10:23+08:00">2018-08-28</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#微服务设计读书笔记" title="微服务设计读书笔记">微服务设计读书笔记</a>
+                            
+                        </div>
+                        <h1>微服务系列之源初</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Rocky ZhouJin QQ987415811 on
+                            2018-08-28
+                        </span>
+                    </div>
                 
 
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Updated at: 2018-09-27 15:52:48" itemprop="dateModified" datetime="2018-09-27T15:52:48+08:00">2018-09-27</time>
-              
-            
-          </span>
 
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+                </div>
+            </div>
         </div>
-      </header>
-    
+    </div>
+</header>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Rocky for Everything</a>
+        </div>
 
-      
-      
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-      
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
 <p>近期安排主要路线：</p>
 <ul>
 <li>微服务-&gt;service mesh-&gt;dubbo相关源码<br></li>
@@ -529,412 +338,195 @@ Heroku的12Factors原则
 <li>CI能够保证新提交的代码与已有代码进行集成，从而让所有人保持同步。CI服务器会检测到代码已提交并签出，然后花些时间来验证代码是否通过编译以及测试是否通过。</li>
 </ol>
 
-      
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/" data-toggle="tooltip" data-placement="top" title="微服务系列之深入理解SpringCloud与微服务构建">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/28/Sentinel系列之起源/" data-toggle="tooltip" data-placement="top" title="Sentinel系列之起源">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
     </div>
+</article>
 
-    
 
-    
-    
-    
 
-    
 
-    
 
-    
 
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/微服务设计读书笔记/" rel="tag"># 微服务设计读书笔记</a>
-          
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Rocky ZhouJin QQ987415811 2018 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
         </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/08/28/Sentinel系列之起源/" rel="next" title="Sentinel系列之起源">
-                <i class="fa fa-chevron-left"></i> Sentinel系列之起源
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/" rel="prev" title="微服务系列之深入理解SpringCloud与微服务构建">
-                微服务系列之深入理解SpringCloud与微服务构建 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
-  </div>
+</footer>
 
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-      
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Inhaltsverzeichnis
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Übersicht
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
-              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">35</span>
-                    <span class="site-state-item-name">Artikel</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">26</span>
-                    <span class="site-state-item-name">Tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务设计读书笔记"><span class="nav-number"></span> <span class="nav-text">微服务设计读书笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-前言"><span class="nav-number">1.</span> <span class="nav-text">0. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-微服务"><span class="nav-number">2.</span> <span class="nav-text">1.微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-什么是微服务"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 什么是微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-很小专注于做好一件事"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1.1 很小专注于做好一件事</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-自治性"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.1.2 自治性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-主要好处"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 主要好处</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-技术异构性"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1 技术异构性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-弹性"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2 弹性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-扩展"><span class="nav-number">2.2.3.</span> <span class="nav-text">1.2.3 扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-简化部署"><span class="nav-number">2.2.4.</span> <span class="nav-text">1.2.4 简化部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-与组织结构相匹配"><span class="nav-number">2.2.5.</span> <span class="nav-text">1.2.5 与组织结构相匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-可组合性"><span class="nav-number">2.2.6.</span> <span class="nav-text">1.2.6 可组合性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-面向服务架构"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 面向服务架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-演化式架构师"><span class="nav-number">3.</span> <span class="nav-text">2.演化式架构师</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-不确定的比较"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 不确定的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-架构师的演化视角"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 架构师的演化视角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-分区"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-一个原则性的方法"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 一个原则性的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-战略目标"><span class="nav-number">3.4.1.</span> <span class="nav-text">2.4.1 战略目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-原则"><span class="nav-number">3.4.2.</span> <span class="nav-text">2.4.2 原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-实践"><span class="nav-number">3.4.3.</span> <span class="nav-text">2.4.3 实践</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-4-将原则和实践相结合"><span class="nav-number">3.4.4.</span> <span class="nav-text">2.4.4 将原则和实践相结合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-5-真实世界的例子"><span class="nav-number">3.4.5.</span> <span class="nav-text">2.4.5 真实世界的例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-要求的标准"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 要求的标准</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-监控"><span class="nav-number">3.5.1.</span> <span class="nav-text">2.5.1 监控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-接口"><span class="nav-number">3.5.2.</span> <span class="nav-text">2.5.2 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-3-架构安全性"><span class="nav-number">3.5.3.</span> <span class="nav-text">2.5.3 架构安全性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-代码治理"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 代码治理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-范例"><span class="nav-number">3.6.1.</span> <span class="nav-text">2.6.1 范例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-裁剪服务代码模板"><span class="nav-number">3.6.2.</span> <span class="nav-text">2.6.2 裁剪服务代码模板</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-技术债务"><span class="nav-number">3.7.</span> <span class="nav-text">2.7 技术债务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-例外管理"><span class="nav-number">3.8.</span> <span class="nav-text">2.8 例外管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-集中治理和领导"><span class="nav-number">3.9.</span> <span class="nav-text">2.9 集中治理和领导</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-如何建模服务"><span class="nav-number">4.</span> <span class="nav-text">3.如何建模服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-MusicCorp简介"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 MusicCorp简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-什么样的服务是好服务"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 什么样的服务是好服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-松耦合"><span class="nav-number">4.3.</span> <span class="nav-text">3.2.1 松耦合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-高内聚"><span class="nav-number">4.4.</span> <span class="nav-text">3.2.2 高内聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-限界上下文"><span class="nav-number">4.5.</span> <span class="nav-text">3.3 限界上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-共享的隐藏模型"><span class="nav-number">4.5.1.</span> <span class="nav-text">3.3.1 共享的隐藏模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-模块和服务"><span class="nav-number">4.5.2.</span> <span class="nav-text">3.3.2 模块和服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-过早划分"><span class="nav-number">4.5.3.</span> <span class="nav-text">3.3.3 过早划分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-业务功能"><span class="nav-number">4.6.</span> <span class="nav-text">3.4 业务功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-逐步划分上下文"><span class="nav-number">4.7.</span> <span class="nav-text">3.5 逐步划分上下文</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-集成"><span class="nav-number">5.</span> <span class="nav-text">4.集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-集成技术"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 集成技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-为用户创建接口"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 为用户创建接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-共享数据库"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 共享数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-同步和异步"><span class="nav-number">5.4.</span> <span class="nav-text">4.4 同步和异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-编排与协同"><span class="nav-number">5.5.</span> <span class="nav-text">4.5 编排与协同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-远程过程调用"><span class="nav-number">5.6.</span> <span class="nav-text">4.6 远程过程调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-REST"><span class="nav-number">5.7.</span> <span class="nav-text">4.7 REST</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-1-Rest和Http"><span class="nav-number">5.7.1.</span> <span class="nav-text">4.7.1 Rest和Http</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-2-超媒体作为程序状态引擎"><span class="nav-number">5.7.2.</span> <span class="nav-text">4.7.2 超媒体作为程序状态引擎</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-试下基于事件的异步协作方式"><span class="nav-number">5.8.</span> <span class="nav-text">4.8 试下基于事件的异步协作方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-1-技术选择"><span class="nav-number">5.8.1.</span> <span class="nav-text">4.8.1 技术选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-3-异步机构的复杂性"><span class="nav-number">5.8.2.</span> <span class="nav-text">4.8.3 异步机构的复杂性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-9-服务即状态机"><span class="nav-number">5.9.</span> <span class="nav-text">4.9 服务即状态机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-10-响应式扩展"><span class="nav-number">5.10.</span> <span class="nav-text">4.10 响应式扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-分解单块系统"><span class="nav-number">6.</span> <span class="nav-text">5.分解单块系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-关键是接缝"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 关键是接缝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-分解项目"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 分解项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-分解单块系统的原因"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 分解单块系统的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-事务边界"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 事务边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-通过服务调用来获取数据"><span class="nav-number">6.5.</span> <span class="nav-text">5.5 通过服务调用来获取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-数据导出"><span class="nav-number">6.6.</span> <span class="nav-text">5.6 数据导出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-部署"><span class="nav-number">7.</span> <span class="nav-text">6.部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-持续集成"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 持续集成</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
 
 
-        
-      </div>
-    </main>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
 
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
 
-  
-
-  
-</div>
-
-
-
-
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
-
-
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
 
 
-        
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
 
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-	
-    
-
-    
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
 </script>
 
 
+<!-- Google Analytics -->
 
 
 
 
+<!-- Baidu Tongji -->
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
+
 </html>
