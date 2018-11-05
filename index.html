@@ -82,6 +82,55 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/05/大讲座笔记系列之springcloudnacos讲座/" title="大讲座笔记系列之springcloudnacos讲座" itemprop="url">大讲座笔记系列之springcloudnacos讲座</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-05T13:28:38.000Z" itemprop="datePublished"> Published 2018-11-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/10/11/Netty系列之Netty实战读书笔记/" title="Netty系列之Netty实战读书笔记" itemprop="url">Netty系列之Netty实战读书笔记</a>
   </h1>
   <p class="article-author">By
@@ -1534,93 +1583,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/09/03/Dubbo系列之Dubbo可扩展性SPI/" title="Dubbo系列之Dubbo可扩展性SPI" itemprop="url">Dubbo系列之Dubbo可扩展性SPI</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
-		
-  <p class="article-time">
-    <time datetime="2018-09-03T02:07:36.000Z" itemprop="datePublished"> Published 2018-09-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="1-Dubbo扩展机制"><a href="#1-Dubbo扩展机制" class="headerlink" title="1. Dubbo扩展机制"></a>1. Dubbo扩展机制</h2><ul>
-<li>任何系统都是从小系统不断完善的，应当关注当下的需求，然后不断对系统进行迭代。</li>
-<li>代码层面，需要适当的对关注点进行抽象和隔离，在不断添加和特性时，仍然能保持良好的结构和可维护性，同时允许第三方开发者对其功能及进程扩展。</li>
-<li>对扩展性的追求甚至超过了性能。</li>
-<li>良好的扩展性<ul>
-<li>作为框架的维护这，在添加新功能的时候，只需要添加一些新的代码，而不用大量修改现有代码，符合开闭原则</li>
-<li>作为框架的使用者，在添加一个新功能时，不需要去修改框架源码，在自己工程中添加代码即可。<h2 id="2-可扩展的集中解决方案"><a href="#2-可扩展的集中解决方案" class="headerlink" title="2. 可扩展的集中解决方案"></a>2. 可扩展的集中解决方案</h2></li>
-</ul>
-</li>
-<li>通常有：<ul>
-<li>Factory模式</li>
-<li>IoC容器</li>
-<li>OSGI容器</li>
-</ul>
-</li>
-<li>Dubbo参考了Java原生的SPI机制，并进行一定扩展，以满足Dubbo需求。<h2 id="3-Java-SPI机制"><a href="#3-Java-SPI机制" class="headerlink" title="3. Java SPI机制"></a>3. Java SPI机制</h2></li>
-</ul>
-<ol>
-<li>Java SPI(Service Provider Interface)是JDK一种动态加载扩展点的实现。</li>
-<li>在ClassPath的META-INF/services目录下放置一个接口同名的文本文件，内容为接口的实现类，多个实现类用换行符分割。</li>
-<li>缺点：<ul>
-<li>需要遍历所有的实现，并实例化，然后才能在循环中找到我们需要的实现。</li>
-<li>配置文件中只是需要简单的列出所有扩展实现，没有命名，很难定位。</li>
-<li>扩展如果依赖其他扩展就做不到自动注入和装配。</li>
-<li>不提供类似于Spring IOC和AOP功能。</li>
-<li>很难和其他框架集成。<h2 id="4-Dubbo扩展点机制"><a href="#4-Dubbo扩展点机制" class="headerlink" title="4. Dubbo扩展点机制"></a>4. Dubbo扩展点机制</h2></li>
-</ul>
-</li>
-<li>扩展点—Java接口</li>
-<li>扩展—扩展点的实现类</li>
-<li>扩展实例—扩展点实现类的实例</li>
-<li>扩展自适应实例—扩展代理类</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Dubbo-SPI/">Dubbo SPI</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1644,11 +1606,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
 			
 		
 			
@@ -1656,23 +1622,7 @@
 			
 		
 			
-				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Sentinel系列/" title="Sentinel系列">Sentinel系列<sup>1</sup></a></li>
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
 			
 		
 			
@@ -1680,7 +1630,7 @@
 			
 		
 			
-				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
 			
 		
 			
@@ -1688,7 +1638,11 @@
 			
 		
 			
-				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
 			
 		
 			
@@ -1696,11 +1650,15 @@
 			
 		
 			
-				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
 			
 		
 			
@@ -1708,11 +1666,11 @@
 			
 		
 			
-				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
 			
 		
 			
@@ -1720,7 +1678,11 @@
 			
 		
 			
-				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
 			
 		
 		</ul>

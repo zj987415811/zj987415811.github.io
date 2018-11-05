@@ -82,6 +82,135 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/08/13/SpringBoot实战笔记/" title="SpringBoot实战笔记" itemprop="url">SpringBoot实战笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-13T06:12:24.000Z" itemprop="datePublished"> Published 2018-08-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/10/Druid源码解析之初步认识/" title="Druid源码解析之初步认识" itemprop="url">Druid源码解析之初步认识</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-10T14:38:12.000Z" itemprop="datePublished"> Published 2018-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>##Druid源码解析##</p>
+<ul>
+<li>Druid是什么<ul>
+<li>数据库连接池，提供强大的监控与扩展功能，包含ProxyDriver,一系列内置的JDBC组件库，一个SQL Parser;</li>
+<li>监控组件，监控应用程序的运行情况，包括Web URI,Spring,JDBC等。为了监控执行SQL执行情况，做了一个Filter-Chain模式的ProxyDriver,缺省提供给StatFilter。还做了一个SQL Parser，将数据库连接池，SQL Parser,ProxyDriver合起来做了一个项目，名为Druid.</li>
+<li>亚秒级查</li>
+<li>支持JDBC兼容的数据库，包括Oracle,MySQL,DB。。。等等</li>
+<li>提供快速的聚合能力以及亚秒级的OLAP查询能力，多租户的设计，面向用户分析应用的理想方案</li>
+<li>阿里巴巴线上验证</li>
+<li>强大的监控特性，通过Druid提供的监控功能，可以清楚知道连接池和SQL工作情况,监控SQL执行时间，ResultSet持有时间，返回行数，更新行数，错误次数，错误堆栈信息。<ul>
+<li>SQL执行的耗时区间分布。</li>
+<li>监控连接池的物理连接创建和销毁次数，逻辑连接的申请和关闭次数，非空等待次数,PSCache命中率等。</li>
+<li>为了方便扩展，提供了Filter-Chain模式的扩展API,可以自己编写Filter拦截JDBC中的任何方法，如性能监控，SQL审计，用户名密码加密，日志等待。</li>
+<li>内置StatFilter,日志输出的Log系列Filter,防御SQL注入攻击的WallFilter。</li>
+<li>ExceptionSorter,当一个连接产生不可恢复的异常时，必须立即从连接池中逐出，否则会产生大量错误。</li>
+<li>PSCache内存优化对于支持游标的数据库,大幅度提升SQL执行性能。一个PreparedStatement对应服务器一个游标，可以缓存起来重复执行。</li>
+<li>LRU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Druid如何扩展JDBC？<ul>
+<li>Druid在DruidDataSource和ProxyDriver上提供了Filter-Chain模式的扩展API,类似Servlet的Filter;</li>
+</ul>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Druid/">Druid</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/10/Sofa学习之SofaRPC/" title="Sofa学习之SofaRPC" itemprop="url">Sofa学习之SofaRPC</a>
   </h1>
   <p class="article-author">By
@@ -915,155 +1044,6 @@ soa服务器层优化
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/09/Zookeeper系列之分布式事务总结/" title="Zookeeper系列之分布式事务总结" itemprop="url">Zookeeper系列之分布式事务总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-09T03:44:54.000Z" itemprop="datePublished"> Published 2018-08-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>##1.分布式事务解决方案##</p>
-<ul>
-<li><p>基于XA协议的两阶段提交方案</p>
-<ul>
-<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
-<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
-<li>本地资源管理器 事务协调器</li>
-<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
-</ul>
-</li>
-<li><p>TCC方案</p>
-<ul>
-<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
-<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
-<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
-<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
-<li>缺点：<ul>
-<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
-<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>基于消息的最终一致性方案<ul>
-<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
-<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
-<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
-</ul>
-</li>
-<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
-<li>蚂蚁金服的分布式事务解决方案DTX<ul>
-<li>整体架构：<ul>
-<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
-<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
-<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
-<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
-</ul>
-</li>
-<li>DTX执行<ul>
-<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
-<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Zookeeper/">Zookeeper</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" title="缓存系列之数据库缓存一致性问题" itemprop="url">缓存系列之数据库缓存一致性问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-09T03:40:48.000Z" itemprop="datePublished"> Published 2018-08-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1087,11 +1067,15 @@ soa服务器层优化
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
 			
 		
 			
@@ -1099,23 +1083,7 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Sentinel系列/" title="Sentinel系列">Sentinel系列<sup>1</sup></a></li>
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
 			
 		
 			
@@ -1123,7 +1091,7 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
 			
 		
 			
@@ -1131,7 +1099,11 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
 			
 		
 			
@@ -1139,11 +1111,15 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
 			
 		
 			
@@ -1151,11 +1127,11 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
 			
 		
 			
@@ -1163,7 +1139,11 @@ soa服务器层优化
 			
 		
 			
-				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
 			
 		
 		</ul>
