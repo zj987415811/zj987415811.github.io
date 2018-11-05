@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="1. docker背后的内核知识 docker容器本质上是宿主机上的进程。 通过namespaces实现了资源隔离。 通过cgroups实现了资源限制。 通过写时复制实现高效文件操作。   通过namespace资源隔离 chroot—文件系统被隔离 在分布式环境下进行通信和定位，容器使用独立的IP，端口，路由等。—网络的隔离 容器需要一个独立的主机名，以便在网络中识别自己。—进程间通信也需要隔离">
+    <meta name="description" content="docker核心原理">
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker系列之doker核心原理解读">
 <meta property="og:url" content="http://yoursite.com/2018/10/10/docker系列之doker核心原理解读/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="1. docker背后的内核知识 docker容器本质上是宿主机上的进程。 通过namespaces实现了资源隔离。 通过cgroups实现了资源限制。 通过写时复制实现高效文件操作。   通过namespace资源隔离 chroot—文件系统被隔离 在分布式环境下进行通信和定位，容器使用独立的IP，端口，路由等。—网络的隔离 容器需要一个独立的主机名，以便在网络中识别自己。—进程间通信也需要隔离">
+<meta property="og:description" content="docker核心原理">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-15T07:46:56.159Z">
+<meta property="og:updated_time" content="2018-11-05T14:04:29.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker系列之doker核心原理解读">
-<meta name="twitter:description" content="1. docker背后的内核知识 docker容器本质上是宿主机上的进程。 通过namespaces实现了资源隔离。 通过cgroups实现了资源限制。 通过写时复制实现高效文件操作。   通过namespace资源隔离 chroot—文件系统被隔离 在分布式环境下进行通信和定位，容器使用独立的IP，端口，路由等。—网络的隔离 容器需要一个独立的主机名，以便在网络中识别自己。—进程间通信也需要隔离">
+<meta name="twitter:description" content="docker核心原理">
 
     
     <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
@@ -102,7 +102,9 @@
 		
 		</div>
 		
-		<h2 id="1-docker背后的内核知识"><a href="#1-docker背后的内核知识" class="headerlink" title="1. docker背后的内核知识"></a>1. docker背后的内核知识</h2><ol>
+		<p>docker核心原理</p>
+<a id="more"></a>
+<h2 id="1-docker背后的内核知识"><a href="#1-docker背后的内核知识" class="headerlink" title="1. docker背后的内核知识"></a>1. docker背后的内核知识</h2><ol>
 <li>docker容器本质上是宿主机上的<strong>进程</strong>。<ol>
 <li>通过namespaces实现了资源隔离。</li>
 <li>通过cgroups实现了资源限制。</li>
@@ -409,7 +411,7 @@
 			
 		
 			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
@@ -437,7 +439,7 @@
 			
 		
 			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
 			
 		
 			
@@ -445,11 +447,11 @@
 			
 		
 			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
 			
 		
 			
@@ -465,7 +467,7 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -516,13 +518,13 @@
 	
 	
 	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br/>
+			This is my weixin,believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
 		
-		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
 		
 		
 		

@@ -95,22 +95,12 @@
 </header>
     <div class="article-content">
         
-        <a id="more"></a>
-<ol>
-<li>云计算 云原生</li>
-<li>Open Source</li>
-<li>LAMP-&gt;Java WEB -&gt;Java WEB -&gt;应用拆分，分布式服务</li>
-<li>源代码冲突，项目团队协同</li>
-<li>服务注册与管理，配置的注册与管理，服务元数据的管理</li>
-<li>支持生态springcloud cloudnative dubbo 公有云</li>
-<li>注册中心：zk 缺点:特性，service管理缺失，本质不是做服务发现的产品</li>
-<li>基于DNS的服务发现</li>
-<li>服务发现与服务管理（在微服务角度如何管理），配置中心（）</li>
-</ol>
-
+        <p>nacos的讲座</p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/05/大讲座笔记系列之springcloudnacos讲座/#more">Read More</a>
           
        </p>
     </div>
@@ -217,219 +207,12 @@
 </header>
     <div class="article-content">
         
-        <h2 id="1-docker背后的内核知识"><a href="#1-docker背后的内核知识" class="headerlink" title="1. docker背后的内核知识"></a>1. docker背后的内核知识</h2><ol>
-<li>docker容器本质上是宿主机上的<strong>进程</strong>。<ol>
-<li>通过namespaces实现了资源隔离。</li>
-<li>通过cgroups实现了资源限制。</li>
-<li>通过写时复制实现高效文件操作。</li>
-</ol>
-</li>
-<li>通过namespace资源隔离<ol>
-<li>chroot—文件系统被隔离</li>
-<li>在分布式环境下进行通信和定位，容器使用独立的IP，端口，路由等。—网络的隔离</li>
-<li>容器需要一个独立的主机名，以便在网络中识别自己。—进程间通信也需要隔离—开发者权限—用户权限</li>
-<li>容器中的应用需要有进程号，需要与宿主机的PID进行隔离。</li>
-<li>6项隔离：<ul>
-<li>主机名与域名</li>
-<li>信号量，消息队列，内存共享</li>
-<li>进程编号</li>
-<li>网络设备，网络栈，端口</li>
-<li>挂载点</li>
-<li>用户用户组</li>
-</ul>
-</li>
-<li>同一个namespace下的进程可以相互感知彼此的变化</li>
-</ol>
-</li>
-<li><p>namespaceAPI的4种方式</p>
-<ol>
-<li>通过clone()在创建新进程的同时创建namespace，是Linux系统调用fork()的一种实现方式，通过flags来控制。</li>
-<li>查看/proc/[pid]/ns文件：如果两个进程指向的namespace编号相同，就说明他们在同一个namespace下，/proc/[pid]/ns里面设置这些link，一旦link文件被打开，只要打开文件描述符存在，那么/uts。</li>
-<li>setnx()加入一个已经存在的namespace</li>
-<li>通过unshare()在原先进程上进行namespace隔离</li>
-<li>fork()系统调用<ul>
-<li>程序调用fork()函数时，系统会创建新的进程，为其分配资源，将原来进程的所有值都复制到新进程种，只有少数数值与原来进程值不同，相当于复制了本身。<br>4.6种namespace</li>
-</ul>
-</li>
-<li>UTS namespace 主机名和域名隔离</li>
-<li>IPC namespace 进程间通信:信号量，消息队列，共享内存。申请IPC资源申请一个全局唯一的32位ID,包含了系统IPC标识符以及实现POSIX消息队列的文件系。同一个IPC namespace下进程彼此可见，不同IPC namespace下进程相互不可见。</li>
-<li>PID namespace PID重新编号<ol>
-<li>PID namespace种的init进程</li>
-<li>信号与init进程</li>
-<li>挂载proc文件系统</li>
-<li>unshare()和setns()</li>
-</ol>
-</li>
-<li>mount namespace 通过隔离文件系统挂载点对隔离文件系统提供支持。共享挂载</li>
-<li>network namespace <ol>
-<li>网络设备</li>
-<li>IPv4</li>
-<li>IPv6</li>
-<li>IP路由器</li>
-<li>防火墙</li>
-<li>/proc/net目录</li>
-<li>/sys/class/net目录</li>
-<li>套接字</li>
-</ol>
-</li>
-<li>user namespace:隔离了安全相关的标识符和属性，包括用户ID,用户组ID,root目录,key以及特殊权限。<ol>
-<li>一个物理的网络设备最多存在于一个network namespace中，可以通过创建veth pair(虚拟网络设备对：有两端，类似于管道，如果数据从一段传入另一端也能接收到，反之亦然) </li>
-<li>在不同的network namespace间创建通道</li>
-<li>一般情况下，物理网络设备都分配在最初的root namespace中。如果有多块物理网卡，可以把其中一块或者多块分配给新创建network namespace。</li>
-<li>当新创建的network namespace被释放时，就会返回root namespace。而把网络独立出来，给外部用户一种透明的感觉，彷佛在与一个独立网络实体进行通信。</li>
-<li>为了达到该目的，容器的经典的做法就是创建一个veth pair,一端放置在新的namespace中，命名位eth0,一端放在原先的namespace中连接物理网络设备，再通过把多个设备接入网桥或者进行路由转发，来实现通信的目的。</li>
-<li>在建立起veth pair之前，通过管道与新旧namespace进行通信。在docker deamon启动容器的，假设容器初始化的进程称为init。Docker deamon在主机上负责创建这个veth pair,把一端绑定到docker0网桥上，另一端接入新建的network space进程中。这个过程执行期间，Docker deamon和init就通过pipe进行通信。具体来说，Docker deamon完成veth pair的创建之前，init的管道的另一端循环等待，直到管道另一端传来docker deamon关于veth设备的信息，并关闭管道。init才结束等待的过程，并把它eth0启动起来。</li>
-</ol>
-</li>
-<li>user namespaces</li>
-</ol>
-</li>
-<li><p>cgroup资源限制</p>
-<ol>
-<li>限制资源，为资源设置权重，计算使用量，操控任务启停。</li>
-<li>cgroups是linux内核提供的一种机制，这种机制可以根据需求把一些列系统任务以及子任务整合到按资源划分等级的不同组内，从而为系统资源管理提供一个统一框架。</li>
-<li>cgroups可以限制，记录任务组所使用的物理资源（CPU,memory,IO），为容器实现虚拟化提供了基本保证，是构建Docker等一些列虚拟化管理工具的基石。</li>
-<li>cgroups的4个特点：<ol>
-<li>cgroups的API以一个伪文件系统的方式实现，用户态的程序可以通过文件操作实现cgroups的组织管理；</li>
-<li>cgroups的组织管理操作单元可以细粒度到线程级别，另外用户可以创建和销毁cgroups，从而实现资源再分配和管理；</li>
-<li>所有资源管理的功能都以子系统的方式实现，接口统一；</li>
-<li>子任务创建之初与父任务处于同一个cgroups的控制组。</li>
-</ol>
-</li>
-<li>本质上来说，cgroups是内核附加在程序上的一系列钩子，通过程序运行时对资源的调度触发相应的钩子以达到资源追踪和限制的目的。</li>
-<li>cgroups的作用<ol>
-<li>目的是：为不同用户层面的资源管理，提供一个统一化接口。从单个任务的资源控制到操作系统层面的虚拟化，cgroups提供四大功能：</li>
-<li>资源限制：对任务使用的资源总额进行限制，设定应用运行时使用内存上限，超过额度就发出OOM；</li>
-<li>优先级分配：通过分配CPU时间片数量及磁盘IO带宽大小，实际是控制任务的优先级；</li>
-<li>资源统计：统计系统的资源使用量，如CPU使用时长，内存用量等；</li>
-<li>任务控制：对任务执行挂起，恢复等操作。</li>
-</ol>
-</li>
-<li>cgroups术语表<ol>
-<li>task</li>
-<li>cgroup</li>
-<li>subsystem</li>
-<li>hierarchy</li>
-</ol>
-</li>
-<li>组织结构与基本规则<ol>
-<li>传统任务管理，实际上是先启动init任务作为根节点，再由init节点创建子任务作为子节点，而子节点又可以创建新的子节点。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>docker架构概览<ol>
-<li>使用传统的client-server架构模式，用户通过docker client与docker daemon建立通信，并将请求发送给后者。</li>
-<li>APIServer用于接收来自docker client的请求后，根据不同的请求分发给docker daemon的不同模块执行相应的工作。</li>
-<li>docker通过driver模块来实现对docker容器执行环境的定制。</li>
-<li>当需要创建docker容器，可以从docker registry中下载镜像，并通过镜像管理graphdriver将下载的镜像以graph形式存储在本地；</li>
-<li>当需要为Docker容器创建网络环境时，则通过网络管理驱动networkdriver创建并配置execdriver来完成。</li>
-<li>libcontainer是一个独立的容器管理包，networkdriver和execdriver都通过libcontainer来实现对容器的具体操作，利用uts,ipc,pid,network,mount,user等namespace实现容器之间的资源隔离和利用cgroup实现对容器的资源限制。</li>
-<li>当运行容器的命令执行完毕后，该容器就具有独立的文件系统，安全且相互隔离的运行环境。</li>
-</ol>
-</li>
-<li>模块介绍<ol>
-<li>docker daemon <ol>
-<li>响应来自docker client的请求，然后将这些请求翻译成系统调用完成容器管理操作；</li>
-<li>该进程会在后台启动一个API server,负责接收Docker client发送的请求；</li>
-<li>接收到的请求将通过docker daemon内部的一个路由分发调度，再由具体的函数来执行请求。</li>
-</ol>
-</li>
-<li>docker client <ol>
-<li>用来向指定的docker daemon发起请求，执行相应的容器管理操作。</li>
-<li>可以是docker命令行工具，也可以是任何遵循docker api的客户端。</li>
-<li>graph组件负责维护已下载的镜像信息以及他们之间的关系，大部分docker相关的操作会有graph组件来完成。</li>
-<li>graph通过镜像层和每层的元数据来记录这些镜像的信息，用户发起的镜像管理操作最终都转换成了graph对这些层和元数据的操作。</li>
-</ol>
-</li>
-<li>graphdb<ol>
-<li>通过graphdb记录它所维护的所有容器节点以及他们之间的link关系，用一个图结构来及逆行保存。</li>
-<li>Graph是一个基于SQLite的最简单版本的图形数据库，能够为调用者提供节点增删遍历连接所有父子节点的查询；</li>
-<li>这些节点对应的就是一个容器，而节点间的边就是docker link关系。</li>
-<li>每创建一个容器，就会再graphdb里添加一个几点，而当我们为某个容器设置了link操作后，就会创建一个父子关系，即一条边。</li>
-</ol>
-</li>
-<li>driver<ol>
-<li>docker daemon负责将用户请求转化成系统调用，进而创建和管理容器的核心进程。为了将这些系统调用抽象成统一的操作接口方便调用者使用，docker把这些操作分类成容器管理驱动，网络管理驱动，文件存储驱动3种。分别对应execdriver,networkdriver和graphdriver。</li>
-<li>execdriver是对Linux操作系统的namespace,cgroups,apparmor,SELinux等容器运行所需的系统操作进行一层二次封装，其本质作用类似于LXC,功能更全面。</li>
-<li>networkDriver是对容器网络环境进行封装，对于容器来说，网络设备比较独立，并且允许用户进行更多配置。分配通信所需的ip,服务访问的端口和容器与宿主机之间的端口映射，设置hosts,resolv.conf,iptables等。</li>
-<li>graphdriver是所有与容器镜像相关操作的最终执行者。graphdriver会在docker工作目录下维护一组与镜像层对应的目录，并记下容器和镜像之间关系等元数据。用户对镜像的操作最终会被映射成这些目录文件以及元数据的增删查改，从而屏蔽掉不同文件存储实现对于上层调用者的影响。 </li>
-</ol>
-</li>
-<li>client和daemon</li>
-<li>libcontainer</li>
-</ol>
-</li>
-<li>docker镜像管理<ol>
-<li>bootfs:底层引导文件系统，包括bootloader和操作系统内核，类似于linux引导文件系统。</li>
-<li>rootfs:包含了一个操作系统运行所需的文件系统，如目录系统，配置，工具。<ol>
-<li>传统的Linux操作系统内核启动时，首先时挂载一个只读的rootfs,当系统检测其完整性之后，再将其切换为读写模式。</li>
-<li>在docker daemon为docker容器挂载rootfs时，将其设为只读模式。</li>
-<li>在挂载完毕后，利用联合挂载技术在已有只读rootfs上再挂载一个读写层。</li>
-<li>可读写层处于docker容器文件系统的最顶层，其下可能联合挂载多个只读层，只有docker容器运行过程中文件系统发生变化时，才会把变化的文件内容写到可读写层，并隐藏只读层种的老版本文件，这技术称为写时复制。</li>
-<li>联合挂载技术:在一个挂载点同时挂载多个文件系统，将挂载点的原目录与被挂载内容进行整合，使得最终可见的文件系统将会包含整合之后的各层文件和目录。</li>
-<li>实现这种联合挂载技术的文件系统同城称为联合文件系统（UNFS）;</li>
-<li>当需要修改镜像内的某个文件时，只对处于文件上方的读写层进行变动，不覆盖下层已有文件系统的内容，已有文件在只读层中的原始版本依然存在，但会被读写层中的新版本文件所隐藏，当docker commit这个修改过的容器文件系统为一个新的镜像时，保存内容仅为最上层读写文件系统中被更新过的文件。</li>
-</ol>
-</li>
-<li>docker镜像相关的概念<ol>
-<li>registry</li>
-<li>repository</li>
-<li>index</li>
-<li>graph</li>
-<li>dockerfile            </li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Docker存储驱动<ol>
-<li>存储驱动根据操作系统底层的支持提供了针对某种文件系统的初始化操作以及对镜像层的增删改查和差异比较等操作。</li>
-<li>映射设备，映射表和目标设备。</li>
-</ol>
-</li>
-<li>docker数据卷<ol>
-<li>读时复制的缺点    <ol>
-<li>容器中的文件在宿主机上存在形式复杂，不能在宿主机上很方便地对容器中的文件进行访问。</li>
-<li>多个容器之间数据无法共享。</li>
-<li>当删除容器时，容器产生的数据将丢失。</li>
-</ol>
-</li>
-<li>引入数据卷机制。<ol>
-<li>存在于一个或多个容器中的特定文件或文件夹，这个目录能够独立于联合文件系统的形式在宿主机中存在，并为数据的共享与持久化提供便利。</li>
-<li>volume在创建时就会初始化，在容器运行时可以使用其中的文件。</li>
-<li>在不同的容器之间共享和重用。</li>
-<li>数据的操作不会影镜像本身。</li>
-<li>生存周期独立于容器生存周期，即使删除容器，v仍会存在。  </li>
-</ol>
-</li>
-<li>数据卷原理<ol>
-<li>本质是容器中的一个特殊目录。在容器的创建过程中，这个挂载点会被挂载到一个宿主机上的指定目录，这个挂载彷佛是绑定挂载。 </li>
-<li>创建volume:不论用户使用何种方式创建或运行一个待volume的容器，volume的来源只有3种，从容器挂载，从宿主机挂载和从其他容器共享。docker daemon首先需要根据用户指定的volume类型，判断并新建出对应的mount对象。daemon针对mount对象执行如下操作：<ol>
-<li>解析参数并生存Mount列表，每一个Mount描述一个volume和容器的对应关系或是一个容器与其它容器共享volume的情况。</li>
-<li>初始化所有的Mount,这一过程在创建容器时执行，即在宿主机和容器文件目录下创建上述Mount对象种所需的路径。</li>
-<li>将Mount对象传递给libcontainer，按照Mount对象中指定的路由，mount参数，读写标志执行所有的mount操作，完成从宿主机到容器内挂载点的映射</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>docker网络管理<ol>
-<li>服务虚拟化，存储虚拟化，网络虚拟化</li>
-<li>docker网络基础<ol>
-<li>docker0网桥<ol>
-<li>这台多的网卡会在内核路由表上添加一条达到相应网络的静态路由。eth0是容器与外界通信的网卡。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
+        <p>docker核心原理</p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/10/10/docker系列之doker核心原理解读/#more">Read More</a>
           
        </p>
     </div>
@@ -480,75 +263,12 @@
 </header>
     <div class="article-content">
         
-        <h2 id="1-数据卷"><a href="#1-数据卷" class="headerlink" title="1. 数据卷"></a>1. 数据卷</h2><ol>
-<li>网络通信和文件读写</li>
-<li>数据卷用于存储文件数据的特殊模块</li>
-<li>数据卷：一个挂载在容器内文件系统中的文件或目录。</li>
-<li>使用docker create或者docker run创建容器时，可以通过-v参数向容器中挂载一个数据卷。</li>
-<li>使用docker rm -v /path删除数据卷<h2 id="2-网络"><a href="#2-网络" class="headerlink" title="2. 网络"></a>2. 网络</h2><h2 id="3-制作镜像"><a href="#3-制作镜像" class="headerlink" title="3. 制作镜像"></a>3. 制作镜像</h2><h2 id="4-网络进阶"><a href="#4-网络进阶" class="headerlink" title="4. 网络进阶"></a>4. 网络进阶</h2></li>
-<li>Network Namespaces<ol>
-<li>docker的容器技术是基于Linux Kernel提供的Linux Container。在Linux Container中，包含了能够隔离程序进程的Namespaces，在Namespaces技术里，存在一个用于隔离程序对网络信息调用的子模块—Network Namespaces。</li>
-<li>每个被NetWork Namespaces隔离的空间都拥有自己的网络设备，ip地址，录用表，防火墙，端口表等。     </li>
-</ol>
-</li>
-<li>Veth Pair<ol>
-<li>一个虚拟的网络通道，将通道一段的数据传输到另外一段。实现了容器所隔离的网络环境与容器外部的网络通信。</li>
-<li>Veth Pair提供两个端点，只能连接某两个网络终端。</li>
-</ol>
-</li>
-<li>Linux Bridge把Veth Pair的一端都连接到宿主机中某个网桥所构成的交换机中，把容器连接不同的外部网络的任务由Veth Pair转移到网桥上。</li>
-<li>Iptables<ol>
-<li>用于管理网络过滤的程序，能够根据指定的规则，对位于Linux内核中的netfilter进行操作，实现对网络信息包的过滤功能。</li>
-<li>利用Iptables可以实现端口的映射，让宿主机外部访问到容器的端口是通过端口映射来实现。<br>5.Docker网络主要由Network Namespaces,Veth Pair,Linux Bridge,Iptables等技术实现。</li>
-<li>Network Namespaces:实现了网络资源隔离，对隔离环境提供了网络设备，协议栈，路由表，防火墙，/proc/net目录，/sys/class/net目录，端口表等网络配置。</li>
-<li>Veth Pair:实现了打穿隔离环境的网络传输数据通道。在Docker中，它的一段连接到容器的虚拟网卡上，另一端连接到宿主机专用的网桥上，通过这种方式实现了Docker容器与外部网络的互通。</li>
-<li>linux bridge:在置在宿主机中的网桥，起到网络交换机的作用。容器网络通过Veth Pair连接到网桥，能够在容器间转发网络数据。</li>
-<li>Iptables:  用于提供网络数据透传，NAT功能，实现docker网络防火墙等网络安全防护的需求。<br>6.网络模型</li>
-<li>CNM Container Network Model<ol>
-<li>Sandbox 网络沙盒 </li>
-<li>Endpoint 端点</li>
-<li>NetWork 网络</li>
-</ol>
-</li>
-<li>docker中的网络<ol>
-<li>默认网络   </li>
-<li>自定义网络</li>
-<li>容器与外部通信</li>
-</ol>
-</li>
-<li>网络实践<ol>
-<li>管理容器网络</li>
-<li>容器连接网络</li>
-<li>配置docker0网桥</li>
-<li>自定义网桥</li>
-<li>配置DNS</li>
-<li>使用IPV6<h2 id="5-安全"><a href="#5-安全" class="headerlink" title="5.安全"></a>5.安全</h2></li>
-</ol>
-</li>
-</ol>
-</li>
-<li>命名空间隔离<ol>
-<li>仅仅让不同的命名空间独立享有进程信息，网络信息等。</li>
-</ol>
-</li>
-<li>资源控制组    <ol>
-<li>主要功能是CPU,内存,硬盘IO等程序访问的计算机资源进行控制。</li>
-<li>docker中，每个容器都拥有一个独立的控制组策略集，用来控制容器中每个程序对计算机资源的访问和调用。</li>
-<li>通过控制组:<ol>
-<li>资源限制</li>
-<li>优先化</li>
-<li>用量报告</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>内核能力机制     </li>
-<li>资源使用限制                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </li>
-</ol>
-
+        <p>docker deep learning</p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/10/08/docker系列深入篇/#more">Read More</a>
           
        </p>
     </div>
@@ -1322,7 +1042,7 @@
 			
 		
 			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
@@ -1350,7 +1070,7 @@
 			
 		
 			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
 			
 		
 			
@@ -1358,11 +1078,11 @@
 			
 		
 			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
 			
 		
 			
@@ -1378,7 +1098,7 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1429,13 +1149,13 @@
 	
 	
 	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br/>
+			This is my weixin,believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
 		
-		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
 		
 		
 		

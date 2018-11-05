@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+    <meta name="description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler">
 <meta name="keywords" content="SpringCloud 微服务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务系列之深入理解SpringCloud与微服务构建">
 <meta property="og:url" content="http://yoursite.com/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+<meta property="og:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-31T10:51:17.453Z">
+<meta property="og:updated_time" content="2018-11-05T14:04:02.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务系列之深入理解SpringCloud与微服务构建">
-<meta name="twitter:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler第2章 SpringCloud简介2.1 微服务应该具备的功能 服务:">
+<meta name="twitter:description" content="序 系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。 微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。 微服务提出者Martin Fowler">
 
     
     <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
@@ -105,7 +105,10 @@
 		<h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><ol>
 <li>系统的架构决定了系统能否满足业务，技术，组织，灵活，可扩展性等多种要求，同时肩负起了解放程序员生产力的作用。</li>
 <li>微服务框架:服务注册和发现===Eureka组件，负载均衡Ribbon组件，熔断器Hystrix组件，路由网关Zuul组件，SpringCloud配置中心，服务链路追踪等内容。</li>
-<li>微服务提出者Martin Fowler<h2 id="第2章-SpringCloud简介"><a href="#第2章-SpringCloud简介" class="headerlink" title="第2章 SpringCloud简介"></a>第2章 SpringCloud简介</h2><h3 id="2-1-微服务应该具备的功能"><a href="#2-1-微服务应该具备的功能" class="headerlink" title="2.1 微服务应该具备的功能"></a>2.1 微服务应该具备的功能</h3></li>
+<li>微服务提出者Martin Fowler</li>
+</ol>
+<a id="more"></a>
+<h2 id="第2章-SpringCloud简介"><a href="#第2章-SpringCloud简介" class="headerlink" title="第2章 SpringCloud简介"></a>第2章 SpringCloud简介</h2><h3 id="2-1-微服务应该具备的功能"><a href="#2-1-微服务应该具备的功能" class="headerlink" title="2.1 微服务应该具备的功能"></a>2.1 微服务应该具备的功能</h3><ol>
 <li>服务:一个独立运行的单元组件，每个单元组件运行在独立的进程中，组件与组件之间通常使用HTTP的通信机制进行通信。</li>
 <li>微服务的特点:<ol>
 <li>按照业务来划分服务，单个服务代码量小，业务单一，易于维护；</li>
@@ -360,7 +363,7 @@
 			
 		
 			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 			
 		
 			
@@ -388,7 +391,7 @@
 			
 		
 			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
 			
 		
 			
@@ -396,11 +399,11 @@
 			
 		
 			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
 			
 		
 			
@@ -416,7 +419,7 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -467,13 +470,13 @@
 	
 	
 	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br/>
+			This is my weixin,believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
 		
-		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
 		
 		
 		
