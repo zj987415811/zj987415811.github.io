@@ -82,7 +82,56 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/05/大讲座笔记系列之springcloudnacos讲座/" title="大讲座笔记系列之springcloudnacos讲座" itemprop="url">大讲座笔记系列之springcloudnacos讲座</a>
+      <a href="/2018/11/20/大复习之深度解析RPC与Restful/" title="大复习之深度解析RPC与Restful" itemprop="url">大复习之深度解析RPC与Restful</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-20T11:20:00.000Z" itemprop="datePublished"> Published 2018-11-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/05/大讲座讲座笔记/" title="大讲座笔记系列" itemprop="url">大讲座笔记系列</a>
   </h1>
   <p class="article-author">By
        
@@ -100,7 +149,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2018/11/05/大讲座笔记系列之springcloudnacos讲座/#more">Read More</a>
+            <a href="/2018/11/05/大讲座讲座笔记/#more">Read More</a>
           
        </p>
     </div>
@@ -368,34 +417,12 @@
 </header>
     <div class="article-content">
         
-        <h2 id="第2章-Kubernetes核心原理"><a href="#第2章-Kubernetes核心原理" class="headerlink" title="第2章 Kubernetes核心原理"></a>第2章 Kubernetes核心原理</h2><h3 id="1-Kubernetes-API-Server分析"><a href="#1-Kubernetes-API-Server分析" class="headerlink" title="1.Kubernetes API Server分析"></a>1.Kubernetes API Server分析</h3><ol>
-<li>功能和地位    </li>
-</ol>
-<ul>
-<li>提供了集群管理的API接口；</li>
-<li>成为集群内各个功能模块之间数据交互和通信的中心枢纽；</li>
-<li>拥有完备的集群安全机制。</li>
-</ul>
-<ol start="2">
-<li>如何访问K8S API<ol>
-<li>K8S API通过K8S apiserver进程提供服务，运行于master节点。该进程有2个端口：<ol>
-<li>本地端口<ol>
-<li>该端口用于接收Http请求；</li>
-<li>默认值为8080，可以通过修改–insecure-port值来修改默认值。</li>
-<li>默认ip地址是localhost,通过修改–insecure-bing-address的值来修改该IP地址；</li>
-<li>非认证或授权的Http请求通过该端口访问API Server。</li>
-</ol>
-</li>
-<li>安全端口</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
+        <p>k8s核心原理介绍<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/09/29/k8s系列之k8s核心原理/#more">Read More</a>
           
        </p>
     </div>
@@ -446,143 +473,12 @@
 </header>
     <div class="article-content">
         
-        <h1 id="第一章-Kubernetes入门"><a href="#第一章-Kubernetes入门" class="headerlink" title="第一章 Kubernetes入门"></a>第一章 Kubernetes入门</h1><ol>
-<li>K8S是什么<ol>
-<li>大规模集群管理系统，基于容器技术，实现资源管理的自动化，以及跨多个数据中心得资源利用率最大化。</li>
-<li>TCP通信协议进行交互。</li>
-<li>完备得分布式系统支撑平台，具有完备得集群管理能力，多层次得安全防护和准入机制，多租户应用支撑能力，透明的服务注册和服务发现机制，内建智能负载均衡器，强大的故障发现和自我修复能力，服务滚动升级和在线扩容能力，可扩展的资源自动调度机制，多粒度的资源配额管理能力，完善的管理工具，如开发，部署测试，运维监控等各个环节。</li>
-</ol>
-</li>
-<li>K8S基础<ol>
-<li>Service是分布式集群架构的核心，一个Service对象拥有如下关键特征：<ol>
-<li>拥有一个唯一指定的名字；</li>
-<li>拥有一个虚拟ip和端口号；</li>
-<li>能够提供某种远程服务能力；</li>
-<li>被映射到了提供这种服务能力的一组容器应用上。</li>
-</ol>
-</li>
-<li>Service的服务进程目前都基于Socket通信方式对外提供服务，如redis,Memcache,MySql,WebServer,或者一个特定的TCP server进程。Service通常由多个相关的服务进程来提供服务，每个服务进程都有一个独立的IP+PORT访问点，从来连接到指定的Service上。</li>
-<li>强大的隔离功能，K8S设计了Pod对象，将每个服务进程包装到相应的Pod中，使其成为Pod中运行的一个容器。为了建立Service和Pod间的关联关系，K8S给Pod贴上一个Label，给运行MySQL的Pod贴上name=mysql标签。</li>
-<li>Pod在节点中运行，节点可以是物理机，可以是云中的一个虚拟机，每个Pod里面运行着一个特殊的Pause容器，其他容器运行业务容器，这些业务容器工厂Pause容器的网络栈和Volume挂载卷，因而通信和数据交换更为高效。因此密切相关的服务进程放入同一个Pod中。</li>
-<li>集群管理:将集群中机器划分为一个Master节点和一群工作节点，Master上运行着集群管理相关的一组进程kube-apiserver,kube-controller-manager和kube-scheduler,这些进程实现了整个集群资源管理，Pod调度，弹性伸缩，安全控制，系统监控和纠错等管理功能，并且都是全自动完成的。Node作为集群中的工作节点，运行真正的APP,在Node上K8S管理的最小运行单元式Pod。Node上运行着Kubelet,kube-proxy服务进程，这些服务进程负责Pod的创建，启动监控，重启销毁以及软件模式的负载均衡。</li>
-</ol>
-</li>
-<li>使用K8S的原因<ol>
-<li>IT从来都是技术驱动的。</li>
-<li>简化团队，架构师专注于系统服务组件的提炼，开发专注于业务代码，运维负责K8S的部署和运维。</li>
-<li>全面拥抱微服务，微服务架构的核心是将一个巨大的单体应用分解维很多小的相互连接的微服务，一个微服务背后有多个实例副本在支撑，副本数量随着系统的负荷变化而进行调整，内嵌的负载均衡器在这里发挥重要作用。</li>
-<li>很方便的搬迁到公有云上。</li>
-<li>超强的横向扩容能力。<br>4.K8S基本概念和术语</li>
-<li>Node—相对于master而言的的工作主机。每个node上运行用于启动和管理的Pod服务-Kubelet，并能够被Master管理。在node上运行的是服务进程包括Kubelet,Kube-proxy,docker deamon。</li>
-<li>Node的信息:<ol>
-<li>Node地址：主机Ip地址+NodeID</li>
-<li>Node运行状态:Pending,Running,Terminated三种状态</li>
-<li>Node Condition(条件):描述Running状态Node的运行条件，Read—健康状态，可以接收从Master发来的创建Pod指令。</li>
-<li>Node系统容量:描述Node可用的系统资源，包括CPU,内存数量，最大可调度Pod数量等。</li>
-<li>其他:内核版本，K8S版本，docker版本，操作系统名称。</li>
-</ol>
-</li>
-<li>Pod<ol>
-<li>最基本的操作单元，包含一个或多个紧密相关的容器。是被容器化的环境看作应用层的逻辑宿主机，一个Pod中的多个容器应用是紧耦合的。Pod在node上被创建，启动或者销毁。</li>
-<li>在Pod上封装Node的原因:Docker容器之间的通信收到Docker网络机制的限制，只能通过Link方式才能访问另一个容器提供的服务。大量容器之间的Link是一种重量级连接。通过Pod将多个容器组合在一个虚拟的主机内，可以通过Localhost就能通信。</li>
-<li>一个Pod中的应用容器共享同一组资源：<ol>
-<li>PID命名空间：Pod中的不同应用程序可以看到其他应用程序的进程ID;</li>
-<li>网络命名空间：Pod中的多个容器能够访问同一个IP和端口范围；</li>
-<li>IPC命名空间：Pod中的多个容器能够使用SystemV IPC或者POSIX消息队列进行通信；</li>
-<li>UTS命名空间：Pod中的多个容器共享一个主机名；</li>
-<li>Volumes（共享存储卷）:pod中的各个容器可以访问在Pod级别定义的Volumes。</li>
-</ol>
-</li>
-<li>Pod定义通过Yml或者json格式配置文件来完成。</li>
-<li>Pod的生命周期是通过Replication Controller来管理的。Pod的生命周期过程包括:在模板进行定义，然后分到Node上运行，在Pod所含容器运行结束后Pod也结束。在整个过程中，Pod处于一下4种状态之一：<ol>
-<li>Pending:Pod定义正确，提交Master，但其包含的容器镜像还未完全创建。通常Master对Pod进行调度需要一些时间，之后Node对镜像进行下载也需要一些时间。</li>
-<li>Running:Pod已被分配到某个Node上，但其包含的所有容器镜像都已经创建完成，并成功运行起来。</li>
-<li>Suceeded:Pod中所有所有容器都成功结束，并且不会重启，这是Pod最终状态。</li>
-<li>Failed:Pod中所有容器都结束了，但至少一个容器以失败状态结束的，这是Pod的一种最终状态。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Label(标签)<ol>
-<li>Label以key/value键值对的形式附加到各种对象上，如Pod,Service,RC,Node等。Label定义了这些对象的可识别属性，用来对它们进行管理和选择。Label可以在创建对象时附加到对象上，也可以在对象创建后通过API进行管理。</li>
-<li>在为对象定义好Label后，其他对象就可以使用Label Selector选择器来定义其作用的对象。<br> “Labels”:{<pre><code>&quot;key1&quot;:&quot;value1&quot;,
-&quot;key2&quot;:&quot;value2&quot;
-</code></pre> }    </li>
-<li>Label Selector时，看作SQL查询语句种的where查询条件的语法。<br>5.Replication Controller(RC)</li>
-<li>用于定义Pod副本的数量。在Master内，Controller Manager进行通过RC的定义来完成Pod的创建，监控，启停等操作。</li>
-</ol>
-</li>
-<li>Service<ol>
-<li>Pod都会分配一个单独的IP地址，但是会随着Pod的销毁而消失。如果一组Pod组成一个集群来提供服务，如何访问；</li>
-<li>一个Service可以看作一组提供相同服务的Pod对外访问接口。Service作用于那些Pod是通过Label Selector来定义的。</li>
-<li>Pod的IP地址和Service的Cluster的IP地址<ol>
-<li>Pod的IP地址是Docker Daemon根据docker0网桥的IP地址段进行分配的，但是Service的ClusterIP地址是K8s系统种的虚拟IP地址，由系统动态分配。service的ClusterIP地址相对于Pod的IP地址来说相对稳定，Service被创建时被分配一个IP地址，销毁该Service之前，这个IP地址都不会再变化了。Pod在K8S集群中生命周期较短，ReplicationController销毁，再次创建，会分配一个新的IP地址。</li>
-</ol>
-</li>
-<li>外部访问Service<ol>
-<li>Service对象在ClusterIPRange池中分配的IP只能在内部访问，所以其他Pod都可以无障碍地访问到它。如果这个Service作为前端服务，准备为集群外的客户端提供服务，就需要分配公共IP;</li>
-<li>K8S支持两种对外提供服务的Service的type定义:NodePort和LoadBalancer</li>
-<li>NodePort</li>
-<li>LoadBalancer</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Volume(存储卷)<ol>
-<li>Volume是Pod中能够被多个容器访问的共享目录。K8S的Volume概念与Docker的Volume比较类似。</li>
-<li>Volume类型<ol>
-<li>EmptyDir:一个EmptyDir Volume是在Pod分配到Node时创建得。从它的名称就可以看出，初始为空。同一个Pod中所有容器可以读些EmptyDir中得相同文件。当Pod从Node上移除时，EmptyDir中得数据也会永久被删除。<ol>
-<li>用途:临时空间，例如用于某些应用程序运行时所需得临时目录，且无须永久保留。长时间任务的中间过程CheckPoint临时保存目录。一个容器需要从另一个容器中获取数据的目录。</li>
-<li>tmpfs</li>
-</ol>
-</li>
-<li>hostPath:在Pod上挂载宿主机上的文件或目录。<ol>
-<li>容器应用程序生成的日志文件需要永久保存</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Namespace<ol>
-<li>Namespace是k8s系统中另一个非常重要的概念，通过将系统内部的对象分配到不同的Namespace中，形成逻辑上分组的不同项目，小组，用户组，便于不同的分组在共享使用整个集群的同时还能被分别管理。</li>
-</ol>
-</li>
-<li>Annotation</li>
-</ol>
-</li>
-<li>K8S总体架构<ol>
-<li>k8s集群由两类节点组成:Master和Node,Master上运行etcd,API Server,Controller Manager和Scheduler四个组件，后三个组件构成了K8S的总控中心，负责对集群中所有资源进行管控和调度。</li>
-<li>在每个Node上运行Kubelet,Proxy和Docker Daemon三个组件，负责对本节点上的Pod的生命周期进行管理，以实现服务代理的功能。</li>
-<li>所有节点上都可以运行Kubectl命令行工具，提供了K8S的集群管理工具集。</li>
-<li>etcd是高可用的key/value存储系统，用于持久化存储集群中所有的资源对象，如Node,Service,Pod,RC,Namespace等。API Server则提供了操作etcd的封装接口API，以Rest方式提供服务，这些API基本上都是集群中资源对象的增删改查及监听资源变化的接口，如创建Pod,创建RC,监听Pod的变化等接口。API Server是连接其他所有服务组件的枢纽。</li>
-<li>RC与相关Service创建完整流程<ol>
-<li>通过Kubectl提交一个创建RC的请求，该请求通过APIServer被写入etcd;</li>
-<li>此时Controller Manager通过API Server的监听资源变化的接口监听到这个RC事件，分析之后，发现当前集群中没有Pod实例。</li>
-<li>于是根据RC的Pod模板定义生成一个Pod对象，通过API Server写入etcd中，接下来此事件被Scheduler发现，执行一个复杂的调度流程，为这个新的Pod选定一个落户的Node，这个过程称为绑定（Pod Binding）。</li>
-<li>通过API Server将这一结果写入到etcd中，随后目标Node上运行的Kubelet进程通过API Server检测到这个新生的Pod并按照定义，启动改Pod并负责其下半生，直到Pod的生命走到尽头。</li>
-<li>通过Kubetcl提交一个映射到该Pod的Service的创建请求，Controller Manager会通过Label标签查询到相关联的Pod实例，然后生成Service的EndPoints信息并通过API Server写入到etcd中。</li>
-<li>接下来所有Node上运行的Proxy进程通过API Server查询并监听Service对象与其对应的Endpoints信息，建立一个软件方式负载均衡器来实现service访问到后端Pod的流量转发功能。</li>
-</ol>
-</li>
-<li>组件的功能<ol>
-<li>API Server:提供了资源对象的唯一操作入口，其他所有组件都必须通过它提供的API来操作资源数据，通过相关的资源数据”全量查询”+”变化监听”，这些组件可以实时地完成相关业务功能，如某个新的Pod一旦被提交到API Server中，C M就会立即发现并开始调度。</li>
-<li>Controller Manager:集群内部的管理控制中心，其主要目的是实现K8S集群自动检测和恢复的自动化工作，比如根据RC的定义完成Pod的复制或移除，以确保Pod实例数符合RC副本的定义；根据Service与Pod的管理关系，完成服务的EndPoints对象的创建和更新；其他诸如Node的发现，管理和状态监控，死亡容器所占磁盘空间及本地缓存的镜像文件的清理工作也是由Controller Manager完成的。</li>
-<li>Scheduler:集群的调度器，负责Pod在集群节点中的调度分配。</li>
-<li>Kubelet:负责本Node节点上的Pod创建，修改，监控，删除等全生命周期管理，同事Kubelet定时上报本节点的状态信息到API Server里。</li>
-<li>Proxy:实现了Service的代理及软件模式的负载均衡器。</li>
-<li>客户端通过Kubectl命令行工具或Kubetcl Proxy来访问K8S系统，在K8S集群内部的客户端可以直接使用Kubetcl命令管理集群。Kubectl Proxy是APIServer的一个反向代理，在K8s集群外部的客户端可以通过Kubectl Proxy来访问API Server。</li>
-<li>API Server内部有一套完备的安全机制，包括认证，授权，以及准入控制等相关模块，APIServer在收到Rest请求后，会首先执行认证授权和准入控制的相关逻辑，过滤掉非法请求，然后将请求发送给API Server中的REST服务模块去执行资源的具体操作逻辑。</li>
-<li>Node节点运行的K8S服务内嵌了一个cAdvisor服务，用于实时监控Docker上运行的容器指标。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
+        <p>k8s入门讲解<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/09/27/k8s系列之入门/#more">Read More</a>
           
        </p>
     </div>
@@ -633,117 +529,12 @@
 </header>
     <div class="article-content">
         
-        <h2 id="1-设计模式"><a href="#1-设计模式" class="headerlink" title="1. 设计模式"></a>1. 设计模式</h2><pre><code>在软件开发中，经过验证的，用于解决特定环境下，重复出现的、特定问题的解决方案。
-</code></pre><p><strong>看完后思考，思考后应用，然后再看，再思考，再应用。</strong></p>
-<h2 id="2-常见设计模式"><a href="#2-常见设计模式" class="headerlink" title="2.常见设计模式"></a>2.常见设计模式</h2><ol>
-<li>简单工厂</li>
-<li>外观模式</li>
-<li>适配器模式</li>
-<li>单例模式</li>
-<li>工厂方法模式</li>
-<li>抽象工厂模式</li>
-<li>抽象工厂模式</li>
-<li>生成器模式</li>
-<li>原型模式</li>
-<li>中介者模式</li>
-<li>代理模式</li>
-<li>观察者模式</li>
-<li>命令模式</li>
-<li>迭代器模式</li>
-<li>组合模式</li>
-<li>模板方法模式</li>
-<li>策略模式</li>
-<li>状态模式</li>
-<li>备忘录模式</li>
-<li>亨元模式</li>
-<li>解释器模式</li>
-<li>装饰模式</li>
-<li>职责链模式</li>
-<li>桥接模式</li>
-<li>访问者模式</li>
-</ol>
-<p>##3. 讲述结构  ##</p>
-<ol>
-<li>场景问题<ol>
-<li>某个实际应用</li>
-<li>不用模式的解决方案</li>
-<li>存在问题</li>
-</ol>
-</li>
-<li>解决方案<ol>
-<li>某个模式来解决</li>
-<li>模式结构和说明</li>
-<li>模式的实例代码</li>
-<li>使用模式来重写示例</li>
-</ol>
-</li>
-<li>模式讲解<ol>
-<li>认识某个模式</li>
-<li>针对各个重点难点功能，实际应用结合的讨论和示例</li>
-<li>模式的优缺点</li>
-<li>思考模式</li>
-<li>相关模式</li>
-</ol>
-</li>
-</ol>
-<p>++++++============================++++++++</p>
-<h2 id="第二章-简单工厂"><a href="#第二章-简单工厂" class="headerlink" title="第二章 简单工厂"></a>第二章 简单工厂</h2><p>-相关：单例，原型，生成器模式</p>
-<h3 id="1-场景问题"><a href="#1-场景问题" class="headerlink" title="1. 场景问题"></a>1. 场景问题</h3><pre><code>1. 接口回顾
-2. 接口用处
-3. 接口思想
-4. 接口好处
-5. 接口和抽象类
-    1. 优先使用接口
-    2. 既要定义子类的行为，又要具有公共的功能时使用抽象类
-</code></pre><h3 id="2-面向接口编程"><a href="#2-面向接口编程" class="headerlink" title="2.面向接口编程"></a>2.面向接口编程</h3><p>1.分层<br>    表现层 逻辑层 数据层<br>2.接口是被其隔离部分的外观:通过接口来进行交互<br>3.组件:能完成一定功能得封装体。小到一个类，大到一个系统，都可以称为组件，一个小的系统放到更大的系统里面去，就是充当一个组件的作用。系统，子系统，模块，组件是一个概念，都是一定功能的封装体。</p>
-<h3 id="3-不同模式的解决方案"><a href="#3-不同模式的解决方案" class="headerlink" title="3.不同模式的解决方案"></a>3.不同模式的解决方案</h3><ol>
-<li>定义一个API，然后一个实现类Impl，客户端调用这个接口的实例。</li>
-<li>客户端只知道接口，不知道实现。<h3 id="4-解决方案"><a href="#4-解决方案" class="headerlink" title="4.解决方案"></a>4.解决方案</h3></li>
-<li>简单工厂：提供一个创建对象实例的功能，无须关心具体实现。被创建实例的类型可以是接口，抽象类，也可以是具体的类。</li>
-<li>应用简单工厂来解决问题的思路:在内部新建一个类，在里面来创建接口，然后把创建好的接口返回给客户端，外部应用通过这个类就获取相应的接口，然后就可以操作相应的方法，这个对象就叫做简单工厂。</li>
-<li>可配置的简单工厂<h3 id="5-优缺点"><a href="#5-优缺点" class="headerlink" title="5.优缺点"></a>5.优缺点</h3></li>
-<li>简单工厂的优点<ol>
-<li>帮助封装</li>
-<li>解耦</li>
-</ol>
-</li>
-<li>缺点<ol>
-<li>增加客户端的复杂度</li>
-<li>不方便扩展子工厂<h3 id="6-思考简单工厂"><a href="#6-思考简单工厂" class="headerlink" title="6.思考简单工厂"></a>6.思考简单工厂</h3></li>
-</ol>
-</li>
-<li>本质:选择实现，重点是实现已经做好了，就算实现简单，也要有具体的实现类。</li>
-<li>何时选用简单工厂:完全封装隔离具体实现，让外部只能通过接口来操作封装体。如果想要把创建对象的职责集中管理和控制，选用简单工厂。</li>
-</ol>
-<p>==================++++++++++++++++++++++=====================</p>
-<h2 id="第三章-外观模式-Facade"><a href="#第三章-外观模式-Facade" class="headerlink" title="第三章. 外观模式(Facade)"></a>第三章. 外观模式(Facade)</h2><ol>
-<li>解决方案<ol>
-<li>界面和接口：为子系统种的一组接口提供一个一直的界面，Facade模式定义了一个高层接口，接口使得这一子系统更加容易使用。</li>
-<li>界面—&gt;组件</li>
-<li>外观模式就是通过引入这么一个外观类，在这个类里面定义客户端想想要的方法，然后在这些方法的实现里面，由外观类再去分别调用内部的多个模块来实现功能，从而让客户端变得简单。</li>
-</ol>
-</li>
-<li>结构和说明<ol>
-<li>Facade:定义子系统的多个模块对外高层接口，通常需要调用内部多个模块，从而把客户端的请求代理给适当的子系统对象。 </li>
-<li>模块:接受Facade对象的委派，真正实现功能，各个模块之间会有交互<br>3.理解</li>
-<li>目的:不是为了让外部减少与子系统内多个模块的交互，松散耦合，让外不能更简单地使用子系统。</li>
-<li>方便客户端调用，封装了系统的内部细节功能。功能的复用。减少了学习成本。</li>
-<li>外观模式可以实现成为一个单例，接口。</li>
-</ol>
-</li>
-</ol>
-<p>======================++++++++++++++++++++++++================</p>
-<h2 id="第四章-适配器模式-Adapter"><a href="#第四章-适配器模式-Adapter" class="headerlink" title="第四章 适配器模式(Adapter)"></a>第四章 适配器模式(Adapter)</h2><ol>
-<li>解决方案<ol>
-<li>将一个类的接口转换成客户端希望的另一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</li>
-<li>定义一个类来实现第二版接口，在实现的时候转调第一版的功能，这样通过<strong>对象组合</strong>的方式，复用第一版已有的功能，同时又满足第二版调用的要求。</li>
-</ol>
-</li>
-</ol>
-
+        <p>shejimoshi jichu.<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/09/25/设计模式系列之设计模式基础/#more">Read More</a>
           
        </p>
     </div>
@@ -916,89 +707,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/09/04/Docker系列之入门介绍/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
-		
-  <p class="article-time">
-    <time datetime="2018-09-04T08:09:26.349Z" itemprop="datePublished"> Published 2018-09-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: Docker系列之入门介绍<br>date: 2018-09-04 16:09:26<br>tags: Docker</p>
-<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2><pre><code>1. 镜像
-2. 容器
-3. 仓库 
-</code></pre><h2 id="2-Docker镜像"><a href="#2-Docker镜像" class="headerlink" title="2.Docker镜像"></a>2.Docker镜像</h2><pre><code>1. 操作系统分为内核和用户空间。对于linux而言内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像，就相当于一个root文件系统。
-2. 分层存储
-</code></pre><h2 id="3-Docker容器"><a href="#3-Docker容器" class="headerlink" title="3.Docker容器"></a>3.Docker容器</h2><pre><code>1. 镜像和容器就像的类和实例。
-2. 拉取镜像:docker pull [地址] [仓库名]
-3. 启动容器:docker run --it --rm [地址+仓库名]
-4. 列出镜像:docker images
-</code></pre><h2 id="4-镜像"><a href="#4-镜像" class="headerlink" title="4.镜像"></a>4.镜像</h2><pre><code>1. 联合文件系统
-2. 镜像分层结构
-3. 镜像的写时复制
-</code></pre><h2 id="5-镜像的命令"><a href="#5-镜像的命令" class="headerlink" title="5.镜像的命令"></a>5.镜像的命令</h2><pre><code>1. docker pull
-2. docker search
-3. docker images
-4. docker inspect
-5. docker rmi 
-6. docker save 
-7. docker load
-</code></pre><h2 id="6-Docker-Hub简介"><a href="#6-Docker-Hub简介" class="headerlink" title="6.Docker Hub简介"></a>6.Docker Hub简介</h2><pre><code>1. 镜像仓库:docker login -u -p
-2. 搭建仓库
-</code></pre><h2 id="7-管理和使用容器"><a href="#7-管理和使用容器" class="headerlink" title="7.管理和使用容器"></a>7.管理和使用容器</h2><pre><code>1. docker create
-2. docker run 
-3. docker ps
-4. docker daemon
-5. docker start
-6. docker stop
-7. docker pause
-8. docker unpause
-9. docker rm
-10. docker top
-11. docker log
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1022,10 +730,6 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
 			
 		
@@ -1034,59 +738,11 @@
 			
 		
 			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
 			
 		
 			
@@ -1094,11 +750,63 @@
 			
 		
 			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RocketMQ/" title="RocketMQ">RocketMQ<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1150,7 +858,7 @@
 	
 	<section class="info">
 		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br/>
-			This is my weixin,believe it or not.</p>
+			This is my weixin 15802864913.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">

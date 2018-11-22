@@ -4,25 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>计算机网络 第五章 网络层 | Rocky for Everything</title>
+    <title>大复习之深度解析RPC与Restful | Rocky for Everything</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Rocky ZhouJin QQ987415811">
     
 
     
-    <meta name="description" content="1.概述网络层—&amp;gt;将数据从端到端，是端到端的最底层；    1.网络层必须知道网络拓扑结构，所有路由器与链路的集合，并且找出一条好路;路径规划    2.网络层要仔细选择路由器，避免某些通信线路和路由器负载过重;负载均衡 2.网络层设计问题1.存储转发数据包交换    1.ISP网络服务提供商的设备和客户端设备    2.一台主机要发送一个数据包：存储-转发数据包交换        1.需要">
-<meta name="keywords" content="计算机网络 网络层">
+    <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络 第五章 网络层">
-<meta property="og:url" content="http://yoursite.com/2018/08/16/计算机网络 第五章 网络层/index.html">
+<meta property="og:title" content="大复习之深度解析RPC与Restful">
+<meta property="og:url" content="http://yoursite.com/2018/11/20/大复习之深度解析RPC与Restful/index.html">
 <meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="1.概述网络层—&amp;gt;将数据从端到端，是端到端的最底层；    1.网络层必须知道网络拓扑结构，所有路由器与链路的集合，并且找出一条好路;路径规划    2.网络层要仔细选择路由器，避免某些通信线路和路由器负载过重;负载均衡 2.网络层设计问题1.存储转发数据包交换    1.ISP网络服务提供商的设备和客户端设备    2.一台主机要发送一个数据包：存储-转发数据包交换        1.需要">
+<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-16T10:21:48.521Z">
+<meta property="og:updated_time" content="2018-11-20T11:20:00.921Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机网络 第五章 网络层">
-<meta name="twitter:description" content="1.概述网络层—&amp;gt;将数据从端到端，是端到端的最底层；    1.网络层必须知道网络拓扑结构，所有路由器与链路的集合，并且找出一条好路;路径规划    2.网络层要仔细选择路由器，避免某些通信线路和路由器负载过重;负载均衡 2.网络层设计问题1.存储转发数据包交换    1.ISP网络服务提供商的设备和客户端设备    2.一台主机要发送一个数据包：存储-转发数据包交换        1.需要">
+<meta name="twitter:title" content="大复习之深度解析RPC与Restful">
+<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
 
     
     <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
@@ -82,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/08/16/计算机网络 第五章 网络层/" title="计算机网络 第五章 网络层" itemprop="url">计算机网络 第五章 网络层</a>
+      <a href="/2018/11/20/大复习之深度解析RPC与Restful/" title="大复习之深度解析RPC与Restful" itemprop="url">大复习之深度解析RPC与Restful</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-16T09:50:28.000Z" itemprop="datePublished"> Published 2018-08-16</time>
+    <time datetime="2018-11-20T11:20:00.000Z" itemprop="datePublished"> Published 2018-11-20</time>
     
   </p>
 </header>
@@ -98,22 +97,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-number">1.</span> <span class="toc-text">1.概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-网络层设计问题"><span class="toc-number">2.</span> <span class="toc-text">2.网络层设计问题</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p>网络层—&gt;将数据从端到端，是端到端的最底层；<br>    1.网络层必须知道网络拓扑结构，所有路由器与链路的集合，并且找出一条好路;<strong>路径规划</strong><br>    2.网络层要仔细选择路由器，避免某些通信线路和路由器负载过重;<strong>负载均衡</strong></p>
-<h2 id="2-网络层设计问题"><a href="#2-网络层设计问题" class="headerlink" title="2.网络层设计问题"></a>2.网络层设计问题</h2><p>1.存储转发数据包交换<br>    1.ISP网络服务提供商的设备和客户端设备<br>    2.一台主机要发送一个数据包：存储-转发数据包交换<br>        1.需要将数据包传递给最近的路由器，路由器可能在它自己的LAN上，也可能在一条通向ISP的点到点链路上；<br>        2.在该数据包到达路由器，并且路由器链路层完成了对它校验和的验证之后，它先被存储在路由器上；<br>        3.沿着路径被转发到下一个路由器，直到到达目标主机；<br>2.提供给传输层的服务<br>    1.设计目标<br>        1.向上提供的服务应该独立于路由器技术；<br>        2.应该向传输层屏蔽路由器数量，类型和拓扑关系；<br>        3.传输层可用的网络地址应该有一个统一编码方案，甚至可以跨越LAN和WAN;<br>    2.面向连接和面向非连接 </p>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/计算机网络-网络层/">计算机网络 网络层</a>
-  </div>
 
 </div>
 
@@ -121,7 +113,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2018/08/16/计算机网络 第五章 网络层/" data-title="计算机网络 第五章 网络层 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  <div data-url="http://yoursite.com/2018/11/20/大复习之深度解析RPC与Restful/" data-title="大复习之深度解析RPC与Restful | Rocky for Everything" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -134,19 +126,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/08/17/手写Java集合类之SkipList/" title="手写Java集合类之SkipList">
-  <strong>上一篇：</strong><br/>
-  <span>
-  手写Java集合类之SkipList</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/08/16/Druid源码解析之SQL解析/"  title="Druid源码解析之SQL解析">
+<a href="/2018/11/05/大讲座讲座笔记/"  title="大讲座笔记系列">
  <strong>下一篇：</strong><br/> 
- <span>Druid源码解析之SQL解析
+ <span>大讲座笔记系列
 </span>
 </a>
 </div>
@@ -163,7 +147,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-number">1.</span> <span class="toc-text">1.概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-网络层设计问题"><span class="toc-number">2.</span> <span class="toc-text">2.网络层设计问题</span></a></li></ol>
+ 
  
   </div>
 
