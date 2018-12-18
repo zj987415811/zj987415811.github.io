@@ -1,17 +1,11 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   
-    <title>微服务系列之源初 | Rocky for Everything</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="Rocky ZhouJin QQ987415811">
-    
-
-    
-    <meta name="description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。">
+  <title>微服务系列之源初 | Rocky for Everything</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。">
 <meta name="keywords" content="微服务设计读书笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务系列之源初">
@@ -23,86 +17,71 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务系列之源初">
 <meta name="twitter:description" content="写在前面 近期安排主要路线：  微服务-&amp;gt;service mesh-&amp;gt;dubbo相关源码 设计模式-&amp;gt;主流框架设计模式总结 微服务系列主要以微服务设计+深入理解SpringCloud与微服务构建这两本书的读书笔记为主。">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-    
-    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
 </head>
 
-  <body>
-    <header>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rocky for Everything</a>
+      </h1>
       
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
-				<h2 class="blog-motto">慢慢喜欢你</h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-						<li><a href="/about">About</a></li>
-					
-					<li>
- 					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/28/微服务系列之源初/" title="微服务系列之源初" itemprop="url">微服务系列之源初</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-28T03:10:23.000Z" itemprop="datePublished"> Published 2018-08-28</time>
-    
-  </p>
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人博客</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微服务设计读书笔记"><span class="toc-number"></span> <span class="toc-text">微服务设计读书笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-前言"><span class="toc-number">1.</span> <span class="toc-text">0. 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-微服务"><span class="toc-number">2.</span> <span class="toc-text">1.微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-什么是微服务"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 什么是微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-很小专注于做好一件事"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1.1 很小专注于做好一件事</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-自治性"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.1.2 自治性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-主要好处"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 主要好处</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-技术异构性"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.2.1 技术异构性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-弹性"><span class="toc-number">2.2.2.</span> <span class="toc-text">1.2.2 弹性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-扩展"><span class="toc-number">2.2.3.</span> <span class="toc-text">1.2.3 扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-4-简化部署"><span class="toc-number">2.2.4.</span> <span class="toc-text">1.2.4 简化部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-5-与组织结构相匹配"><span class="toc-number">2.2.5.</span> <span class="toc-text">1.2.5 与组织结构相匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-6-可组合性"><span class="toc-number">2.2.6.</span> <span class="toc-text">1.2.6 可组合性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-面向服务架构"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 面向服务架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-演化式架构师"><span class="toc-number">3.</span> <span class="toc-text">2.演化式架构师</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-不确定的比较"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 不确定的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-架构师的演化视角"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 架构师的演化视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-分区"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-一个原则性的方法"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 一个原则性的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-战略目标"><span class="toc-number">3.4.1.</span> <span class="toc-text">2.4.1 战略目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-原则"><span class="toc-number">3.4.2.</span> <span class="toc-text">2.4.2 原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-3-实践"><span class="toc-number">3.4.3.</span> <span class="toc-text">2.4.3 实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-4-将原则和实践相结合"><span class="toc-number">3.4.4.</span> <span class="toc-text">2.4.4 将原则和实践相结合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-5-真实世界的例子"><span class="toc-number">3.4.5.</span> <span class="toc-text">2.4.5 真实世界的例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-要求的标准"><span class="toc-number">3.5.</span> <span class="toc-text">2.5 要求的标准</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-监控"><span class="toc-number">3.5.1.</span> <span class="toc-text">2.5.1 监控</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-接口"><span class="toc-number">3.5.2.</span> <span class="toc-text">2.5.2 接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-架构安全性"><span class="toc-number">3.5.3.</span> <span class="toc-text">2.5.3 架构安全性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-代码治理"><span class="toc-number">3.6.</span> <span class="toc-text">2.6 代码治理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-1-范例"><span class="toc-number">3.6.1.</span> <span class="toc-text">2.6.1 范例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-2-裁剪服务代码模板"><span class="toc-number">3.6.2.</span> <span class="toc-text">2.6.2 裁剪服务代码模板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-技术债务"><span class="toc-number">3.7.</span> <span class="toc-text">2.7 技术债务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-例外管理"><span class="toc-number">3.8.</span> <span class="toc-text">2.8 例外管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-集中治理和领导"><span class="toc-number">3.9.</span> <span class="toc-text">2.9 集中治理和领导</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何建模服务"><span class="toc-number">4.</span> <span class="toc-text">3.如何建模服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-MusicCorp简介"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 MusicCorp简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-什么样的服务是好服务"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 什么样的服务是好服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-松耦合"><span class="toc-number">4.3.</span> <span class="toc-text">3.2.1 松耦合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-高内聚"><span class="toc-number">4.4.</span> <span class="toc-text">3.2.2 高内聚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-限界上下文"><span class="toc-number">4.5.</span> <span class="toc-text">3.3 限界上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-共享的隐藏模型"><span class="toc-number">4.5.1.</span> <span class="toc-text">3.3.1 共享的隐藏模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-模块和服务"><span class="toc-number">4.5.2.</span> <span class="toc-text">3.3.2 模块和服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-过早划分"><span class="toc-number">4.5.3.</span> <span class="toc-text">3.3.3 过早划分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-业务功能"><span class="toc-number">4.6.</span> <span class="toc-text">3.4 业务功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-逐步划分上下文"><span class="toc-number">4.7.</span> <span class="toc-text">3.5 逐步划分上下文</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-集成"><span class="toc-number">5.</span> <span class="toc-text">4.集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-集成技术"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 集成技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-为用户创建接口"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 为用户创建接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-共享数据库"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 共享数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-同步和异步"><span class="toc-number">5.4.</span> <span class="toc-text">4.4 同步和异步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-编排与协同"><span class="toc-number">5.5.</span> <span class="toc-text">4.5 编排与协同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-远程过程调用"><span class="toc-number">5.6.</span> <span class="toc-text">4.6 远程过程调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-REST"><span class="toc-number">5.7.</span> <span class="toc-text">4.7 REST</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-7-1-Rest和Http"><span class="toc-number">5.7.1.</span> <span class="toc-text">4.7.1 Rest和Http</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-7-2-超媒体作为程序状态引擎"><span class="toc-number">5.7.2.</span> <span class="toc-text">4.7.2 超媒体作为程序状态引擎</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-试下基于事件的异步协作方式"><span class="toc-number">5.8.</span> <span class="toc-text">4.8 试下基于事件的异步协作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-8-1-技术选择"><span class="toc-number">5.8.1.</span> <span class="toc-text">4.8.1 技术选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-8-3-异步机构的复杂性"><span class="toc-number">5.8.2.</span> <span class="toc-text">4.8.3 异步机构的复杂性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-9-服务即状态机"><span class="toc-number">5.9.</span> <span class="toc-text">4.9 服务即状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-10-响应式扩展"><span class="toc-number">5.10.</span> <span class="toc-text">4.10 响应式扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-分解单块系统"><span class="toc-number">6.</span> <span class="toc-text">5.分解单块系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-关键是接缝"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 关键是接缝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-分解项目"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 分解项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-分解单块系统的原因"><span class="toc-number">6.3.</span> <span class="toc-text">5.3 分解单块系统的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-事务边界"><span class="toc-number">6.4.</span> <span class="toc-text">5.4 事务边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-通过服务调用来获取数据"><span class="toc-number">6.5.</span> <span class="toc-text">5.5 通过服务调用来获取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-数据导出"><span class="toc-number">6.6.</span> <span class="toc-text">5.6 数据导出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-部署"><span class="toc-number">7.</span> <span class="toc-text">6.部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-持续集成"><span class="toc-number">7.1.</span> <span class="toc-text">6.1 持续集成</span></a></li></ol></li></ol>
-		
-		</div>
-		
-		<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
+      <div class="outer">
+        <section id="main"><article id="post-微服务系列之源初" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/微服务系列之源初/" class="article-date">
+  <time datetime="2018-08-28T03:10:23.000Z" itemprop="datePublished">2018-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微服务系列之源初
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
 <p>近期安排主要路线：</p>
 <ul>
 <li>微服务-&gt;service mesh-&gt;dubbo相关源码<br></li>
@@ -254,438 +233,142 @@ Heroku的12Factors原则
 </li>
 <li>CI能够保证新提交的代码与已有代码进行集成，从而让所有人保持同步。CI服务器会检测到代码已提交并签出，然后花些时间来验证代码是否通过编译以及测试是否通过。</li>
 </ol>
-  
-	</div>
-		<footer class="article-footer clearfix">
-<div class="article-catetags">
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/微服务系列之源初/" data-id="cjptalgen001gy4zjj07fzopt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微服务设计读书笔记/">微服务设计读书笔记</a></li></ul>
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/微服务设计读书笔记/">微服务设计读书笔记</a>
+    </footer>
   </div>
-
-</div>
-
-
-
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://yoursite.com/2018/08/28/微服务系列之源初/" data-title="微服务系列之源初 | Rocky for Everything" data-tsina="" class="share clearfix">
-	  </div>
-	
-	</div>
-
-
-</footer>
-
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/" title="微服务系列之深入理解SpringCloud与微服务构建">
-  <strong>上一篇：</strong><br/>
-  <span>
-  微服务系列之深入理解SpringCloud与微服务构建</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2018/08/28/Sentinel系列之源码解读/"  title="Sentinel系列之源码">
- <strong>下一篇：</strong><br/> 
- <span>Sentinel系列之源码
-</span>
-</a>
-</div>
-
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/29/微服务系列之深入理解SpringCloud与微服务构建/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          微服务系列之深入理解SpringCloud与微服务构建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/28/Sentinel系列之起源/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Sentinel系列之起源</div>
+    </a>
+  
 </nav>
 
-	
+  
+</article>
 
+</section>
+        
+          <aside id="sidebar">
+  
+    <!-- Featured Tags -->
 
+  
+    <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+        
 
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微服务设计读书笔记"><span class="toc-number"></span> <span class="toc-text">微服务设计读书笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-前言"><span class="toc-number">1.</span> <span class="toc-text">0. 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-微服务"><span class="toc-number">2.</span> <span class="toc-text">1.微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-什么是微服务"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 什么是微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-很小专注于做好一件事"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1.1 很小专注于做好一件事</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-自治性"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.1.2 自治性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-主要好处"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 主要好处</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-技术异构性"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.2.1 技术异构性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-弹性"><span class="toc-number">2.2.2.</span> <span class="toc-text">1.2.2 弹性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-扩展"><span class="toc-number">2.2.3.</span> <span class="toc-text">1.2.3 扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-4-简化部署"><span class="toc-number">2.2.4.</span> <span class="toc-text">1.2.4 简化部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-5-与组织结构相匹配"><span class="toc-number">2.2.5.</span> <span class="toc-text">1.2.5 与组织结构相匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-6-可组合性"><span class="toc-number">2.2.6.</span> <span class="toc-text">1.2.6 可组合性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-面向服务架构"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 面向服务架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-演化式架构师"><span class="toc-number">3.</span> <span class="toc-text">2.演化式架构师</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-不确定的比较"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 不确定的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-架构师的演化视角"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 架构师的演化视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-分区"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-一个原则性的方法"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 一个原则性的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-战略目标"><span class="toc-number">3.4.1.</span> <span class="toc-text">2.4.1 战略目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-原则"><span class="toc-number">3.4.2.</span> <span class="toc-text">2.4.2 原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-3-实践"><span class="toc-number">3.4.3.</span> <span class="toc-text">2.4.3 实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-4-将原则和实践相结合"><span class="toc-number">3.4.4.</span> <span class="toc-text">2.4.4 将原则和实践相结合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-5-真实世界的例子"><span class="toc-number">3.4.5.</span> <span class="toc-text">2.4.5 真实世界的例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-要求的标准"><span class="toc-number">3.5.</span> <span class="toc-text">2.5 要求的标准</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-监控"><span class="toc-number">3.5.1.</span> <span class="toc-text">2.5.1 监控</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-接口"><span class="toc-number">3.5.2.</span> <span class="toc-text">2.5.2 接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-架构安全性"><span class="toc-number">3.5.3.</span> <span class="toc-text">2.5.3 架构安全性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-代码治理"><span class="toc-number">3.6.</span> <span class="toc-text">2.6 代码治理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-1-范例"><span class="toc-number">3.6.1.</span> <span class="toc-text">2.6.1 范例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-2-裁剪服务代码模板"><span class="toc-number">3.6.2.</span> <span class="toc-text">2.6.2 裁剪服务代码模板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-技术债务"><span class="toc-number">3.7.</span> <span class="toc-text">2.7 技术债务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-例外管理"><span class="toc-number">3.8.</span> <span class="toc-text">2.8 例外管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-集中治理和领导"><span class="toc-number">3.9.</span> <span class="toc-text">2.9 集中治理和领导</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何建模服务"><span class="toc-number">4.</span> <span class="toc-text">3.如何建模服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-MusicCorp简介"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 MusicCorp简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-什么样的服务是好服务"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 什么样的服务是好服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-松耦合"><span class="toc-number">4.3.</span> <span class="toc-text">3.2.1 松耦合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-高内聚"><span class="toc-number">4.4.</span> <span class="toc-text">3.2.2 高内聚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-限界上下文"><span class="toc-number">4.5.</span> <span class="toc-text">3.3 限界上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-共享的隐藏模型"><span class="toc-number">4.5.1.</span> <span class="toc-text">3.3.1 共享的隐藏模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-模块和服务"><span class="toc-number">4.5.2.</span> <span class="toc-text">3.3.2 模块和服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-过早划分"><span class="toc-number">4.5.3.</span> <span class="toc-text">3.3.3 过早划分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-业务功能"><span class="toc-number">4.6.</span> <span class="toc-text">3.4 业务功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-逐步划分上下文"><span class="toc-number">4.7.</span> <span class="toc-text">3.5 逐步划分上下文</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-集成"><span class="toc-number">5.</span> <span class="toc-text">4.集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-集成技术"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 集成技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-为用户创建接口"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 为用户创建接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-共享数据库"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 共享数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-同步和异步"><span class="toc-number">5.4.</span> <span class="toc-text">4.4 同步和异步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-编排与协同"><span class="toc-number">5.5.</span> <span class="toc-text">4.5 编排与协同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-远程过程调用"><span class="toc-number">5.6.</span> <span class="toc-text">4.6 远程过程调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-REST"><span class="toc-number">5.7.</span> <span class="toc-text">4.7 REST</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-7-1-Rest和Http"><span class="toc-number">5.7.1.</span> <span class="toc-text">4.7.1 Rest和Http</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-7-2-超媒体作为程序状态引擎"><span class="toc-number">5.7.2.</span> <span class="toc-text">4.7.2 超媒体作为程序状态引擎</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-试下基于事件的异步协作方式"><span class="toc-number">5.8.</span> <span class="toc-text">4.8 试下基于事件的异步协作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-8-1-技术选择"><span class="toc-number">5.8.1.</span> <span class="toc-text">4.8.1 技术选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-8-3-异步机构的复杂性"><span class="toc-number">5.8.2.</span> <span class="toc-text">4.8.3 异步机构的复杂性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-9-服务即状态机"><span class="toc-number">5.9.</span> <span class="toc-text">4.9 服务即状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-10-响应式扩展"><span class="toc-number">5.10.</span> <span class="toc-text">4.10 响应式扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-分解单块系统"><span class="toc-number">6.</span> <span class="toc-text">5.分解单块系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-关键是接缝"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 关键是接缝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-分解项目"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 分解项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-分解单块系统的原因"><span class="toc-number">6.3.</span> <span class="toc-text">5.3 分解单块系统的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-事务边界"><span class="toc-number">6.4.</span> <span class="toc-text">5.4 事务边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-通过服务调用来获取数据"><span class="toc-number">6.5.</span> <span class="toc-text">5.5 通过服务调用来获取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-数据导出"><span class="toc-number">6.6.</span> <span class="toc-text">5.6 数据导出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-部署"><span class="toc-number">7.</span> <span class="toc-text">6.部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-持续集成"><span class="toc-number">7.1.</span> <span class="toc-text">6.1 持续集成</span></a></li></ol></li></ol>
- 
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
+
+            
+
+            
+
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+
+  
+    
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2018/11/20/大复习之深度解析RPC与Restful/">大复习之深度解析RPC与Restful</a>
+        </li>
+      
+        <li>
+          <a href="/2018/11/05/大讲座讲座笔记/">大讲座笔记系列</a>
+        </li>
+      
+        <li>
+          <a href="/2018/10/11/Netty系列之Netty实战读书笔记/">Netty系列之Netty实战读书笔记</a>
+        </li>
+      
+        <li>
+          <a href="/2018/10/10/docker系列之doker核心原理解读/">docker系列之doker核心原理解读</a>
+        </li>
+      
+        <li>
+          <a href="/2018/10/08/docker系列深入篇/">docker系列深入篇</a>
+        </li>
+      
+    </ul>
   </div>
 
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
-<aside class="clearfix">
+  
+    <!-- Friends Blog -->
 
   
-
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">Tags</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Dubbo-SPI/" title="Dubbo SPI">Dubbo SPI<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/RocketMQ/" title="RocketMQ">RocketMQ<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">Links</p>
-    <ul>
-        
-          <li>
-            
-            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
-            
-          </li>
-        
-    </ul>
-</div>
-
-  
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
-</div>
-
-  <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
-    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
-</div>
-
-
-</aside>
-</div>
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">26</span></li></ul>
     </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br/>
-			This is my weixin 15802864913.</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	</div>
-			
-		
+  </div>
 
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
-		
-		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
-		
-		
-		</p>
-</div>
-</footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
   
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
+</aside>
         
-    }
-  });
-});
-</script>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Rocky ZhouJin QQ987415811<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-
-<!-- MathJax End -->
-
-<!-- Tiny_search Begin -->
-
-<!-- Tiny_search End -->
-
-  </body>
+  </div>
+</body>
 </html>
