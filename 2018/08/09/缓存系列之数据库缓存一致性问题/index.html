@@ -1,34 +1,590 @@
-extends partial/layout
 
-block site_title
-  != page.title + " | " + config.title
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Redis系列之数据库缓存一致性问题 | Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
+    
+    <meta name="description" content="##Redis缓存数据库一致性问题##  数据一致性处理 当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。 高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。   消息队列 将票数资源存入redis中，将请求存入消息">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis系列之数据库缓存一致性问题">
+<meta property="og:url" content="http://rockyzjin.cn/2018/08/09/缓存系列之数据库缓存一致性问题/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="##Redis缓存数据库一致性问题##  数据一致性处理 当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。 高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。   消息队列 将票数资源存入redis中，将请求存入消息">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-09T07:04:41.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis系列之数据库缓存一致性问题">
+<meta name="twitter:description" content="##Redis缓存数据库一致性问题##  数据一致性处理 当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。 高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。   消息队列 将票数资源存入redis中，将请求存入消息">
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/缓存系列之数据库缓存一致性问题/" title="Redis系列之数据库缓存一致性问题" itemprop="url">Redis系列之数据库缓存一致性问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T03:40:48.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			
+		
+		</div>
+		
+		<p>##Redis缓存数据库一致性问题##</p>
+<ul>
+<li>数据一致性处理<ul>
+<li>当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。</li>
+<li>高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。</li>
+</ul>
+</li>
+<li>消息队列<ul>
+<li>将票数资源存入redis中，将请求存入消息队列，list会阻塞，但是依次处理，导致等待时间较长。</li>
+</ul>
+</li>
+<li>加锁<ul>
+<li>排他锁，乐观锁，悲观锁</li>
+<li>排他锁：进行写时，禁止一切读写；</li>
+<li>乐观锁：在写的时候，默认没有资源竞争，维护一个Version号，等处理后对照version号，一致则提交，否则回滚。</li>
+<li>悲观锁：在写的时候，别人也再写。采用数据库提供的锁机制：在写操作的时候(insert update)myisam采用表锁，innodb根据主键与否来决定是行锁还是表锁。读操作采用MVCC版本控制。</li>
+</ul>
+</li>
+<li>需求起因<ul>
+<li>假设先写数据库，再淘汰缓存:第一步写数据库成功，第二步淘汰缓存失败，则BD中是新数据，Cache中是旧数据，数据不一致。</li>
+<li>假设先淘汰缓存，再写数据库：第一步淘汰缓存成功，第二步写数据库失败，则缓存中无数据，数据库中是旧数据。</li>
+<li>先淘汰缓存，再写数据库</li>
+</ul>
+</li>
+<li>数据不一致原因<ul>
+<li>先操作缓存，再数据库成功之前，如果有读请求发生，可能导致旧数据入缓存，引发数据不一致。</li>
+<li>写流程：<ul>
+<li>先淘汰缓存</li>
+<li>再写DB</li>
+</ul>
+</li>
+<li>读流程<ul>
+<li>先读cache,如果数据命中hit则返回；</li>
+<li>如果数据未命中miss则读DB;</li>
+<li>将DB中读取出来的数据入缓存。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>问题解决思路—串行化</li>
+<li>Redis数据库与缓存一致性解决方案<ul>
+<li>数据库与缓存读写模式策略—写完数据库后是否需要马上更新缓存还是直接删除缓存？<ul>
+<li>如果写数据库的值与更新到缓存值是一样的，不需要经过任何计算可以马上更新缓存，但是对于写数据频繁而读数据少的场景并不合适这个解决方案。</li>
+<li>如果写数据库的值与更新缓存的值不一致，写入缓存中的数据需要经过几个表的关联计算后得到的结果插入缓存中，那么没必要立即更新缓存，删除缓存即可，等到查询的时候把计算结果插入到缓存中即可。</li>
+<li>一般的策略是当更新数据时，先删除缓存，再更新数据库。</li>
+</ul>
+</li>
+<li>数据库与缓存双写情况下导致数据不一致问题<ul>
+<li>场景1：当更新数据时，如更新某商品的库存，当前商品的库存为100，而现在为99，先更新数据库改成99，然后删除缓存，发现删除缓存失败，这时数据库存99，而缓存存100，导致缓存数据库不一致。</li>
+<li>解决方案：这种情况先删除缓存，再更新数据库。<strong>如果缓存删除失败就不更新数据库</strong>，如果说缓存删除成功，而数据库更新失败，那查询到的是数据库的旧数据，不会造成缓存数据库不一致的情况。</li>
+<li>场景2：在高并发情况下，如果当删除出完缓存的时候，这是去更新数据库，但是还没有更新完，这时另一个请求来查询，发现缓存没有，就去数据查。数据库中100，查到后加入缓存，插入完缓存后，原来那个数据库的线程把数据库更新为99，导致缓存数据库不一致。</li>
+<li>场景2解决：<ul>
+<li>读请求时长阻塞</li>
+<li>请求并发量过高</li>
+<li>多服务实例部署的请求路由</li>
+<li>热点商品的路由问题，导致请求倾斜</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Redis/">Redis</a>
+  </div>
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
+</div>
 
-block copyright
-  include partial/footer
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rockyzjin.cn/2018/08/09/缓存系列之数据库缓存一致性问题/" data-title="Redis系列之数据库缓存一致性问题 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" title="缓存系列之数据库缓存一致性问题">
+  <strong>上一篇：</strong><br>
+  <span>
+  缓存系列之数据库缓存一致性问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/08/08/Spring源码解析之AOP实现/" title="Spring源码解析之SpringAOP实现">
+ <strong>下一篇：</strong><br> 
+ <span>Spring源码解析之SpringAOP实现
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

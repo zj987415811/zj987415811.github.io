@@ -1,19 +1,1504 @@
-extends partial/layout
 
-block header
-  include partial/header
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block content
-  include mixins/post
-  +posts()
+    
+    <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rocky for Everything">
+<meta property="og:url" content="http://rockyzjin.cn/page/3/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rocky for Everything">
+<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
 
-block sidebar
-  include partial/sidebar
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/16/Druid源码解析之SQL解析/" title="Druid源码解析之SQL解析" itemprop="url">Druid源码解析之SQL解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-16T06:18:27.000Z" itemprop="datePublished"> Published 2018-08-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Druid源码解析之SQL解析"><a href="#Druid源码解析之SQL解析" class="headerlink" title="Druid源码解析之SQL解析"></a>Druid源码解析之SQL解析</h2><p>概述：<br>    SQL解析可以分为三层：</p>
+<pre><code>    - AST抽象语法树，语句解析-&gt; MySqlStatementParser:多个表达式和词组成完整的语句 
+        - SQLParser
+            - errorEndPos:解析出错记录位置
+            - lexer:词法解析
+            - dbType:数据库类型
+        - SQLStatement
+            - exprParser:表达式解析类；
+            - SQLCreateTableParser:建表语句解析类，其他DDL语句在SQLStatement中；
+            - parseValueSize:记录解析结果集大小；
+            - keepComments:是否保留注释；
+            - parseCompleteValues:是否全部解析完成。
+        - MySqlStatementParser
+            - 静态关键词
+            - exprParser:针对MySQL语句的parser;
+    - 表达式解析-&gt; MySqlExprParser:表达式由词组成，用来解析出不同表达式的含义
+        - SQLExprParser 
+            - AGGREGATE_FUNCTIONS 统计函数的关键词
+            - aggregateFunctions 保存统计函数的关键词
+        - MysqlExparser
+            - AGGREGATE_FUNCTIONS 针对mysql统计函数的关键词
+
+    - 词法解析-&gt; MySqlLexer:解析出每个词的词义,部分关键词含义
+        -   symbols_l2
+            features
+            text:保存目前整个SQL语句
+            pos:当前处理位置
+            mark:当前处理此开始位置
+            ch:当前处理字符
+            buf:当前缓存的处理词
+            bufPos:用于取出词的标记，当前从text中取出的词应该是mark位置开始
+            token:当前位于的关键词
+            keywods:所有关键词集合
+            stringVal
+            lines:总行数
+            dbType:数据库类型
+
+- SQL三个重要组成部分：Parser,AST,Visitor
+    - Parser 由两部分组成
+        - Lexer
+        - 表达式
+    - AST Parser的产物，语句经过词法分析，语法分析，其结构需要以一种计算机能读懂的方式表达出来，也就是抽象语法树。
+    - Visitor 遍历这颗语法树，使用visitor模式，从根节点开始遍历，一直到最后一个叶子节点，在这个过程中，不断地收集信息到一个上下文中，整个遍历过程完成后，这棵树所表达的语法含义就被保存到上下文中。使用广度优先遍历方式。
+</code></pre><ol>
+<li><p>涉及到的类</p>
+<ol>
+<li>SQLStatementParser parser = new MySqlStatementParser(sql);</li>
+<li><p>MySqlStatementParser执行父类SQLExprParser的方法，这个过程在静态代码块中定义了一系列字段；<br>static {<br> String[] strings = { “AVG”, “COUNT”, “MAX”, “MIN”, “STDDEV”, “SUM” };</p>
+<pre><code>AGGREGATE_FUNCTIONS_CODES = FnvHash.fnv1a_64_lower(strings, true);
+</code></pre><p> AGGREGATE_FUNCTIONS = new String[AGGREGATE_FUNCTIONS_CODES.length];<br> for (String str : strings) {</p>
+<pre><code>long hash = FnvHash.fnv1a_64_lower(str);
+int index = Arrays.binarySearch(AGGREGATE_FUNCTIONS_CODES, hash);
+AGGREGATE_FUNCTIONS[index] = str;
+</code></pre><p> }<br>}<br>//执行MySqlExprParser的构造方法</p>
+<p>public MySqlExprParser(String sql){<br> this(new MySqlLexer(sql));<br> this.lexer.nextToken();<br>} </p>
+<p>//Lexer构造方法-&gt;SymbolTable初始化</p>
+<p>Map&lt;String, Token&gt; map = new HashMap&lt;String, Token&gt;();</p>
+<p>this.lexer.nextToken();</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>3.SQLStatement sqlStatement = parser.parseStatement();</p>
+<pre><code>- parseStatement()中通过lexer.token选择对应的方法；
+- 如select-&gt;this.parseSelect();
+- 构造MySqlSelectParser对象
+MySqlSelectParser selectParser = createSQLSelectParser();
+SQLSelect select = selectParser.select();
+- select()方法
+    - SQLSelect select = new SQLSelect();
+    - 判断是否是with
+    - 如果不是构造SQLSelectQuery
+        - SQLSelectQuery query = query();query()方法内部
+            - 判断token是否是lparen左括号;
+            - 如果不是直接到MySqlSelectQueryBlock queryBlock = new MySqlSelectQueryBlock();并且设置父类的相关属性；
+            - 如果token是select,判断查询缓存是否为空；如果不为空进行匹配；
+                - selectListCache.match(laxer,queryBlock);
+            - 如果token是select,执行laxer.nextTokenValue();执行下一个token解析；
+            - Token token = lexer.token();得到下一个token后进行解析；
+            - parseSelectList(SQLSelectQueryBlock queryBlock);
+                - 构建selectList,final List&lt;SQLSelectItem&gt; selectList = queryBlock.getSelectList();
+                - parseSelectItem();
+                - expr = new SQLAllColumnExpr();
+                - lexer.nextToken();
+                - return new SQLSelectItem(expr, null, connectByRoot);
+            - parseInto(queryBlock);
+        - 将query设置到SQLSelect中;
+        - SQLOrderBy orderBy = this.parseOrderBy();
+</code></pre><p>4.MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();</p>
+<pre><code>- 父类构造方法
+ public SchemaStatVisitor(String dbType){
+    this(new SchemaRepository(dbType), new ArrayList&lt;Object&gt;());
+    this.dbType = dbType;
+ }
+- SchemaRepository类作为构造函数入参传入，初始化SchemaRepository；
+- 初始化mysql相关：consoleVisitor = new MySqlConsoleSchemaVisitor();
+- 初始化MySqlConsoleSchemaVisitor的父类MySqlASTVisitorAdapter的父类SQLASTVisitorAdapter；
+</code></pre><p>5.sqlStatement.accept(visitor)方法</p>
+<pre><code>- priVisitor(this);这是一个空方法0-0
+- accept0(SQLASTVisitor visitor);
+    - 执行实现类MySqlSchemaStateVisitor的visit(SQLSelectStatement x)；
+        - repository.resolve(x);
+            - 内部构造一个 SchemaResolveVisitor resolveVisitor = createResolveVisitor(options);
+            - createResolveVisitor(SchemaResolveVisitor.Option ...);选择不同类型的数据库；
+        - resolveVisitor.visit(stmt);
+            - 内部执行 resolve(SchemaResolveVisitor visitor, SQLSelect x) 方法         
+            - 创建context环境：SchemaResolveVisitor.Context ctx = visitor.createContext(x);
+            - SQLSelectQuery query = x.getQuery();获取query;
+            - 之后执行accept(visitor)方法；
+</code></pre><p>6.总结：新建MySqlStatementParser</p>
+<pre><code>- 内部新建一个MySqlExprParser-&gt;MySqlLexer-&gt;读取第一个有效词:lexer.nextToken();
+- 新建一个MySqlLexer-&gt;执行父类Lexer构造方法-&gt;初始化关键词
+- new Lexer(String input, CommentHandler commentHandler) 或 new Lexer(String input, boolean skipComment)
+    - input 输入语句
+    - commentHandler 注释处理器
+    - scanChar();读取第一个字符
+- 初始化Lexer后，回到MySqlExprParser构造器，初始化KeyWords集合;
+- 之后回到MySqlStatementParser:调用父类SQLStatementParser方法初始化;
+- new SQLParser(Lexer lexer, String dbType) 完成初始化。 
+</code></pre><p>7.代码分析</p>
+<pre><code>- `// 新建 MySQLParser
+    SQLStatementParser parser = new MySqlStatementParser(sql);
+    // 使用Parser解析生成AST，这里SQLStatement就是AST，解析结果是一个SQLStatement,是一个内部维护了树状逻辑结构的类
+    SQLStatement statement = parser.parseStatement();
+
+    // 使用visitor来访问AST
+    MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+    statement.accept(visitor);
+    `
+- 词法分析
+    - SQLStatementParser parser = new MySqlStatementParser(sql);
+    - 语法分析是SQLParser,词法分析Lexer,在Parser中拥有一个Lexer;
+    - Lexer有两个，Lexer和其子类MySqlLexer;Lexer作为词法分析器，内部具有词汇表，以keywords表示;
+    - keywords是以key为单词，value为Token的字典型结构，Token是单词的类型;
+    - MySqlLexer类，除了父类的keywords外还有自己的keywords;Lexer中维护的是通用的，而MySqlLexer除了有通用还有MySQL数据库SQL方言关键字集合。
+    - Parser是Lexer的使用者；
+    - Lexer需要具备一个函数，能够让命令者命令它解析一个单词，而且Lexer还必须提供一个函数，供使用者获取Lexer上一次解析到的单词亿级单词的类型。
+    - 在Lexer中，nextToken()方法提供了解析一个单词的需求，被调用时，就按顺序从SQL语句的开头到结尾，解析出下一个单词;
+    - token()方法，则返回上一次解析的单词的Token类型，如果Token类型是标识符(Identifier)，Lexer还提供一个stringVal()方法，让使用者拿到标识符值。
+    - nextToken()内部充斥着if语句和switch语句，解析单词时候，是一个个字符地解析，这个方法每次扫描一个字符，都必须判断单词是否结束，用什么方式来验证这个单词等待。这个过程是状态机运作的过程，每解析到一个字符，都要判断当前的状态，以决定应该进入下一个什么状态。
+- parseStatement()方法
+    - if(lexer.token() == Token.XXX) return XXX;
+    - 对应select类型的语句解析
+        if (lexer.token() == Token.SELECT) {
+            statementList.add(parseSelect());
+            continue;
+        }
+    - parseSelect()方法
+        public SQLStatement parseSelect() {
+            MySqlSelectParser selectParser = new MySqlSelectParser(this.exprParser);
+
+            SQLSelect select = selectParser.select();
+
+            if (selectParser.returningFlag) {
+                return selectParser.updateStmt;
+            }
+
+            return new SQLSelectStatement(select, JdbcConstants.MYSQL);
+         }
+        - 初始化一个针对MySQL Select语句的Parser,然后调用select()方法进行解析，把返回结果SQLSelect放到SQLSelectStatement里。而这个SQLSelectStatement就是AST抽象语法树，SQLSelect是他的第一个子节点。
+ - MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+     - 有了AST语法树后，需要一个visitor来访问;
+     - statement调用accept方法，以visitor作为参数，进行访问；statement的实际类型是SQLSelectStatement;
+     - 在Druid中一条SQL语句中的元素，无论高层次还是低层次的元素，都是一个SQLObject,statement,expr,函数，字段，条件都是一种SQLObject。SQLObject是一个接口，accept方法由SQLObject定义，目的是为了让访问者在访问SQLObject时，告知访问者一些事情，在访问过程中手机关于SQLObject的一些信息。
+     - accept()在SQLObjectImpl类实现
+         public final void accept(SQLASTVisitor visitor) {
+                if (visitor == null) {
+                    throw new IllegalArgumentException();
+                }
+
+                visitor.preVisit(this);
+                //真正执行的方法
+                accept0(visitor);
+
+                visitor.postVisit(this);
+         }
+         - 这是一个final方法，所有子类都要遵循这个模板，在accept()前后，visitor会进行一些操作，真正访问流程在acceptor0(visitor)中，这是一个抽象方法。
+     - acceptor0(SQLASTVisitor visitor)
+         protected void accept0(SQLASTVisitor visitor) {
+            if (visitor.visit(this)) {
+                acceptChild(visitor, this.select);
+            }
+            visitor.endVisit(this);
+         }
+        - 首先使用visitor访问自己，然后决定是否访问自己的子元素。
+        - MySqlSchemaStateVisitor的visit()方法:初始化自己的aliasMap,之后返回true;
+            public boolean visit(SQLSelectStatement x) {
+                setAliasMap();
+                return true;
+            }
+        - 然后递归访问子元素
+    - SQLObject负责通知visitor要访问的元素，visitor负责访问相应元素前中后三个过程的逻辑处理。
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
   
-block pagination
-  include mixins/paginator
-  +home()
+  <span></span> <a href="/tags/Druid-SQL解析/">Druid SQL解析</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/13/SpringBoot实战笔记/" title="SpringBoot实战笔记" itemprop="url">SpringBoot实战笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-13T06:12:24.000Z" itemprop="datePublished"> Published 2018-08-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/10/Druid源码解析之初步认识/" title="Druid源码解析之初步认识" itemprop="url">Druid源码解析之初步认识</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-10T14:38:12.000Z" itemprop="datePublished"> Published 2018-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>##Druid源码解析##</p>
+<ul>
+<li>Druid是什么<ul>
+<li>数据库连接池，提供强大的监控与扩展功能，包含ProxyDriver,一系列内置的JDBC组件库，一个SQL Parser;</li>
+<li>监控组件，监控应用程序的运行情况，包括Web URI,Spring,JDBC等。为了监控执行SQL执行情况，做了一个Filter-Chain模式的ProxyDriver,缺省提供给StatFilter。还做了一个SQL Parser，将数据库连接池，SQL Parser,ProxyDriver合起来做了一个项目，名为Druid.</li>
+<li>亚秒级查</li>
+<li>支持JDBC兼容的数据库，包括Oracle,MySQL,DB。。。等等</li>
+<li>提供快速的聚合能力以及亚秒级的OLAP查询能力，多租户的设计，面向用户分析应用的理想方案</li>
+<li>阿里巴巴线上验证</li>
+<li>强大的监控特性，通过Druid提供的监控功能，可以清楚知道连接池和SQL工作情况,监控SQL执行时间，ResultSet持有时间，返回行数，更新行数，错误次数，错误堆栈信息。<ul>
+<li>SQL执行的耗时区间分布。</li>
+<li>监控连接池的物理连接创建和销毁次数，逻辑连接的申请和关闭次数，非空等待次数,PSCache命中率等。</li>
+<li>为了方便扩展，提供了Filter-Chain模式的扩展API,可以自己编写Filter拦截JDBC中的任何方法，如性能监控，SQL审计，用户名密码加密，日志等待。</li>
+<li>内置StatFilter,日志输出的Log系列Filter,防御SQL注入攻击的WallFilter。</li>
+<li>ExceptionSorter,当一个连接产生不可恢复的异常时，必须立即从连接池中逐出，否则会产生大量错误。</li>
+<li>PSCache内存优化对于支持游标的数据库,大幅度提升SQL执行性能。一个PreparedStatement对应服务器一个游标，可以缓存起来重复执行。</li>
+<li>LRU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Druid如何扩展JDBC？<ul>
+<li>Druid在DruidDataSource和ProxyDriver上提供了Filter-Chain模式的扩展API,类似Servlet的Filter;</li>
+</ul>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
   
-block copyright
-  include partial/footer
+  <span></span> <a href="/tags/Druid/">Druid</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/10/Sofa学习之SofaRPC/" title="Sofa学习之SofaRPC" itemprop="url">Sofa学习之SofaRPC</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-10T09:42:05.000Z" itemprop="datePublished"> Published 2018-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>1.Sofa是蚂蚁自主研发的金融级分布式中间件，包含构建金融级云原生架构所需的各个组件，包括微服务研发框架，RPC框架，服务注册中心，分布式定时任务，限流/熔断框架，动态配置推送，分布式链路追踪，Metrics监控度量，分布式高可用消息队列，分布式事务框架，分布式数据库代理层等组件，是一套分布式架构的完整解决方案。</p>
+<pre><code>- SofaRPC是蚂蚁金服开源高可扩展，高性能，生产级的JavaRPC框架。
+- SOfaRPC致力于简化应用之间的RPC调用，为应用提供方便透明，稳定高效的点对点远程服务调用方案。SofaRPC提供丰富的模型抽象和可扩展接口，包括过滤器，路由，负载均衡等等。
+- SofaRPC功能特性:
+    - (1)透明化，高性能的远程服务调用；
+    - (2)支持多种服务器路由以及负载均衡策略；
+    - (3)支持多种注册中心的集成；
+    -（4）支持多种协议；
+    -（5）支持同步单向回调泛化等多种调用方式；
+    -（6）支持集群容错，服务预热，自动故障隔离；
+    -（7）强大的扩展功能，按需扩展。
+</code></pre><ol start="2">
+<li><p>架构设计</p>
+<ol>
+<li>从上到下分为两层：<ul>
+<li>核心层：包含RPC的核心组件以及一些通用的实现，如随机等负载均衡算法；</li>
+<li>功能实现层：所有功能实现层的用户都是平等的，都是基于扩展机制实现的。</li>
+</ul>
+</li>
+<li><p>架构原理</p>
+<ol>
+<li>Client<br> Client             —–&gt;客户端发起调用—&gt;调用Stub<br> Proxy              —–&gt;生成Stub,拦截调用，保存调用请求相关信息—&gt;路由寻址<br> Router&amp;Registry —–&gt;根据参数信息从Router和连接管理器中取地址—&gt;参数序列化，作为二进制准备传递<br> Codec           —–&gt;添加requestId等，按照协议格式编码之后传递—&gt;数据编码—&gt;网络传输—&gt;DeCondec:按照协议的规范，进行节码—&gt;解码,序列化—&gt;<br> ServerWorkerManager—&gt;管理发布的服务Bean,进行反射调用—&gt;<br> Server —&gt;业务处理</li>
+<li><p>Sofa源码主要包括</p>
+<ol>
+<li>all(发布打包模块)，</li>
+<li>bom(依赖管控模块，用于依赖版本管控)，</li>
+<li>example(示例模块)，</li>
+<li>test(测试模块，集成测试)，</li>
+<li>core(<ol>
+<li>api:API模块，涵盖各种基本流程接口,消息,上下文,扩展接口等;</li>
+<li>common公共模块，</li>
+<li>涵盖工具类utils,数据结构;</li>
+<li>exception:异常模块，涵盖各种异常接口等)。</li>
+</ol>
+</li>
+<li>core模块包括<ol>
+<li>bootstrap,启动实现模块，用于启动类，发布或者引用服务逻辑,以及registry的操作；</li>
+<li>proxy代理实现模块，用于接口实现代理生成；</li>
+<li>client 客户端实现模块，用于发送请求，接收响应，连接维护，路由，负载均衡，同步异步等；</li>
+<li>server 服务端实现模块，用于启动监听，接收请求，发送响应，业务线程分发等；</li>
+<li>filter 拦截器实现模块，用于服务端和客户端的各种拦截器实现；</li>
+<li>codec 编解码实现模块，例如压缩，序列化等；</li>
+<li>protocol 协议实现模块，用于协议的包装处理，协商；</li>
+<li>transport 网络传输实现模块，用于Tcp连接，数据分包粘包处理，请求响应对象分发等；</li>
+<li>registry 注册中心实现模块，实现注册中心，如zk等。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>实现原理</p>
+<ol>
+<li>Sofa rpc远程调用时通过服务模型来定义调用双方的，服务分为服务消费方和服务提供方，对应rpc的调用端和被调用端。service和reference;</li>
+<li>当Sofa rpc的应用启动的时候，如果发现当前应用需求需要发布RPC服务的话，那么sofa rpc会将这些服务注册到配置中心上；</li>
+<li>当引用这个服务的sofa应用启动时，会从配置中心订阅对应服务的地址；</li>
+<li>当配置中心收到订阅请求后，会将发布方的地址列表推送给订阅方；</li>
+<li>当引用服务的一方拿到地址以后，就可以发起直连调用服务。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
   
+  <span></span> <a href="/tags/SofaRPC/">SofaRPC</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/10/Sofa源码学习系列/" title="Sofa源码学习系列" itemprop="url">Sofa源码学习系列</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-10T02:55:42.000Z" itemprop="datePublished"> Published 2018-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/10/Spring源码解析之Spring声明式事务/" title="Spring源码解析之Spring声明式事务" itemprop="url">Spring源码解析之Spring声明式事务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-10T02:50:55.000Z" itemprop="datePublished"> Published 2018-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/消息队列之消息队列的设计/" title="消息队列之消息队列的设计" itemprop="url">消息队列之消息队列的设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T08:46:53.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="消息队列的设计"><a href="#消息队列的设计" class="headerlink" title="消息队列的设计"></a>消息队列的设计</h2><ul>
+<li>使用场景<ul>
+<li>业务解耦 最终一致性 广播 削峰填谷 流量控制</li>
+<li>强一致性用RPC</li>
+</ul>
+</li>
+<li>如何设计一个消息队列<ul>
+<li>配备Broker来堆积消息，消息的转存，最简单的消息队列可以做成一个消息转发器，把一次RPC看成2次RPC。</li>
+<li>首先Build一个整体数据流，P-B-C;</li>
+<li>利用RPC将数据流串起来，然后考虑RPC的高可用，尽量做到<strong>无状态</strong>；</li>
+<li>考虑如何承载消息堆积，并且在合适的时机投递消息，最加方式就是存储。存储的选型需要综合考虑性能和可靠性，开发维护成本等等。</li>
+<li>为了广播功能，我们需要维护消费关系，利用ZK或其他。</li>
+</ul>
+</li>
+<li><p>高级特性</p>
+<ul>
+<li><p>RPC通信协议</p>
+<ul>
+<li>消息队列就是2次RPC加一个转存。加上消费端的确认所以大概是3次。从而牵涉到负载均衡，服务发现，通信协议，序列化等。</li>
+<li>利用现有的RPC框架。</li>
+</ul>
+</li>
+<li><p>高可用</p>
+<ul>
+<li>所有的高可用都依赖于rpc和存储的高可用。</li>
+<li>幂等</li>
+</ul>
+</li>
+<li>服务端承载消息堆积的能力<ul>
+<li>错峰流控最终可达</li>
+<li>持久化非持久化</li>
+</ul>
+</li>
+<li>消费关系解析<ul>
+<li>点对点 </li>
+<li>广播</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>更高特性<ul>
+<li>可靠投递（最终一致性）<ul>
+<li>完全不丢消息—&gt;消息重复—&gt;每次要发生不可靠的事情之前，先将消息落地，然后发送。当失败或者不知道成功失败时，消息状态时待发送，定时任务不停的轮询所有待发送消息，最终一定可达。</li>
+<li>具体：<ul>
+<li>Producer往broker发送消息之前，先落地；请求到server后，server确保数据落地后再告诉客户端发送成功。</li>
+<li>支持广播的消息队列需要对每个待发送的endpoint，持久化一个发送状态，直到所有endpoint状态都Ok才可以删除消息。</li>
+<li>对于各种不确定(超时，宕机，消息没有送达，送达后没有落地，数据落地后没有回复)都属于消息没有送达。</li>
+<li>重推消息所面临的就是消息重复。重复和丢失就像两个噩梦。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>消费确认<ul>
+<li>当Broker把消息投递给消费者后，消费者可以立即响应收到这个消息。但是这只是第一步，能否消费却不一定。或许是因为消费能力的问题，系统的符合已经不能处理这个消息；或者刚才状态机里面提到的消息不是想要的，主动要求重复。</li>
+<li>消息的送达和消息的处理分开，实现了消息队列的本质。</li>
+<li>对于reject和error，需要特别说明，滑动窗口/池</li>
+</ul>
+</li>
+<li>重复消息和顺序消息<ul>
+<li>顺序消息-&gt;发送方到服务方接收者都是单点单线程。</li>
+<li>没有绝对的顺序消息。</li>
+<li>在保证不丢消息的情况下，减少重复消息，不保证消息的投递顺序。</li>
+<li>消息重复：如何鉴别，并幂等处理，如何减少重复消息的投递。</li>
+<li>每个消息都有唯一身份。通过数据库/bloomfilter/分布式kv中的key都可以进行去重。</li>
+<li>通过版本号识别消息重复，状态机识别</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>消息队列的事务 — RocketMQ</p>
+<ul>
+<li>2PC<ul>
+<li>prepare阶段—投票阶段，协调者向参与者确认是否可以共同提交。</li>
+<li>commit阶段—得到全部参与者的所有回到后，协调者向所有的参与者发布共同提交或者共同回滚的指令。</li>
+<li>2pc的问题：超时状态，在发送完提交指令后，参与者没有收到提交或者回滚的指令时，此时不会是否资源。不足：同步阻塞 单点问题 数据不一致 保守</li>
+</ul>
+</li>
+<li><p>3PC</p>
+<ul>
+<li>在commit之前增加了preCommit过程，使得在参与者收不到确认时，依然可以从容commit或者rollback,避免资源锁定太久而导致浪费。缺点：实现复杂 </li>
+</ul>
+</li>
+<li><p>TCC补偿性事务</p>
+<ul>
+<li>分为try confirm cancel</li>
+<li>事务管理器记录全局事务的推进状态，以及子事务的执行状态，负责推进各个子事务共同进行提交或者回滚。同时负责在子事务处理超时后不停重试，重试不成功后转手工处理，保证事务的最终一致性。</li>
+<li>优点：在尝试阶段仅仅时业务系统做验测，并保留业务资源，并没有真正提交。TCC仅需要释放保留资源，降低补偿成本。隔离性高</li>
+</ul>
+</li>
+<li>事务消息<ul>
+<li>事务消息的本质：消费加积分业务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RocketMQ事务消息<ul>
+<li>设计原则是为了解决Producer端的消息发送与本地事务执行的原子性问题。</li>
+<li>RocketMQ的设计中broker与producer端的双向通信能力，使得broker天生可以作为一个事务协调者存在；</li>
+<li>RocketMQ本身提供存储机制，为事务消息提供持久化能力；</li>
+<li>RocketMQ的高可用机制以及可靠消息设计，为事务消息在系统发生异常时，依然能够保证事务达到最终一致性。</li>
+</ul>
+</li>
+<li>RocketMQ事务消息设计<ul>
+<li>事务消息作为一种异步确保型事务，将两个事务分支通过MQ进行异步解耦，RocketMQ事务消息的设计流程借鉴了两阶段提交理论。</li>
+<li>过程：<ul>
+<li>事务发起方首先发送prepare消息到MQ;</li>
+<li>在发送prepare消息成功后执行本地事务;</li>
+<li>根据本地事务执行结果返回commit或者是rollback;</li>
+<li>如果消息是rollback，MQ将删除该prepare消息不进行下发，如果是commit消息，MQ将会把这个消息发送给consumer端。</li>
+<li>如果执行本地事务过程中，执行端挂掉，或者超时，MQ将会不停地询问其同组的其他producer来获取状态。</li>
+</ul>
+</li>
+<li>RocketMQ通过使用HalfTopic以及Operation Topic两个内部队列来存储事务消息推送状态。<ul>
+<li>Half Topic对应队列中存放prepare消息，Operation Topic对应的队列则存放了prepare message对应的commit/rollback消息，消息体中则是prepare message对应的offset，服务端通过对比两个队列的差值来找到尚未提交的超时事务进行回查。</li>
+</ul>
+</li>
+<li>从用户侧来说，用户需要分别实现本地事务执行，以及本地事务回查方法，只需要关注本地事务的执行状态即可。</li>
+<li>在service层，对事物消息的两阶段提交进行了抽象，同时针对超时事务实现了回查逻辑，通过不断扫描当前事务推进状态，来不断反向请求Producer端获取超时事务的执行状态，在避免事务挂起的同时，也避免了Producer端的单点故障。</li>
+<li>在存储层，RocketMQ通过Bridge封装了与底层队列存储的相关操作，用以操作两个对应的内部队列，用户也可以通过其他存储介质来实现自己的service，RocketMQ会通过ServiceProvider加载进来。</li>
+</ul>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/消息队列/">消息队列</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/消息队列之Kafka与RocketMQ的对比/" title="消息队列之Kafka与RocketMQ的对比" itemprop="url">消息队列之Kafka与RocketMQ的对比</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T08:28:03.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="消息队列之Kafka与RocketMQ的对比"><a href="#消息队列之Kafka与RocketMQ的对比" class="headerlink" title="消息队列之Kafka与RocketMQ的对比"></a>消息队列之Kafka与RocketMQ的对比</h2><ul>
+<li>部署和模型<ul>
+<li>部署<ul>
+<li>RocketMQ 主从架构 一主多从 </li>
+<li>Kafka 互为主从 一个Broker既可以是某个分区的主副本也可以是从副本</li>
+</ul>
+</li>
+<li>存储模型<ul>
+<li>Kafka:Topic_A的每个partition都有commitLog来存储消息，每个CommitLog有多个Segment,当Segment写满，或则Segment对应的index写满，或者Segment超时，就会重新创建一个Segment来存储该Partition的消息。每个Segment都有一个index文件，是一个稀疏索引，当Segment写入的消息超过一定数量后，往index写入一条记录。</li>
+<li>RocketMQ:Topic_A有3各ConsummeQueue，两主一备，Broker_A,B,Master对外提供服务。Index可以根据key和temeStamp来查询。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>有序消息<ul>
+<li>kafka:都是一个topic多个partition场景，保证每个Partition里面的消息都是有序的。一个topic可以配置多个partition,producer在发送消息的时候，按照一定的策略选择partition来写消息，保证同一个订单的消息，写到同一个partition上。</li>
+<li>RocketMQ:一个Topic可以有多个consumerQueue,每个queue里面消息是有序的。</li>
+</ul>
+</li>
+<li>发送端负载均衡<ul>
+<li>hash,随机缓存</li>
+</ul>
+</li>
+<li>消费端负载均衡<ul>
+<li>kafka当有consumer加入到comsumerGroup,会发送JoinGroup消息给Coordinator,Coordinator收集到所有的消息，会选择一个主Consumer，把执行的Comsumer消息以及Partition消息发送给他。然后同步告知其他Consumer</li>
+</ul>
+</li>
+<li>数据可靠性<ul>
+<li>kafka:支持同步/异步复制，异步刷盘</li>
+</ul>
+</li>
+<li>消息投递的实时性<ul>
+<li>kafka使用段轮询方式，实时性取决于轮询周期</li>
+<li>RocketMQ使用长轮询，通过push方式实现</li>
+</ul>
+</li>
+<li>消费失败重试<ul>
+<li>Kafka不支持</li>
+<li>RocketMQ支持定时重试</li>
+</ul>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/消息队列/">消息队列</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/消息队列之RocketMQ/" title="消息队列之RocketMQ" itemprop="url">消息队列之RocketMQ</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T07:55:19.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="RocketMQ-介绍"><a href="#RocketMQ-介绍" class="headerlink" title="RocketMQ 介绍"></a>RocketMQ 介绍</h2><ul>
+<li>概述<ul>
+<li>推模式</li>
+<li>拉模式-长连接，低延迟</li>
+</ul>
+</li>
+<li>组成<ul>
+<li>NameServer:轻量级方式提供服务发现和路由功能，每个NameServer存有全量的路由信息，提供对等的读写服务，支持快速扩容。负责对数据源的管理，包括Topic和路由信息的管理，Broker启动的时候会去nameServer注册并定时发送心跳，Producer启动的时候会到NameServer上拉取Topic所属的broker具体地址，然后向具体的broker发送消息。</li>
+<li>Producer:由用户进行分布式部署，消息由producer通过多种负载均衡策略发送到Broker集群，发送低延时，支持快速失败。</li>
+<li>Consumer:由用户部署，支持push和pull两种消费模式，支持集群消费和广播消费，通过实时的消息订阅。</li>
+</ul>
+</li>
+<li>消息模型<ul>
+<li>Message</li>
+<li>Topic</li>
+<li>Queue</li>
+<li>Group</li>
+</ul>
+</li>
+<li>服务端整体架构设计<ul>
+<li>最上层授权和认证部分，TCP基于自行研发的线路层协议，需要编解码以及序列化。</li>
+<li>健康检查</li>
+<li>流控和熔断措施，对系统进行流量保护，针对不同维度的流量控制</li>
+<li>存储</li>
+</ul>
+</li>
+<li>SDK架构图<ul>
+<li>首先发现服务，需要找到发送消息或者接收消息具体的broker,以及broker上topic；</li>
+<li>然后SDK还需要保持长连接活；</li>
+<li>其次流量控制熔断机制</li>
+<li>保证实现高科而用，需要提供补偿机制，重投和重复。</li>
+<li>元信息通知更新消息。</li>
+</ul>
+</li>
+<li><p>技术点</p>
+<ul>
+<li><p>消息的顺序</p>
+<ul>
+<li>RocketMQ全局保序，保证对通道的单一实例操作，单进程，单线程，线程读；</li>
+<li>牺牲吞吐量</li>
+</ul>
+</li>
+<li><p>消息去重：失败重传</p>
+</li>
+<li>分布式挑战：RocketMQ追求AP,通常情况下，通过降级，限流，熔断机制来保证洪峰下的可用性。金融级高频交易典型场景：CP机制，牺牲可用性来保证数据一致性。基于ZAB协议，利用分布式锁和通知机制来保证多副本数据的一致性。</li>
+</ul>
+</li>
+<li>优化<ul>
+<li>JVM停顿 GC 线程池 CPU 内存 网卡</li>
+</ul>
+</li>
+<li><p>对比</p>
+<ul>
+<li>Kafak和RocketMQ都是磁盘消费队列模式，对于同一个消费组，一个分区只支持一个线程新消费消息，过少的分区会导致消费速度大大落后于消息生成速度。在实际的生产环境中，一个topic会设置成多个分区的模式来支持多个消费者。</li>
+<li>分区增大性能下降的原因:Kafka的每个topic，每个分区都会对应一个物理文件，当topic增加时，消息分散的落盘策略会导致磁盘I/O竞争激烈。而RocketMQ所有的消息都保持在同一个物理物件中，topic和分区数对rocketMQ也支持逻辑上的划分，不会增大太多影响。</li>
+<li><p>容量保证的策略：降级，限流，熔断</p>
+<ul>
+<li>降级：暂停边缘服务，保证核心服务的资源。</li>
+<li>在有限资源情况下，所提供的单位时间服务能力是有限的，如果超过了承受能力，可能会带来整个服务的停顿。应用的Crash，进而风险传递给服务调用方造成整个系统的服务能力丧失，进而引发雪崩。</li>
+<li><p>典型的限流算法:漏桶算法和令牌算法</p>
+<ul>
+<li>漏桶算法 一个桶以恒定的速率滴出，上方滴入速率超过滴出速率，就会导致水桶溢出过载。</li>
+<li>令牌桶算法 令牌以恒定速率放入桶，桶内令牌数有上限，每个请求会获取一个令牌，如果没有令牌了，则这个请求时过载的。</li>
+<li>信号量</li>
+</ul>
+</li>
+<li><p>熔断：在分布式系统中，如果调用的远程服务或者资源由于某种原因无法使用时，没有过载保护就会导致请求资源阻塞在服务器上等待从而消耗掉系统或服务器资源。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/RocketMQ/">RocketMQ</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/分布式学习之高并发总结/" title="分布式学习之高并发总结" itemprop="url">分布式学习之高并发总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T07:26:21.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="分布式学习之高并发总结"><a href="#分布式学习之高并发总结" class="headerlink" title="分布式学习之高并发总结"></a>分布式学习之高并发总结</h2><ul>
+<li><p>千万级高并发总结：</p>
+<ol>
+<li>所有的性能提升，最终落在CPU,内存，IO，网络这4块。</li>
+<li>抽象能力，分类能力，算法</li>
+<li>客户端-&gt;接入层-&gt;后台（搜索，平台，大数据）</li>
+<li>RPC</li>
+<li>消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。</li>
+<li>配置管理：灰度发布，服务降级</li>
+<li>无状态：将有状态的东西剥离到数据层</li>
+<li>分布式服务追踪解决的问题：通过唯一id</li>
+</ol>
+</li>
+<li><p>高并发实时后台服务架构</p>
+<ol>
+<li>流控：扩容 ddos攻击 nginx</li>
+<li>负载均衡</li>
+<li>接入层：校验登陆态 无状态的横向扩展</li>
+<li>逻辑层：<ol>
+<li>前轻后重 RPC服务来提供和实现</li>
+<li>缩短关键业务流程</li>
+<li>降低单个接口处理耗时—代码架构系统部署</li>
+<li>同步变异步：同步接口转化为异步接口 保证吞吐量 I/O多路复用</li>
+<li>隔离:逻辑层具备业务隔离能力，整体隔离，内部隔离</li>
+</ol>
+</li>
+<li>存储层<ol>
+<li>数据快速访问 一致性安全问题 缓存 分库分表</li>
+<li>数据如何同步备份</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>高并发与实时处理技术<ul>
+<li>高并发下缓存治理<ul>
+<li>I/O是导致IT系统无法完成高并发的主要原因。</li>
+<li>解决I/O速度问题就是将计算结果临时存储，也就是缓存。</li>
+<li>缓存治理的困难<ul>
+<li>应用无感的合理使用缓存</li>
+<li>对现有缓存乱使用的迁移</li>
+<li>缓存研发方案—缓存场景隔离化，数据量分配的合理化以及缓存的分离。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>常见并发同步案例分析</p>
+<ul>
+<li><p>订票系统案例</p>
+<ul>
+<li>锁同步：程序层面，多个线程进来，只有一个一个访问。锁有两个层面，一个是java的对象锁，用于线程同步；另一个是数据库锁，如果是分布式系统，只能用数据库端的锁来实现。</li>
+<li>乐观锁和悲观锁 乐观锁在不锁定表的情况，利用业务来控制解决并发问题。保证并发可读+数据存储的排他性+保证性能同时解决并发带来的脏数据问题。</li>
+</ul>
+</li>
+<li><p>股票交易</p>
+<ul>
+<li>表拆分 按业务拆分 时间轴分区</li>
+<li>缓存</li>
+</ul>
+</li>
+<li><p>高并发提高访问效率手段</p>
+<ul>
+<li>瓶颈：服务带宽 web线程连接数 数据库连接查询</li>
+<li>增加带宽，DNS域名解析 负载均衡 前置代理服务器 数据库查询优化，读写分离，分表。</li>
+<li>复制在高并发的情况：尽量使用缓存，用户缓存，信息缓存，大量减少与数据库的交换，提高性能。 找出性能瓶颈，减少额外开销，优化查询语句。单台机器的瓶颈。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1500万QPS背后的高性能，高可用实时搜索系统架构演变</li>
+<li>12306如何实现流量并发的关键技术<ul>
+<li>关键技术<ul>
+<li>利用云计算资源分担系统查询业务，弹性扩展</li>
+<li>双中心运行架构</li>
+<li>带宽保证</li>
+<li>防恶意抢票</li>
+<li>应急方案</li>
+</ul>
+</li>
+<li>设计思路    <ul>
+<li>关联数据节点设计</li>
+<li>将数据移到内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>金融环境高并发方案</li>
+<li></li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/高并发/">高并发</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

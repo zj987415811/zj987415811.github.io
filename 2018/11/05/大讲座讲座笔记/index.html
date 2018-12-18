@@ -1,34 +1,733 @@
-extends partial/layout
 
-block site_title
-  != page.title + " | " + config.title
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>大讲座笔记系列 | Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
+    
+    <meta name="description" content="nacos的讲座">
+<meta name="keywords" content="nacos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大讲座笔记系列">
+<meta property="og:url" content="http://rockyzjin.cn/2018/11/05/大讲座讲座笔记/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="nacos的讲座">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-06T08:02:19.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大讲座笔记系列">
+<meta name="twitter:description" content="nacos的讲座">
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/05/大讲座讲座笔记/" title="大讲座笔记系列" itemprop="url">大讲座笔记系列</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-11-05T13:28:38.000Z" itemprop="datePublished"> Published 2018-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Spring-Nacos"><span class="toc-number">1.</span> <span class="toc-text">1. Spring Nacos</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-贝壳找房中台讲座"><span class="toc-number">2.</span> <span class="toc-text">2. 贝壳找房中台讲座</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-微服务落地"><span class="toc-number">3.</span> <span class="toc-text">3. 微服务落地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-微服务事务一致性解决方案"><span class="toc-number">4.</span> <span class="toc-text">4. 微服务事务一致性解决方案</span></a></li></ol>
+		
+		</div>
+		
+		<p>nacos的讲座</p>
+<a id="more"></a>
+<h1 id="1-Spring-Nacos"><a href="#1-Spring-Nacos" class="headerlink" title="1. Spring Nacos"></a>1. Spring Nacos</h1><ol>
+<li>云计算 云原生</li>
+<li>Open Source</li>
+<li>LAMP-&gt;Java WEB -&gt;Java WEB -&gt;应用拆分，分布式服务</li>
+<li>源代码冲突，项目团队协同</li>
+<li>服务注册与管理，配置的注册与管理，服务元数据的管理</li>
+<li>支持生态springcloud cloudnative dubbo 公有云</li>
+<li>注册中心：zk 缺点:特性，service管理缺失，本质不是做服务发现的产品</li>
+<li>基于DNS的服务发现</li>
+<li>服务发现与服务管理（在微服务角度如何管理），配置中心（）</li>
+</ol>
+<h1 id="2-贝壳找房中台讲座"><a href="#2-贝壳找房中台讲座" class="headerlink" title="2. 贝壳找房中台讲座"></a>2. 贝壳找房中台讲座</h1><ol>
+<li>建设目标<ol>
+<li>进入业务纵深</li>
+<li>全局抽象打通</li>
+<li>支撑前台快跑</li>
+<li>输出标准规范</li>
+</ol>
+</li>
+<li>落地形态<ol>
+<li>数据中台<ol>
+<li>数据落地</li>
+<li>模型建设</li>
+<li>数仓绩效</li>
+<li>业务可能性</li>
+</ol>
+</li>
+<li>通用组件中台<ol>
+<li>减少重复</li>
+<li>邻域知识薄</li>
+<li>技术挑战大</li>
+</ol>
+</li>
+<li>规则/流程标准化中台<ol>
+<li>规则标准化</li>
+<li>流程标准化</li>
+<li>纯函数</li>
+<li>调度器</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>出发点<ol>
+<li>从服务能力/服务组件出发<ol>
+<li>服务层重点；</li>
+<li>open API，邻域层之上；</li>
+</ol>
+</li>
+<li>从共性数据能力下沉出发<ol>
+<li>剥离共性数据/主数据</li>
+<li>重数据落地，轻业务规则</li>
+</ol>
+</li>
+<li>从已有系统前后分离/组件化出发    <ol>
+<li>服务化拆分+模型升级</li>
+<li>对既有业务的大力改造</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>业务蓝本<ol>
+<li>核心业务—找到抓手</li>
+<li>久经考验—稳定性</li>
+<li>模型完善—宏观思考</li>
+</ol>
+</li>
+<li>面临挑战<ol>
+<li>技术+业务<ol>
+<li>系统服务化不够，改造难度大；</li>
+<li>底层性能优化欠缺；</li>
+<li>百亿/月交易额；</li>
+<li>逻辑复杂，领域层缺乏涉及。</li>
+<li>业务在跑，新需求不断。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>演进路线<ol>
+<li>找到业务蓝本</li>
+<li>数据中心下沉：启动数据共享中台建设</li>
+<li>领域层重建</li>
+<li>领域层裂变: 启动规则标准化中台建设，丰富能力组件化。</li>
+</ol>
+</li>
+<li>数据中心<ol>
+<li>拆分粒度考量<ol>
+<li>邻域边界</li>
+<li>基础设施</li>
+<li>团队人员</li>
+</ol>
+</li>
+<li>框架代码<ol>
+<li>事务能力</li>
+<li>缓冲集成</li>
+<li>邻域约束</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="3-微服务落地"><a href="#3-微服务落地" class="headerlink" title="3. 微服务落地"></a>3. 微服务落地</h1><ol>
+<li>配置中心</li>
+</ol>
+<ul>
+<li>一致性K-V存储中心</li>
+<li>统一配置实时推送</li>
+<li>配置灰度更新与回滚</li>
+<li>配置全局恢复，备份与历史</li>
+<li>高可用集群<ol>
+<li>Open API </li>
+<li>业务无关性</li>
+<li>配置生效监控</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>服务监控</li>
+<li>统一服务管控平台<ol>
+<li>多注册中心接入</li>
+<li>开源服务框架接入服务管理</li>
+<li>注册中心权限管理系统</li>
+<li>web界面话管理服务</li>
+<li>标准化接入流程</li>
+<li>智能监控</li>
+<li>大规模注册中心集群和容灾策略</li>
+</ol>
+</li>
+<li>分布式服务框架<ol>
+<li>雪崩===网络隔离（3-5w），ip隔离，选强烈的机器作为主节点，打散。</li>
+<li>架构设计：状态 </li>
+</ol>
+</li>
+<li>微服务实践<ol>
+<li>关于粒度<ol>
+<li>每个服务方法代表一个功能，而不是某个功能的一个不走；</li>
+<li>不适用过于抽象的通用接口。如map;</li>
+</ol>
+</li>
+<li>版本号<ol>
+<li>定义版本号</li>
+<li>不兼容时灰度发布</li>
+<li>枚举 </li>
+<li>API设计<h1 id="4-微服务事务一致性解决方案"><a href="#4-微服务事务一致性解决方案" class="headerlink" title="4. 微服务事务一致性解决方案"></a>4. 微服务事务一致性解决方案</h1></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>问题<ol>
+<li>微服务事务一致性问题</li>
+<li>业界分布式事务的解决方案</li>
+<li>ServiceComb分布式事务解决方案的演进</li>
+</ol>
+</li>
+<li>微服务架构<ol>
+<li>微服务架构将一个应用分成多个相互独立的服务；</li>
+<li>好处是各个服务能够持续独立的开发和部署；</li>
+<li>难题是服务的数据需要采用什么样的方式来进行存储？</li>
+</ol>
+</li>
+<li>2阶段提交<ol>
+<li>准备阶段，完成资源操作；</li>
+<li>优点or缺点：<ol>
+<li>提供强一致性保障；</li>
+<li>准备阶段完成资源操作；</li>
+<li>如果准备过程出现问题可以回滚；</li>
+<li>资源层面提供保障，业务入侵性低；</li>
+<li>协议成本高，并且存在全局锁的问题。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>ACID与BASE<ol>
+<li>ACID(刚性事务)</li>
+<li>BAES(柔性事务)</li>
+</ol>
+</li>
+<li>TCC(Try Confirm Cancel)<ol>
+<li>Try:尝试执行业务；<ol>
+<li>完成所有业务检查</li>
+<li>预留必须的业务资源</li>
+</ol>
+</li>
+<li>Confirm:确认执行业务<ol>
+<li>真正执行业务</li>
+<li>不做业务检查</li>
+</ol>
+</li>
+<li>Cancel:取消执行业务<ol>
+<li>释放Try阶段预留的业务资源 </li>
+</ol>
+</li>
+</ol>
+</li>
+<li>通过领域建模来解决<ol>
+<li>限界上下文</li>
+</ol>
+</li>
+<li>微服务事务一致性建议<ol>
+<li>内刚：聚合通过数据库事务保障强一致。</li>
+<li>外柔：最终一致</li>
+</ol>
+</li>
+<li>saga</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nacos/">nacos</a>
+  </div>
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
+</div>
 
-block copyright
-  include partial/footer
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rockyzjin.cn/2018/11/05/大讲座讲座笔记/" data-title="大讲座笔记系列 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2018/11/20/大复习之深度解析RPC与Restful/" title="大复习之深度解析RPC与Restful">
+  <strong>上一篇：</strong><br>
+  <span>
+  大复习之深度解析RPC与Restful</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/10/11/Netty系列之Netty实战读书笔记/" title="Netty系列之Netty实战读书笔记">
+ <strong>下一篇：</strong><br> 
+ <span>Netty系列之Netty实战读书笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Spring-Nacos"><span class="toc-number">1.</span> <span class="toc-text">1. Spring Nacos</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-贝壳找房中台讲座"><span class="toc-number">2.</span> <span class="toc-text">2. 贝壳找房中台讲座</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-微服务落地"><span class="toc-number">3.</span> <span class="toc-text">3. 微服务落地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-微服务事务一致性解决方案"><span class="toc-number">4.</span> <span class="toc-text">4. 微服务事务一致性解决方案</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

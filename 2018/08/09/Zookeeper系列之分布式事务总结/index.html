@@ -1,34 +1,573 @@
-extends partial/layout
 
-block site_title
-  != page.title + " | " + config.title
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Zookeeper系列之分布式事务总结 | Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
+    
+    <meta name="description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+<meta name="keywords" content="Zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper系列之分布式事务总结">
+<meta property="og:url" content="http://rockyzjin.cn/2018/08/09/Zookeeper系列之分布式事务总结/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-09T05:31:42.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper系列之分布式事务总结">
+<meta name="twitter:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/09/Zookeeper系列之分布式事务总结/" title="Zookeeper系列之分布式事务总结" itemprop="url">Zookeeper系列之分布式事务总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-09T03:44:54.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			
+		
+		</div>
+		
+		<p>##1.分布式事务解决方案##</p>
+<ul>
+<li><p>基于XA协议的两阶段提交方案</p>
+<ul>
+<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
+<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
+<li>本地资源管理器 事务协调器</li>
+<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
+</ul>
+</li>
+<li><p>TCC方案</p>
+<ul>
+<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
+<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
+<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
+<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
+<li>缺点：<ul>
+<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
+<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于消息的最终一致性方案<ul>
+<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
+<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
+<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
+</ul>
+</li>
+<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
+<li>蚂蚁金服的分布式事务解决方案DTX<ul>
+<li>整体架构：<ul>
+<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
+<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
+<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
+<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
+</ul>
+</li>
+<li>DTX执行<ul>
+<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
+<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Zookeeper/">Zookeeper</a>
+  </div>
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
+</div>
 
-block copyright
-  include partial/footer
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rockyzjin.cn/2018/08/09/Zookeeper系列之分布式事务总结/" data-title="Zookeeper系列之分布式事务总结 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2018/08/09/分布式学习之秒杀系统架构/" title="分布式学习之秒杀系统架构">
+  <strong>上一篇：</strong><br>
+  <span>
+  分布式学习之秒杀系统架构</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" title="缓存系列之数据库缓存一致性问题">
+ <strong>下一篇：</strong><br> 
+ <span>缓存系列之数据库缓存一致性问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

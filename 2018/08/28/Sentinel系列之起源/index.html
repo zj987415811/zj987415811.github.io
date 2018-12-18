@@ -1,34 +1,566 @@
-extends partial/layout
 
-block site_title
-  != page.title + " | " + config.title
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Sentinel系列之起源 | Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
+    
+    <meta name="description" content="1.什么是Sentinel i.分布式系统的流量防卫兵；ii.微服务架构中，服务与服务之间的稳定性变得越来越重要。Sentinel以流量为切入点，从流控，熔断，降级，系统负载保护等多个维度来提供服务稳定性支持；iii.轻量级。  2.Sentinel功能 i.流控，针对秒杀环境，对于突发流量可以控制在系统承受范围内；ii.削峰填谷;iii.实时熔断下游不可用应用;iv.完备的监控功能:提供实时的监">
+<meta name="keywords" content="Sentinel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sentinel系列之起源">
+<meta property="og:url" content="http://rockyzjin.cn/2018/08/28/Sentinel系列之起源/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="1.什么是Sentinel i.分布式系统的流量防卫兵；ii.微服务架构中，服务与服务之间的稳定性变得越来越重要。Sentinel以流量为切入点，从流控，熔断，降级，系统负载保护等多个维度来提供服务稳定性支持；iii.轻量级。  2.Sentinel功能 i.流控，针对秒杀环境，对于突发流量可以控制在系统承受范围内；ii.削峰填谷;iii.实时熔断下游不可用应用;iv.完备的监控功能:提供实时的监">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-18T07:51:29.806Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sentinel系列之起源">
+<meta name="twitter:description" content="1.什么是Sentinel i.分布式系统的流量防卫兵；ii.微服务架构中，服务与服务之间的稳定性变得越来越重要。Sentinel以流量为切入点，从流控，熔断，降级，系统负载保护等多个维度来提供服务稳定性支持；iii.轻量级。  2.Sentinel功能 i.流控，针对秒杀环境，对于突发流量可以控制在系统承受范围内；ii.削峰填谷;iii.实时熔断下游不可用应用;iv.完备的监控功能:提供实时的监">
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/28/Sentinel系列之起源/" title="Sentinel系列之起源" itemprop="url">Sentinel系列之起源</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-28T01:24:02.000Z" itemprop="datePublished"> Published 2018-08-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-什么是Sentinel"><span class="toc-number">1.</span> <span class="toc-text">1.什么是Sentinel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Sentinel功能"><span class="toc-number">2.</span> <span class="toc-text">2.Sentinel功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-核心架构"><span class="toc-number">3.</span> <span class="toc-text">3.核心架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-基本概念"><span class="toc-number">4.</span> <span class="toc-text">4.基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-资源"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-规则"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Sentinel功能合设计理念"><span class="toc-number">5.</span> <span class="toc-text">5.Sentinel功能合设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-流量控制"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-熔断降级"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 熔断降级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-系统的过载保护"><span class="toc-number">6.</span> <span class="toc-text">5.3 系统的过载保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Sentinel是如何工作的"><span class="toc-number">7.</span> <span class="toc-text">6.Sentinel是如何工作的</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="1-什么是Sentinel"><a href="#1-什么是Sentinel" class="headerlink" title="1.什么是Sentinel"></a>1.什么是Sentinel</h2><blockquote>
+<p>i.分布式系统的流量防卫兵；<br><br>ii.微服务架构中，服务与服务之间的稳定性变得越来越重要。Sentinel以流量为切入点，从流控，熔断，降级，系统负载保护等多个维度来提供服务稳定性支持；<br>iii.轻量级。</p>
+</blockquote>
+<h2 id="2-Sentinel功能"><a href="#2-Sentinel功能" class="headerlink" title="2.Sentinel功能"></a>2.Sentinel功能</h2><blockquote>
+<p>i.流控，针对秒杀环境，对于突发流量可以控制在系统承受范围内；<br><br>ii.削峰填谷;<br><br>iii.实时熔断下游不可用应用;<br><br>iv.完备的监控功能:提供实时的监控功能，可以精确到秒级数据；<br><br>v.Sentinel提供简易的扩展点，快速定制逻辑，例如定制规则管理，适配数据源。</p>
+</blockquote>
+<h2 id="3-核心架构"><a href="#3-核心架构" class="headerlink" title="3.核心架构"></a>3.核心架构</h2><pre><code>核心库:不依赖任何框架/库，能够运行于所有java运行时环境，对Dubbo/Spring Cloud等框架有较好的支持。
+控制台:基于SpringBoot开发，打包后直接运行，不需要额外的Tomcat应用容器。
+</code></pre><h2 id="4-基本概念"><a href="#4-基本概念" class="headerlink" title="4.基本概念"></a>4.基本概念</h2><h3 id="4-1-资源"><a href="#4-1-资源" class="headerlink" title="4.1 资源"></a>4.1 资源</h3><ol>
+<li>资源是Sentinel的关键概念，可以是APP中的任意内容。如由应用程序提供的服务，或者由应用程序调用的其他应用提供的服务，或者一段代码。</li>
+<li>只要通过Sentinel API定义的代码就是资源，能够被Sentinel保护起来。通常使用方法签名，URL，甚至服务名称作为资源名来标识资源。<h3 id="4-2-规则"><a href="#4-2-规则" class="headerlink" title="4.2 规则"></a>4.2 规则</h3>围绕资源的实时状态设定的规则，可以包括流量控制规则，熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</li>
+</ol>
+<h2 id="5-Sentinel功能合设计理念"><a href="#5-Sentinel功能合设计理念" class="headerlink" title="5.Sentinel功能合设计理念"></a>5.Sentinel功能合设计理念</h2><h3 id="5-1-流量控制"><a href="#5-1-流量控制" class="headerlink" title="5.1 流量控制"></a>5.1 流量控制</h3><p><strong>1.</strong> <strong>什么是流量控制</strong></p>
+<blockquote>
+<p>流控是网络传输中的常用概念，用于调整网络包的发送数据。<br><br>流控的目的是从系统的稳定性角度来考虑的，在处理请求的速度上，有很多讲究。<br><br>任意时间到来的请求是随机不可控的，但是系统的处理能力有限，需要根据系统的能力进行流控。<br><br>Sentinel作为一个适配器，可以根据需要把随机请求调整成合适的形状。<br></p>
+</blockquote>
+<p><strong>2.流控设计理念</strong><br></p>
+<blockquote>
+<p>资源的调用关系，例如资源的调用链路，资源和资源之间的关系。<br><br>运行指标，如QPS,线程池,系统负载等。<br><br>控制效果，如直接限流，冷启动，排队等。<br><br><strong>Sentinel的设计理念是，自由选择控制的角度，进行灵活组合，达到想要的效果。</strong></p>
+</blockquote>
+<h3 id="5-2-熔断降级"><a href="#5-2-熔断降级" class="headerlink" title="5.2 熔断降级"></a>5.2 熔断降级</h3><p><strong>1.什么是熔断降级</strong></p>
+<blockquote>
+<p>核心还是保护系统稳定性，降低调用链路中的不稳定资源。由于调用关系的复杂性，如果链路中的部分资源不稳定，最终会导致请求发生堆积。<br><br>Sentinel和Hystrix原则一致：当调用链路中某个资源出现不稳定，例如表现timeout，异常比例升高的时候，则对这个资源调用进行限制，<strong>让某个请求快速失败</strong>，避免影响到其他资源，最终产生雪崩的效果。<br></p>
+</blockquote>
+<p><strong>2.熔断降级的设计理念</strong></p>
+<blockquote>
+<ul>
+<li>限制手段上，Sentinel和HyStrix采取不同的方法；HyStrix通过线程池的方式，来依赖(在我们的概念中对应资源)进行了隔离。这样的好处是对资源和资源之间进行彻底的隔离。缺点是增加了线程切换的成本，还需要预留资源给各个线程池大小的分配。<br></li>
+<li>Sentinel对于这个问题采用了两种手段：<br><ol>
+<li>通过并发线程数进行限制:通过限制资源并发线程数量，来减少不稳定资源对其他资源的影响，这样没有线程切换的损耗，也不需要预先分配线程池的大小。当某个资源出现不稳定的情况下，如响应时间变长，对资源的直接影响是会造成线程数的逐步堆积。当线程数在特定资源上堆积到一定数量之后，该资源的新请求就会被拒绝，堆积的线程完成后才开始接收请求。</li>
+<li>通过响应时间对资源进行降级：除了对并发线程数进行控制意外，Sentinel还可以通过响应时间来快速降级不稳定资源，当依赖的资源出现响应时间过长后，所有对该资源的访问都会被直接拒绝，直到过了指定时间窗口后才重新恢复。</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<h2 id="5-3-系统的过载保护"><a href="#5-3-系统的过载保护" class="headerlink" title="5.3 系统的过载保护"></a>5.3 系统的过载保护</h2><pre><code>系统入口流量和系统的负载达到一个平衡，保证系统在能力范围之内处理更多的请求。
+</code></pre><h2 id="6-Sentinel是如何工作的"><a href="#6-Sentinel是如何工作的" class="headerlink" title="6.Sentinel是如何工作的"></a>6.Sentinel是如何工作的</h2><pre><code>1. 对主流框架提供适配或者显示的API，来定义需要保护的资源，并提供设施对资源进行实时统计和调用链路分析。
+2. 根据预设的规则，结合对资源的实时统计信息，对流量进行控制。同时，Sentinel提供开放的接口，方便定义和改变规则。
+3. Sentinel提供实时的监控系统，方便快速了解当前系统的状态。 
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Sentinel/">Sentinel</a>
+  </div>
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
+</div>
 
-block copyright
-  include partial/footer
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rockyzjin.cn/2018/08/28/Sentinel系列之起源/" data-title="Sentinel系列之起源 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2018/08/28/Sentinel系列之源码解读/" title="Sentinel系列之源码">
+  <strong>上一篇：</strong><br>
+  <span>
+  Sentinel系列之源码</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/08/20/Druid源码解析之数据库连接池总论/" title="Druid源码解析之数据库连接池总论">
+ <strong>下一篇：</strong><br> 
+ <span>Druid源码解析之数据库连接池总论
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-什么是Sentinel"><span class="toc-number">1.</span> <span class="toc-text">1.什么是Sentinel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Sentinel功能"><span class="toc-number">2.</span> <span class="toc-text">2.Sentinel功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-核心架构"><span class="toc-number">3.</span> <span class="toc-text">3.核心架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-基本概念"><span class="toc-number">4.</span> <span class="toc-text">4.基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-资源"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-规则"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Sentinel功能合设计理念"><span class="toc-number">5.</span> <span class="toc-text">5.Sentinel功能合设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-流量控制"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-熔断降级"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 熔断降级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-系统的过载保护"><span class="toc-number">6.</span> <span class="toc-text">5.3 系统的过载保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Sentinel是如何工作的"><span class="toc-number">7.</span> <span class="toc-text">6.Sentinel是如何工作的</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

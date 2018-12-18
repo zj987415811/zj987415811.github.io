@@ -1,34 +1,575 @@
-extends partial/layout
 
-block site_title
-  != page.title + " | " + config.title
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Druid源码解析之数据库连接池总论 | Rocky for Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rocky ZhouJin QQ987415811">
+    
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
+    
+    <meta name="description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
+<meta name="keywords" content="Druid 数据库连接池">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Druid源码解析之数据库连接池总论">
+<meta property="og:url" content="http://rockyzjin.cn/2018/08/20/Druid源码解析之数据库连接池总论/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-21T08:12:19.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Druid源码解析之数据库连接池总论">
+<meta name="twitter:description" content="1.应用程序直接获取数据连接的缺点 用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。 大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、  2.使用数据库连接池优化程序性能 数据库连接池的概念 数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。 对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到">
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
+    
+    <link rel="alternative" href="/atom.xml" title="Rocky for Everything" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Rocky for Everything" title="Rocky for Everything"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rocky for Everything">Rocky for Everything</a></h1>
+				<h2 class="blog-motto">慢慢喜欢你</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:rockyzjin.cn">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/20/Druid源码解析之数据库连接池总论/" title="Druid源码解析之数据库连接池总论" itemprop="url">Druid源码解析之数据库连接池总论</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Rocky ZhouJin QQ987415811" target="_blank" itemprop="author">Rocky ZhouJin QQ987415811</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-08-20T10:17:52.000Z" itemprop="datePublished"> Published 2018-08-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-应用程序直接获取数据连接的缺点"><span class="toc-number">1.</span> <span class="toc-text">1.应用程序直接获取数据连接的缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-使用数据库连接池优化程序性能"><span class="toc-number">2.</span> <span class="toc-text">2.使用数据库连接池优化程序性能</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="1-应用程序直接获取数据连接的缺点"><a href="#1-应用程序直接获取数据连接的缺点" class="headerlink" title="1.应用程序直接获取数据连接的缺点"></a>1.应用程序直接获取数据连接的缺点</h2><ol>
+<li>用户每次请求都需要向数据库获得连接，数据库创建连接通常需要消耗大量资源，创建时间也较长。</li>
+<li>大量得创建极大浪费数据库得资源，并且极易造成数据库服务器内存溢出，宕机。、</li>
+</ol>
+<h2 id="2-使用数据库连接池优化程序性能"><a href="#2-使用数据库连接池优化程序性能" class="headerlink" title="2.使用数据库连接池优化程序性能"></a>2.使用数据库连接池优化程序性能</h2><ol>
+<li>数据库连接池的概念<ol>
+<li>数据库连接是一种关键得有限得昂贵得资源，咋多用户网页程序中体现尤为突出。</li>
+<li>对数据库连接的管理能力显著影响到整个应用程序的伸缩性和健壮性，影响到程序的性能指标。</li>
+<li>数据库连接池负责分配，管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</li>
+<li>数据库连接池在初始化时将创建一定数量的数据库连接池放到连接池中，这些数据库连接的数量由最小数据库连接数来设定。无论这些数据库连接是否被使用，连接池都将保证至少拥有这么多的连接数量。连接池的最大数据库连接数量限定了这个连接池能占有的最大连接数，当应用程序向连接池请求连接数超过最大连接数量时，这些请求将会被加入到等待队列中。</li>
+<li>数据库连接池的最小连接数和最大连接数的设置需要考虑一下几个因素：<ol>
+<li>最小连接数:是连接池一直保持的数据库连接，所以如果应用程序对数据库连接使用量不大，将会有大量数据库连接资源被浪费；</li>
+<li>最大连接数:是连接池能申请的最大连接数，如果数据库连接请求超过次数，后面的数据库连接请求将被加入到等待队列中，这会影响到以后的数据库操作。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>编写数据库连接池<ol>
+<li>实现java.sql.DataSource接口,DataSource接口定义了两个重载的getConnection方法:<ol>
+<li>Connection getConnection();</li>
+<li>Connection getConnection(String username, String password);</li>
+</ol>
+</li>
+<li>实现DataSource接口，并实现连接池功能的步骤：<ol>
+<li>在DataSource构造函数中批量创建与数据库的连接，并把创建的连接加入LinkedList对象中；</li>
+<li>实现getConnection方法，让getConnection方法每次调用时，从LinkedList中去一个Connection返回给用户；</li>
+<li>当用户使用完Connection,调用Connection.close()方法时，Collection对象应保证自己返回到LinkedList中，而不是把conn还给数据库。<strong>Collection保证将自己返回到LinkedList中</strong>；</li>
+</ol>
+</li>
+<li>部分核心代码<br> `proxyConn = (Connection) Proxy.newProxyInstance(this.getClass().getClassLoader(),conn.getClass().getInterfaces(),new InvocationHandler(){<pre><code>public Object invoke(Object proxy,Method method,Object[] args) {
+    if(method.getName().equals(&quot;close&quot;)) {
+        pool.addLast(conn);
+        return null;
+    }
+    return method.invoke(conn,args);
+}
+</code></pre> })` </li>
+</ol>
+</li>
+<li>开源数据库连接池<ol>
+<li>很多WEB服务器都提供了DataSource的实现，即连接池的实现。把DataSource的实现，按其英文含义称之为数据源，数据源中包含了数据库连接池的实现。</li>
+<li>DBCP C3P0 使用了数据库连接池，就不需要在编写连接数据库代码了，直接从数据源获得数据库的连接。</li>
+<li>DBCP数据源:tomcat采用该连接池</li>
+<li>C3P0数据源:dbcp没有自动回收空闲连接的功能，c3p0有自动回收空闲连接功能</li>
+<li>Tomcat数据源</li>
+</ol>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Druid-数据库连接池/">Druid 数据库连接池</a>
+  </div>
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
+</div>
 
-block copyright
-  include partial/footer
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rockyzjin.cn/2018/08/20/Druid源码解析之数据库连接池总论/" data-title="Druid源码解析之数据库连接池总论 | Rocky for Everything" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2018/08/28/Sentinel系列之起源/" title="Sentinel系列之起源">
+  <strong>上一篇：</strong><br>
+  <span>
+  Sentinel系列之起源</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/08/20/计算机网络总结复习/" title="计算机网络总结复习">
+ <strong>下一篇：</strong><br> 
+ <span>计算机网络总结复习
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-应用程序直接获取数据连接的缺点"><span class="toc-number">1.</span> <span class="toc-text">1.应用程序直接获取数据连接的缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-使用数据库连接池优化程序性能"><span class="toc-number">2.</span> <span class="toc-text">2.使用数据库连接池优化程序性能</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Sentinel/" title="Sentinel">Sentinel<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/秒杀/" title="秒杀">秒杀<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/netty/" title="netty">netty<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SofaRPC/" title="SofaRPC">SofaRPC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringMVC/" title="SpringMVC">SpringMVC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-数据库连接池/" title="Druid 数据库连接池">Druid 数据库连接池<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid/" title="Druid">Druid<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nacos/" title="nacos">nacos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务设计读书笔记/" title="微服务设计读书笔记">微服务设计读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跳表-SkipList/" title="跳表 SkipList">跳表 SkipList<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringCloud-微服务/" title="SpringCloud 微服务">SpringCloud 微服务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Druid-SQL解析/" title="Druid SQL解析">Druid SQL解析<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringAOP/" title="SpringAOP">SpringAOP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m RockyZhou in ALibaba. <br>
+			This is my weixin 15802864913.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/zj987415811" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Rocky ZhouJin QQ987415811">Rocky ZhouJin QQ987415811</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
