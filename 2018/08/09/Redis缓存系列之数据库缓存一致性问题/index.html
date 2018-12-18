@@ -1,219 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>缓存系列之数据库缓存一致性问题 | Rocky for Everything</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-<meta property="og:type" content="article">
-<meta property="og:title" content="缓存系列之数据库缓存一致性问题">
-<meta property="og:url" content="http://yoursite.com/2018/08/09/Redis缓存系列之数据库缓存一致性问题/index.html">
-<meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-09T03:40:48.578Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="缓存系列之数据库缓存一致性问题">
-<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
-  
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
+extends partial/layout
 
-</head>
+block site_title
+  != page.title + " | " + config.title
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Rocky for Everything</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">个人博客</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-Redis缓存系列之数据库缓存一致性问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" class="article-date">
-  <time datetime="2018-08-09T03:40:48.000Z" itemprop="datePublished">2018-08-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      缓存系列之数据库缓存一致性问题
-    </h1>
-  
+block description
+  - var desc = page.desc || page.title + ' - ' + config.author;
+  meta(name="description", content=desc)
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" data-id="cjptb29v60009jgzj5inzx67m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/08/09/Zookeeper系列之分布式事务总结/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Zookeeper系列之分布式事务总结
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/08/09/缓存系列之数据库缓存一致性问题/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Redis系列之数据库缓存一致性问题</div>
-    </a>
-  
-</nav>
+block header
+  header.site-header
+    .site-nav
+      span.button-toggle
+      include partial/nav
+      form#search-form.nav-item
+        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
+        span.fa.fa-times(onclick="resetSearch()") 
+      div#local-search-result
+      p.no-result No results found
 
-  
-</article>
+block content
+  include mixins/post
+  +post(page)
 
-</section>
-        
-          <aside id="sidebar">
-  
-    <!-- Featured Tags -->
+block sidebar
+  include partial/sidebar
 
-  
-    <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
+block pagination
+  include mixins/paginator
+  +post()
+  include partial/comment
 
-        
-
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-
-            
-
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-  
-    
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2018/11/20/大复习之深度解析RPC与Restful/">大复习之深度解析RPC与Restful</a>
-        </li>
-      
-        <li>
-          <a href="/2018/11/05/大讲座讲座笔记/">大讲座笔记系列</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/11/Netty系列之Netty实战读书笔记/">Netty系列之Netty实战读书笔记</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/10/docker系列之doker核心原理解读/">docker系列之doker核心原理解读</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/08/docker系列深入篇/">docker系列深入篇</a>
-        </li>
-      
-    </ul>
-  </div>
-
-  
-    <!-- Friends Blog -->
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">26</span></li></ul>
-    </div>
-  </div>
-
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Rocky ZhouJin QQ987415811<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-
-<script src="/js/script.js"></script>
-
-  </div>
-</body>
-</html>
+block copyright
+  include partial/footer

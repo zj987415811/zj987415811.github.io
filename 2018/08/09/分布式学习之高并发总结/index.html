@@ -1,314 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>分布式学习之高并发总结 | Rocky for Everything</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
-<meta name="keywords" content="高并发">
-<meta property="og:type" content="article">
-<meta property="og:title" content="分布式学习之高并发总结">
-<meta property="og:url" content="http://yoursite.com/2018/08/09/分布式学习之高并发总结/index.html">
-<meta property="og:site_name" content="Rocky for Everything">
-<meta property="og:description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-09T07:53:48.304Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分布式学习之高并发总结">
-<meta name="twitter:description" content="分布式学习之高并发总结 千万级高并发总结：  所有的性能提升，最终落在CPU,内存，IO，网络这4块。 抽象能力，分类能力，算法 客户端-&amp;gt;接入层-&amp;gt;后台（搜索，平台，大数据） RPC 消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。 配置管理：灰度发布，服务降级 无状态：将有状态的东西剥离到数据层 分布式服务追踪解决的问题：通过">
-  
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
+extends partial/layout
 
-</head>
+block site_title
+  != page.title + " | " + config.title
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Rocky for Everything</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">个人博客</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-分布式学习之高并发总结" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/09/分布式学习之高并发总结/" class="article-date">
-  <time datetime="2018-08-09T07:26:21.000Z" itemprop="datePublished">2018-08-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      分布式学习之高并发总结
-    </h1>
-  
+block description
+  - var desc = page.desc || page.title + ' - ' + config.author;
+  meta(name="description", content=desc)
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="分布式学习之高并发总结"><a href="#分布式学习之高并发总结" class="headerlink" title="分布式学习之高并发总结"></a>分布式学习之高并发总结</h2><ul>
-<li><p>千万级高并发总结：</p>
-<ol>
-<li>所有的性能提升，最终落在CPU,内存，IO，网络这4块。</li>
-<li>抽象能力，分类能力，算法</li>
-<li>客户端-&gt;接入层-&gt;后台（搜索，平台，大数据）</li>
-<li>RPC</li>
-<li>消息中间件：两个模块之间的交互异步化，同时把不均匀的请求流量输出为匀速的输出流量，异步化解耦和流量削峰。</li>
-<li>配置管理：灰度发布，服务降级</li>
-<li>无状态：将有状态的东西剥离到数据层</li>
-<li>分布式服务追踪解决的问题：通过唯一id</li>
-</ol>
-</li>
-<li><p>高并发实时后台服务架构</p>
-<ol>
-<li>流控：扩容 ddos攻击 nginx</li>
-<li>负载均衡</li>
-<li>接入层：校验登陆态 无状态的横向扩展</li>
-<li>逻辑层：<ol>
-<li>前轻后重 RPC服务来提供和实现</li>
-<li>缩短关键业务流程</li>
-<li>降低单个接口处理耗时—代码架构系统部署</li>
-<li>同步变异步：同步接口转化为异步接口 保证吞吐量 I/O多路复用</li>
-<li>隔离:逻辑层具备业务隔离能力，整体隔离，内部隔离</li>
-</ol>
-</li>
-<li>存储层<ol>
-<li>数据快速访问 一致性安全问题 缓存 分库分表</li>
-<li>数据如何同步备份</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>高并发与实时处理技术<ul>
-<li>高并发下缓存治理<ul>
-<li>I/O是导致IT系统无法完成高并发的主要原因。</li>
-<li>解决I/O速度问题就是将计算结果临时存储，也就是缓存。</li>
-<li>缓存治理的困难<ul>
-<li>应用无感的合理使用缓存</li>
-<li>对现有缓存乱使用的迁移</li>
-<li>缓存研发方案—缓存场景隔离化，数据量分配的合理化以及缓存的分离。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>常见并发同步案例分析</p>
-<ul>
-<li><p>订票系统案例</p>
-<ul>
-<li>锁同步：程序层面，多个线程进来，只有一个一个访问。锁有两个层面，一个是java的对象锁，用于线程同步；另一个是数据库锁，如果是分布式系统，只能用数据库端的锁来实现。</li>
-<li>乐观锁和悲观锁 乐观锁在不锁定表的情况，利用业务来控制解决并发问题。保证并发可读+数据存储的排他性+保证性能同时解决并发带来的脏数据问题。</li>
-</ul>
-</li>
-<li><p>股票交易</p>
-<ul>
-<li>表拆分 按业务拆分 时间轴分区</li>
-<li>缓存</li>
-</ul>
-</li>
-<li><p>高并发提高访问效率手段</p>
-<ul>
-<li>瓶颈：服务带宽 web线程连接数 数据库连接查询</li>
-<li>增加带宽，DNS域名解析 负载均衡 前置代理服务器 数据库查询优化，读写分离，分表。</li>
-<li>复制在高并发的情况：尽量使用缓存，用户缓存，信息缓存，大量减少与数据库的交换，提高性能。 找出性能瓶颈，减少额外开销，优化查询语句。单台机器的瓶颈。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>1500万QPS背后的高性能，高可用实时搜索系统架构演变</li>
-<li>12306如何实现流量并发的关键技术<ul>
-<li>关键技术<ul>
-<li>利用云计算资源分担系统查询业务，弹性扩展</li>
-<li>双中心运行架构</li>
-<li>带宽保证</li>
-<li>防恶意抢票</li>
-<li>应急方案</li>
-</ul>
-</li>
-<li>设计思路    <ul>
-<li>关联数据节点设计</li>
-<li>将数据移到内存</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>金融环境高并发方案</li>
-<li></li>
-</ul>
+block header
+  header.site-header
+    .site-nav
+      span.button-toggle
+      include partial/nav
+      form#search-form.nav-item
+        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
+        span.fa.fa-times(onclick="resetSearch()") 
+      div#local-search-result
+      p.no-result No results found
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/分布式学习之高并发总结/" data-id="cjptb29wf0017jgzjhvojzr8h" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/高并发/">高并发</a></li></ul>
+block content
+  include mixins/post
+  +post(page)
 
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/08/09/消息队列之RocketMQ/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          消息队列之RocketMQ
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/08/09/分布式学习之秒杀系统架构/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">分布式学习之秒杀系统架构</div>
-    </a>
-  
-</nav>
+block sidebar
+  include partial/sidebar
 
-  
-</article>
+block pagination
+  include mixins/paginator
+  +post()
+  include partial/comment
 
-</section>
-        
-          <aside id="sidebar">
-  
-    <!-- Featured Tags -->
-
-  
-    <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
-
-        
-
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-
-            
-
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-  
-    
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2018/11/20/大复习之深度解析RPC与Restful/">大复习之深度解析RPC与Restful</a>
-        </li>
-      
-        <li>
-          <a href="/2018/11/05/大讲座讲座笔记/">大讲座笔记系列</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/11/Netty系列之Netty实战读书笔记/">Netty系列之Netty实战读书笔记</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/10/docker系列之doker核心原理解读/">docker系列之doker核心原理解读</a>
-        </li>
-      
-        <li>
-          <a href="/2018/10/08/docker系列深入篇/">docker系列深入篇</a>
-        </li>
-      
-    </ul>
-  </div>
-
-  
-    <!-- Friends Blog -->
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">26</span></li></ul>
-    </div>
-  </div>
-
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Rocky ZhouJin QQ987415811<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-
-<script src="/js/script.js"></script>
-
-  </div>
-</body>
-</html>
+block copyright
+  include partial/footer
