@@ -1,19 +1,2072 @@
-extends partial/layout
+<!DOCTYPE html>
 
-block header
-  include partial/header
 
-block content
-  include mixins/post
-  +posts()
 
-block sidebar
-  include partial/sidebar
+
+
+
+
+
+
+
+
+
   
-block pagination
-  include mixins/paginator
-  +home()
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-block copyright
-  include partial/footer
+
+
+
+
+  <meta name="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rocky for Everything">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rocky for Everything">
+<meta name="twitter:description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/4/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Rocky for Everything</title>
   
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rocky for Everything</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">慢慢喜欢你</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/分布式学习之秒杀系统架构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/09/分布式学习之秒杀系统架构/" itemprop="url">
+                  分布式学习之秒杀系统架构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-09 15:07:08 / Updated at: 15:22:33" itemprop="dateCreated datePublished" datetime="2018-08-09T15:07:08+08:00">2018-08-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##秒杀系统架构##<br>1.秒杀系统特点</p>
+<pre><code>- 瞬时并发量大，大量用户会在同一时间进行抢购，网站瞬时流量访问激增；
+- 库存少：访问请求数量远远大于库存数量，只有少部分用户能够秒杀成功。
+- 业务流程简单：业务流程比较简单，下单减库存。
+</code></pre><p>2.技术难点</p>
+<pre><code>- 对现有业务的冲击
+- 高并发应用负载高
+- 突然增加网络与服务带宽
+- 直接下但
+- 控制商品页面购买按钮高亮
+- 下单前置检查
+</code></pre><p>3.架构思想</p>
+<pre><code>- 限流：限制大部分用户流量，只有少部分用户能够进入后端服务器
+- 削峰：秒杀开始一瞬间，会有大量用户冲击进来，会有一个瞬时流量峰值。通过缓存或者MQ中间件来解决。
+- 异步处理：异步处理模式可以极大提高系统并发量
+- 内存缓存：最大瓶颈是数据库的读写，下单扣减库存，属于磁盘IO,性能低，把部分数据业务逻辑转移到内存缓存，效率极大提升。
+</code></pre><p>4.优化</p>
+<pre><code>客户端优化
+- 秒杀页面优化：页面整体静态化，将静态化页面发送到CDN边缘节点上，压力分散的作用。
+- 防止提前下单：在静态页面加入一个JS,这个js文件包含活动是否开启的标志以及开始时动态下单页面的url参数，同时这个js不会被cdn缓存，会一直请求后端服务。并且很小，活动快要开始时，通过后台接口修改这个js使之生效。
+api接入层优化
+- 限制用户维度访问频率
+- 限制商品维度访问频率
+soa服务器层优化
+-后端流量控制，通过消息队列，异步处理，提高并发等方式解决，对于超过系统水位线的请求，使用fail-fast原则拒绝掉。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/09/Zookeeper系列之分布式事务总结/" itemprop="url">
+                  Zookeeper系列之分布式事务总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-09 11:44:54 / Updated at: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##1.分布式事务解决方案##</p>
+<ul>
+<li><p>基于XA协议的两阶段提交方案</p>
+<ul>
+<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
+<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
+<li>本地资源管理器 事务协调器</li>
+<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
+</ul>
+</li>
+<li><p>TCC方案</p>
+<ul>
+<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
+<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
+<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
+<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
+<li>缺点：<ul>
+<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
+<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于消息的最终一致性方案<ul>
+<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
+<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
+<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
+</ul>
+</li>
+<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
+<li>蚂蚁金服的分布式事务解决方案DTX<ul>
+<li>整体架构：<ul>
+<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
+<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
+<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
+<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
+</ul>
+</li>
+<li>DTX执行<ul>
+<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
+<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Redis缓存系列之数据库缓存一致性问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" itemprop="url">
+                  缓存系列之数据库缓存一致性问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-09 11:40:48" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/缓存系列之数据库缓存一致性问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/09/缓存系列之数据库缓存一致性问题/" itemprop="url">
+                  Redis系列之数据库缓存一致性问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-09 11:40:48 / Updated at: 15:04:41" itemprop="dateCreated datePublished" datetime="2018-08-09T11:40:48+08:00">2018-08-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##Redis缓存数据库一致性问题##</p>
+<ul>
+<li>数据一致性处理<ul>
+<li>当多个进程同时操作同一个数据，会产生资源争抢，数据一致性的问题。</li>
+<li>高并发情况下，涉及到写操作时，不能直接操作数据库，大量并发连接会导致mysql请求会阻塞，大量的insert update请求到，会导致无数的行锁和表锁，最后堆积很多，触发too many connections错误。</li>
+</ul>
+</li>
+<li>消息队列<ul>
+<li>将票数资源存入redis中，将请求存入消息队列，list会阻塞，但是依次处理，导致等待时间较长。</li>
+</ul>
+</li>
+<li>加锁<ul>
+<li>排他锁，乐观锁，悲观锁</li>
+<li>排他锁：进行写时，禁止一切读写；</li>
+<li>乐观锁：在写的时候，默认没有资源竞争，维护一个Version号，等处理后对照version号，一致则提交，否则回滚。</li>
+<li>悲观锁：在写的时候，别人也再写。采用数据库提供的锁机制：在写操作的时候(insert update)myisam采用表锁，innodb根据主键与否来决定是行锁还是表锁。读操作采用MVCC版本控制。</li>
+</ul>
+</li>
+<li>需求起因<ul>
+<li>假设先写数据库，再淘汰缓存:第一步写数据库成功，第二步淘汰缓存失败，则BD中是新数据，Cache中是旧数据，数据不一致。</li>
+<li>假设先淘汰缓存，再写数据库：第一步淘汰缓存成功，第二步写数据库失败，则缓存中无数据，数据库中是旧数据。</li>
+<li>先淘汰缓存，再写数据库</li>
+</ul>
+</li>
+<li>数据不一致原因<ul>
+<li>先操作缓存，再数据库成功之前，如果有读请求发生，可能导致旧数据入缓存，引发数据不一致。</li>
+<li>写流程：<ul>
+<li>先淘汰缓存</li>
+<li>再写DB</li>
+</ul>
+</li>
+<li>读流程<ul>
+<li>先读cache,如果数据命中hit则返回；</li>
+<li>如果数据未命中miss则读DB;</li>
+<li>将DB中读取出来的数据入缓存。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>问题解决思路—串行化</li>
+<li>Redis数据库与缓存一致性解决方案<ul>
+<li>数据库与缓存读写模式策略—写完数据库后是否需要马上更新缓存还是直接删除缓存？<ul>
+<li>如果写数据库的值与更新到缓存值是一样的，不需要经过任何计算可以马上更新缓存，但是对于写数据频繁而读数据少的场景并不合适这个解决方案。</li>
+<li>如果写数据库的值与更新缓存的值不一致，写入缓存中的数据需要经过几个表的关联计算后得到的结果插入缓存中，那么没必要立即更新缓存，删除缓存即可，等到查询的时候把计算结果插入到缓存中即可。</li>
+<li>一般的策略是当更新数据时，先删除缓存，再更新数据库。</li>
+</ul>
+</li>
+<li>数据库与缓存双写情况下导致数据不一致问题<ul>
+<li>场景1：当更新数据时，如更新某商品的库存，当前商品的库存为100，而现在为99，先更新数据库改成99，然后删除缓存，发现删除缓存失败，这时数据库存99，而缓存存100，导致缓存数据库不一致。</li>
+<li>解决方案：这种情况先删除缓存，再更新数据库。<strong>如果缓存删除失败就不更新数据库</strong>，如果说缓存删除成功，而数据库更新失败，那查询到的是数据库的旧数据，不会造成缓存数据库不一致的情况。</li>
+<li>场景2：在高并发情况下，如果当删除出完缓存的时候，这是去更新数据库，但是还没有更新完，这时另一个请求来查询，发现缓存没有，就去数据查。数据库中100，查到后加入缓存，插入完缓存后，原来那个数据库的线程把数据库更新为99，导致缓存数据库不一致。</li>
+<li>场景2解决：<ul>
+<li>读请求时长阻塞</li>
+<li>请求并发量过高</li>
+<li>多服务实例部署的请求路由</li>
+<li>热点商品的路由问题，导致请求倾斜</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/Spring源码解析之AOP实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/08/Spring源码解析之AOP实现/" itemprop="url">
+                  Spring源码解析之SpringAOP实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-08 14:50:15 / Updated at: 21:56:08" itemprop="dateCreated datePublished" datetime="2018-08-08T14:50:15+08:00">2018-08-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-SpringAOP概述"><a href="#1-SpringAOP概述" class="headerlink" title="1.SpringAOP概述"></a>1.SpringAOP概述</h2><ul>
+<li>常见AOP技术:事务管理，安全检查，缓存，对象池管管理。<ol>
+<li>静态代理：AspectJ，使用AOP框架提供的命令进行编译，从而在编译阶段生成AOP代理类，编译时增强；在编译时自动得到一个新类，这个类具有增强原来类的功能。性能更优。</li>
+<li>动态代理：SpringAOP，在运行时借助于JDK动态代理，Cglib等技术在内存中临时生成AOP动态代理类，运行时增强。不需要在编译时增强，而是运行时生成目标类的代理类，该代理类要么与目标接口是相同的接口，要么是目标类的子类。采用运行时动态地，在内存中临时生成代理类。</li>
+<li>AOP代理是由AOP框架生成了一个代理对象，该对象作为目标对象使用。AOP代理包含了对目标对象的全部方法，差别在于对于特定切入点添加了增强处理，并回调了目标对象的方法。</li>
+<li>Cglib生成代理类:<ol>
+<li>Enhancer en = new Enhance();</li>
+<li>en.setsuperClass(Chinese.class);</li>
+<li>en.setCallback(new AroundAvice());</li>
+<li>return (Chinese) en.create();</li>
+</ol>
+</li>
+<li>Advice PointCut Advisor(Adivce PointCut)</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-Spring-AOP的设计与实现"><a href="#2-Spring-AOP的设计与实现" class="headerlink" title="2.Spring AOP的设计与实现"></a>2.Spring AOP的设计与实现</h2><ul>
+<li>动态代理特性:为任意java对象创建代理对象，通过ReflectionAPI来实现。</li>
+<li>InvocationHandler-&gt;invoke(Object proxy,Method method, Object[] args)<ul>
+<li>第一个参数是代理对象</li>
+<li>第二个参数是Method方法对象，代表被调用的方法</li>
+<li>第三个参数是被调用方法中的参数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>应用场景：日志和事务</li>
+<li><p>建立AopProxy代理对象</p>
+<ul>
+<li>设计原理：代理对象的生成，通过配置和调用ProxyFactoryBean来完成。ProxyFactoryBean封装了代理对象的生成，包括Jdk动态代理和Cglib两种方式。</li>
+</ul>
+</li>
+<li><p>配置ProxyFactoryBean</p>
+<ul>
+<li>定义通知器Advisor(Advice,PointCut)来定义一个Bean定义了需要对目标对象进行增强的切面行为，也就是Advice通知。</li>
+<li>定义ProxyFactoryBean，封装了AOP功能的主要类。需要设定与Aop实现相关的重要属性，如proxyInterface,interceptorNames(通知器名)和target等。</li>
+</ul>
+</li>
+<li>ProxyFactoryBean生成AopProxy代理对象<ul>
+<li>在ProxyFactoryBean中，通过interceptorNames属性来配置已经定义好的通知器Advisor；</li>
+<li>在ProxyFactoryBean中，需要为target目标对象生成Proxy代理对象，为AOP横切面的编织做好准备工作。</li>
+<li>ProxyBeanFactory的AOP实现需要依赖JDK或者CGLIB提供的Proxy特性。从FactoryBean中已getObject()方法作为入口完成。</li>
+<li>getObject()方法是FactoryBean实现的接口，对于target目标对象的增强处理，通过getObject()方法来封装，这些增强是AOP功能的实现提供服务的。</li>
+<li>getObject()方法首先会对通知器链进行初始化，通知器链封装一系列拦截器，所有拦截器都从配置中读取，为代理对象生成做准备。</li>
+<li>生成代理对象时，需要对singleton和prototype进行区分。</li>
+<li>ProxyFactoryBean#initializeAdvisorChain(){第一次通过ProxyFactoryBean去获取对象的时候，完成初始化后，会读取配置中出现的所有通知器，将通知器的名字交给容器的getBean方法}-&gt;getSingletonInstance(){根据AOP框架来判断需要代理的接口}-&gt;getProxy()-&gt;createAopProxy(){返回AopProxy代理对象，分别为JdkDynamicProxy和Cglib2AopProxy}-&gt;isInterface(){jdk动态代理}-&gt;createCglibProxy(){非接口}。</li>
+</ul>
+</li>
+<li>JDK生成AopProxy代理对象<ul>
+<li>首先从Advised对象中取得代理对象的代理接口配置，然后调用Proxy的newInstance()生成Proxy代理对象。并指明三个参数，类装载器代理接口，Proxy回调方法所在的对象，这个对象需要实现InvocationHandler的invoker方法，提供代理对象回调的入口。</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/07/Spring源码系列之SpringMVC容器加载初始化过程解析/" itemprop="url">
+                  Spring源码系列之SpringMVC容器加载初始化过程解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-07 22:55:37 / Updated at: 23:51:55" itemprop="dateCreated datePublished" datetime="2018-08-07T22:55:37+08:00">2018-08-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##SpringMVC在Web环境中的加载##</p>
+<p>###1.概述###<br>    SpringIoC是一个独立的模块，并不是直接在Web容器中发挥作用，如果需要在Web容器环境建立使用IoC容器,需要为SpringIoC设计一个启动过程，把IoC容器导入，并在Web容器中建立。在这个过程中，一方面是web容器的启动，另一方面是通过设计特定的web容器拦截器，将IoC容器以拦截的形式载入到web容器中，并将其初始化。而SpringMVC是在IoC容器的基础上建立的MVC运行机制，从而响应Web容器传递的Http请求。</p>
+<p> Tomcat容器中web.xml部署<br>-<br>    <servlet><br>        <servlet-name><br>        <servlet-class><br>        <load-on-startup><br>    </load-on-startup></servlet-class></servlet-name></servlet><br>    <servlet-mapping><br>        <servlet-name></servlet-name><br>        <url-pattern>/*</url-pattern><br>    </servlet-mapping><br>    <context-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>/WEB-INF/applicationContext.xml</param-value><br>    </context-param><br>    <listener><br>        <listener-class><br>            ContextLoaderListener<br>        </listener-class><br>    </listener></p>
+<ul>
+<li>这里部署了SpringMVC与Tomcat的接口。首先定义了一个Servlet对象；</li>
+<li>同时部署了了这个Servlet对应的URL映射，这些URL映射为这个Servlet指定了需要处理的Http请求</li>
+<li>context-param参数的配置用来指定Spring IoC容器读取Bean定义的xml文件。在这个xml文件中读取到Spring的配置。</li>
+<li>ContextLoaderListener作为SpringMVC的启动类，被定义为一个监听器，这个监听器与Web服务器的生命周期相关，由ContextLoaderListener监听器负责完成IoC容器在web环境中的启动工作。</li>
+<li>ContextLoaderListener和DispatcherServlet提供了在Web容器中对的Spring,这些接口与web容器耦合是通过ServletContext实现。</li>
+<li>这个ServletContext为Spring的IoC容器提供了一个宿主环境，在宿主环境中，SpringMVC建立起一个IoC容器的体系。</li>
+<li>这个体系通过ContextLoaderListener的初始化建立，建立IoC体系后，把DispatcherServlet作为SpringMVC处理web请求的转发器建立起来，从而完成响应Http请求的准备。</li>
+</ul>
+<p>##2.上下文在web容器中的启动##</p>
+<ol>
+<li><p>IoC容器启动的基本过程</p>
+<ul>
+<li>IoC容器的启动就是上下文建立过程，与ServletContext相伴而生，是IoC容器在Web环境中的具体表现之一；</li>
+<li>ContextLoaderListener启动的上下文是根上下文。在根上下文的基础上还有一个与WebMVC相关的上下文来保持控制器需要的MVC对象，上下文的体系是由ContextLoader来完成。</li>
+<li>contextInitialized()-&gt;ContextLoaderListener#initWebApplicationContext()-&gt;ContextLoader#loadParentContext()-&gt;XmlWebApplicationContext#refresh();</li>
+<li>在ContextLoader中，完成了两个IoC容器的建立，一个是Web容器中建立起来的双亲IoC容器，另一个是生成响应的WebApplicationContext并将其初始化。</li>
+</ul>
+</li>
+<li>Web容器中的上下文设计—WebApplicationContext</li>
+<li>ContextLoader设计与实现<ul>
+<li>Spring承载的web应用而言，可以在Web应用程序启动时载入IoC容器(WebApplicationContext)，这个功能由ContextLoaderListener来实现，是在web.xml中配置的监听器。这个监听器通过ContextLoader来完成实际的IoC容器初始化工作。</li>
+<li>ContextLoader是Spring应用程序在web容器中的启动器。</li>
+<li>这个监听器是启动根IoC容器并载入到web容器的主要功能模块，也是整个SpringWeb应用加载IoC的第一个地方。</li>
+<li>首先从Servlet事件中得到ServletContext,然后读取配置在web.xml中的相关属性，接着实例化WebApplicationContext,完成其初始化过程。</li>
+<li>这个被初始化的第一个上下文是根上下文，这个根上下文载入后，被绑定到web应用的ServletContex上。任何需要访问根上下文的应用程序代码都可以从WebApplicationContextUtils的静态方法中得到。</li>
+<li>在ContextLoaderListener中，实现的是ServletContextListener接口，这个接口的方法回结合Web容器的生命周期被调用。ServletContextListener是ServletContext的监听者。如果ServletContext发生了变化，会触发相应的事件，做出预先设计的响应。</li>
+</ul>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/Spring源码解析系列之IoC容器初始化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/Spring源码解析系列之IoC容器初始化/" itemprop="url">
+                  Spring源码解析系列之IoC容器初始化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-06 21:18:46" itemprop="dateCreated datePublished" datetime="2018-08-06T21:18:46+08:00">2018-08-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-07 22:54:33" itemprop="dateModified" datetime="2018-08-07T22:54:33+08:00">2018-08-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="IoC容器初始化"><a href="#IoC容器初始化" class="headerlink" title="IoC容器初始化"></a>IoC容器初始化</h1><h2 id="1-IoC容器系列设计与实现-BeanFactory和ApplicationContext"><a href="#1-IoC容器系列设计与实现-BeanFactory和ApplicationContext" class="headerlink" title="1. IoC容器系列设计与实现 BeanFactory和ApplicationContext"></a>1. IoC容器系列设计与实现 BeanFactory和ApplicationContext</h2><p><strong>在SpringIoC容器设计中，主要由两个容器系列：实现BeanFactory接口的简单容器，另一个是ApplicationContext应用上下文。</strong></p>
+<ul>
+<li>Spring通过定义BeanDefinition来管理基于Spring应用中的各种对象以及它们之间的依赖关系。</li>
+<li>BeanDefinition抽象了Bean的定义，是容器的主要数据类型。</li>
+<li>IoC容器就是用来管理对象依赖关系的，BeanDefinition就是对依赖反转模式中管理的对象依赖关系的数据抽象。</li>
+</ul>
+<h2 id="2-SpringIoC容器的设计"><a href="#2-SpringIoC容器的设计" class="headerlink" title="2.SpringIoC容器的设计"></a>2.SpringIoC容器的设计</h2><p>##第一条线</p>
+<ul>
+<li>BeanFactory定义了基本IoC容器规范，<ul>
+<li>提供getBean()基本方法；</li>
+</ul>
+</li>
+<li>HierarchicalBeanFactory继承了双亲的基本接口，<ul>
+<li>增加了getParentBeanFactory()接口的功能，使BeanFactory具备了双亲IoC容器的管理功能。</li>
+</ul>
+</li>
+<li>ConfigurableBeanFactory接口中，主要定义了一些对BeanFactory的配置功能，<ul>
+<li>setParentBeanFactory()设置双亲IoC容器，</li>
+<li>addBeanPostProcessor()配置Bean后置处理器。<br>##第二条线</li>
+</ul>
+</li>
+<li>ApplicationContext应用上下文为核心，主要有</li>
+<li>BeanFactory</li>
+<li>ListableBeanFactory  <ul>
+<li>getBeanDefinitionNames()</li>
+</ul>
+</li>
+<li>ApplicationContext <ul>
+<li>继承MessageSource,ResourceLoader,ApplicationEventPublisher接口，增加了很多高级特性。</li>
+</ul>
+</li>
+<li>WebApplicationContext || ConfigurableApplicationContext<br>##BeanFactory的使用场景</li>
+<li>DefaultListableBeanfactory XmlBeanFactory ApplicationContext都是附加了某种功能的具体实现。</li>
+<li>通过 &amp; 转义符来得到FactoryBean本身，如&amp;myJndiObject得到FactoryBean</li>
+<li>BeanFactory和FactoryBean区别<ul>
+<li>BeanFactory:就是一个Factory,是IoC容器，或者对象工厂</li>
+<li>FactoryBean:能够生产或者装饰对象生成的工厂</li>
+</ul>
+</li>
+<li>XmlBeanFactoryReader对象来读取resource,并回调给BeanFactory;</li>
+<li>Spring使用Resource来封装I/O操作的类，将Resource作为参数传递给BeanFactory的构造函数。IoC容器从而能够定位到BeanDefinition来完成初始化和依赖注入。<br>##IoC容器使用步骤</li>
+</ul>
+<ol>
+<li>创建一个IoC配置文件的抽象资源，资源中包含BeanDefinition信息；</li>
+<li>创建一个BeanFactory;</li>
+<li>创建一个载入BeanDefinition的读取器，通过回调配置给BeanFactory;</li>
+<li>从定义好的资源读取配置信息。完成载入和注册后，IoC容器就初始化起来了。<br>##ApplicationContext的应用场景</li>
+</ol>
+<ul>
+<li>支持不同的信息源，多语言开发提供基础；</li>
+<li>访问资源；ResourceLoader,Resource;</li>
+<li>支持应用事件；</li>
+<li>提供附加功能。<br>##ApplicationContext容器设计原理</li>
+<li>refresh()</li>
+<li>怎样从文件系统中加载XML的bean定义资源<br>##IoC容器的初始化过程</li>
+<li>主要线索：<ul>
+<li>Resource定位:统一的Resource接口来完成，对各种形式的BeanDefinition提供了统一接口。如FileSystemResource,ClassPathResource.</li>
+<li>载入:Bean表示为IoC容器内部数据结构-&gt;BeanDefinition.</li>
+<li>注册:向IoC容器BeanFactory注册BeanDefinition，调用BeanDefinitionRegistry接口实现。内部为将BeanDefinition注入到HashMap中，通过HashMap来持有这些BeanDefinition.</li>
+</ul>
+</li>
+<li>Resource定位<ul>
+<li>由refresh()来触发，在FileSystemBeanFactory的构造函数中启动的-&gt;createBeanFactory()创建了IoC容器来供ApplicationContext使用；</li>
+<li>refreshBeanFactory()-&gt;getResourceByPath(String path);</li>
+<li>ClassPathResource resource = new ClassPathResource(“bean.xml”);</li>
+</ul>
+</li>
+<li>BeanDefinition的载入和解析<ul>
+<li>初始化入口:refresh()-&gt;初始化BeanDefinition,提供Bean的生命周期管理</li>
+<li>refresh()-&gt;在子类中启动refreshBeanFactory,在此处创建BeanFactory,如果已经有容器存在,就需要把已有的容器销毁或关闭，保证refresh后创建的容器是新的。-&gt;prepareBeanFactory-&gt;postProcessBeanFactory(beanFactory)-&gt;invokeBeanFactoryProcessors(beanFactory)-&gt;registerBeanPostProcessors(beanFactory)-&gt;initMessageSource()-&gt;initApplicationEventMulticaster()-&gt;onRefresh()-&gt;registerListeners()-&gt;finishBeanFactoryInitialization(beanFactory)-&gt;finishRefresh();</li>
+<li>refreshBeanFactory-&gt;loadBeanDefinitions(beanFactory)</li>
+<li>loadBeanDefinitions(beanFactory)中初始化读取器XmlBeanDefinitionReader,并将其在IoC容器中设置好-&gt;loadBeanDefinitions(reader)载入过程委托给BeanDefinitionReader来完成-&gt;loadBeanDefinitions(Resource resource)在读取器中，得到代表XML文件的Resource,这个对象封装了Xml文件的I/O操作，读取器可以打开I/O流后得到XML的文件对象。通过这个文件对象就可以按照Spring的Bean定义规则来对这个Xml的文档树进行解析了，这个解析过程交个BeanDefinitionDelegate来完成。</li>
+<li>loadBeanDefinitions(Resource resource)-&gt;doLoadBeanDefinitions(inputSource,resource)-&gt;Document doc = this,documentLoader.loadocument()获取xml文件的Document对象，解析由documentLoader完成。</li>
+<li>Spring的Bean语义要求进行解析转化为BeanDefinition数据结构是在registerBeanDefinitions(doc,resource)中完成,具体过程由BeanDefinitionDocmentReader完成，并且对Bean的数量进行统计。</li>
+<li>BeanDefinition的载入分成两部分:<ul>
+<li><strong>调用Xml解析器得到document对象</strong>但是并没有按照spring规则进行解析；</li>
+<li><strong>按照spring规则进行解析是在documentReader中实现。完成BeanDefinition的处理，结果由BeanDefinitionHolder对象持有</strong></li>
+<li><strong>BeanDefinitionHolder对象除了持有BeanDefinition对象外,还持有其他与BeanDefinition的使用相关的信息，如Bean的名字，别名集合等。</strong></li>
+<li>解析过程由BeanDefinitionParserDelegate来实现。</li>
+</ul>
+</li>
+<li>BeanDefinitionParserDelegate完成BeanDefinition的解析，这个类中包含了各种Spring Bean的定义规则的处理。如Bean元素的处理。如id,name,aliase等属性元素。将这些值读出来，设置到BeanDefitionHolder中。</li>
+<li>对于其他元素配置的解析，由parseBeanDefinitionElement来完成。解析完成后放入BeanDefinitionHolder中。</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/MySQL技术内幕读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/MySQL技术内幕读书笔记/" itemprop="url">
+                  MySQL技术内幕读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-06 14:50:15" itemprop="dateCreated datePublished" datetime="2018-08-06T14:50:15+08:00">2018-08-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-08-08 20:17:10" itemprop="dateModified" datetime="2018-08-08T20:17:10+08:00">2018-08-08</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>第一章：</p>
+<p>1.连接MySQL:一个进程和MySQL数据库实例进行通信。实质上是进程通信。<br>2.进程通信方式：管道，命名管道，命名字，tcpip套接字，unix套接字。</p>
+<p>第二章：</p>
+<p>1.InnoDB体系架构<br>    1)后台线程<br>    2)内存<br>        i.缓冲池：索引页，数据页，undo页，插入缓冲，自适应哈希索引，InnoDB的锁信息，数据字典信息<br>        ii.缓冲池的管理：堆的方式<br>            i)LRU算法<br>            ii)InnoDB缓冲区管理优化：使用LRU算法+midPoint位置，在midPoint之前的为new列表，之后为old列表<br>                原因：若直接读取到的页放入LRU的首部，那么某些SQL操作可能会使缓冲池中的页被刷新出，从而影响缓冲池的效率，如索引或者数据的扫描操作。此类操作需要访问表中的许多页，而这些页仅仅实在这次查询中使用，并不是活跃数据。如果放入首页可能会使某些热点数据页从LRU列表移除，而下一次需要读取该页时,InnoDB存储需要访问磁盘。<br>                解决方法：加入参数来管理LRU，用于表示页读取到mid位置后需要等待多久才会被加入LRU列表的热端。<br>        iii.重做日志缓冲：首先将日志信息先放入这个缓冲区，然后按一定频率将其刷新到重做日志中，</p>
+<pre><code>3)Checkpoint技术
+    i.当事务提交时，先重做日志，再修改页
+    ii.使用场景：数据宕机恢复，缓冲池可以缓存数据库中所有数据，重做日志无限增大，条件无法保证，并且回复需要时间。
+    iii.使用Checkpoint可以解决：
+        i)缩短数据库恢复时间；
+        ii)缓冲池不够用时；
+        iii)重做日志不可用，刷新脏页
+4)Master Thread工作方式
+</code></pre><p>第四章 表</p>
+<pre><code>4.1 索引组织表    
+   i.没有指定主键：判断表中是否有非空的唯一索引，有就为主键；不符合自动创建一个6字节大小的指针，多个非空，选第一个。
+
+4.2 InnoDB逻辑存储结构
+
+    i.所有数据都被逻辑地放在一个空间中，称为表空间。表空间由段，区，页组成。
+    ii.行数据溢出:
+
+4.6 约束
+  i.完整性约束：保证表中有一个主键。定义primary key 或者unique key约束，触发器
+  ii.域完整性
+  iii.参照完整性：
+  iv.触发器约束：如负数
+
+
+4.7 视图：安全作用
+</code></pre><p>第五章 索引和算法</p>
+<pre><code>1.概述
+    i.B+树索引
+        i)B+树的插入操作
+        ii)B+树的删除操作
+
+        iii)聚集索引：逻辑上连续，实际不连续。
+        iv)辅助索引：
+    ii.全文索引
+    iii.哈希索引
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
+              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">Tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

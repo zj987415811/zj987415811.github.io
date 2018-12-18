@@ -1,34 +1,1019 @@
-extends partial/layout
+<!DOCTYPE html>
 
-block site_title
-  != page.title + " | " + config.title
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
 
-block copyright
-  include partial/footer
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="title: Docker系列之入门介绍date: 2018-09-04 16:09:26tags: Docker 循序渐进学docker笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rocky for Everything">
+<meta property="og:url" content="http://yoursite.com/2018/09/04/Docker系列之入门介绍/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="title: Docker系列之入门介绍date: 2018-09-04 16:09:26tags: Docker 循序渐进学docker笔记">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-09T07:40:20.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rocky for Everything">
+<meta name="twitter:description" content="title: Docker系列之入门介绍date: 2018-09-04 16:09:26tags: Docker 循序渐进学docker笔记">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/04/Docker系列之入门介绍/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | Rocky for Everything</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rocky for Everything</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">慢慢喜欢你</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/Docker系列之入门介绍/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-09-04 16:09:26" itemprop="dateCreated datePublished" datetime="2018-09-04T16:09:26+08:00">2018-09-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-11-09 15:40:20" itemprop="dateModified" datetime="2018-11-09T15:40:20+08:00">2018-11-09</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: Docker系列之入门介绍<br>date: 2018-09-04 16:09:26<br>tags: Docker</p>
+<p>循序渐进学docker笔记<br><a id="more"></a></p>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2><pre><code>1. 镜像
+2. 容器
+3. 仓库 Docker Registry
+    1. 集中，分发镜像的服务。
+    2. 一个Docker Registry中可以包含多个Repository,每个仓库可以包含多个标签，每个标签对应一个镜像。 
+    3. 一般而言，一个仓库包含同一个软件不同版本的镜像，标签对应不同的版本。通过&lt;仓库名&gt;：&lt;标签&gt;来指定具体是哪个版本的镜像。没有标签就以latest为默认标签。
+4. 安装 
+    1. 阿里云脚本安装:
+        curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet| sh - 
+    2. 手动安装
+        1. 添加内核参数：
+            1. sudo tee -a /etc/sysctl.conf &lt;&lt;-EOF
+               net.bridge.bridge-nf-call-ip6tables = 1
+               net.bridge.bridge-nf-call-iptables = 1
+               EOF
+            2. 重新加载sysctl.conf sudo sysctl -p
+         2. 添加yum源：
+             <figure class="highlight plain"><figcaption><span>tee</span><a href="/etc/yum.repos.d/docker.repo"><<-'eof'< a=""></-'eof'<></a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[dockerrepo]</span><br><span class="line">name=Docker Repository</span><br><span class="line">baseurl=https://yum.dockerproject.org/repo/main/centos/7/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://yum.dockerproject.org/gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+         3. 安装docker
+             1. yum install docker-engine
+         3. 建立docker用户组
+             1. 建立docker组：sudo groupadd docker
+             2. 将当前用户加入docker组：sudo usermod -aG docker $USER
+             3. 
+</code></pre><h2 id="2-Docker镜像"><a href="#2-Docker镜像" class="headerlink" title="2.Docker镜像"></a>2.Docker镜像</h2><pre><code>1. 操作系统分为内核和用户空间。对于linux而言内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像，就相当于一个root文件系统。
+2. 分层存储
+</code></pre><h2 id="3-Docker容器"><a href="#3-Docker容器" class="headerlink" title="3.Docker容器"></a>3.Docker容器</h2><pre><code>1. 镜像和容器就像的类和实例。
+    1. 容器的实质是进程，但与直接在属主执行的进程不同，容器进程运行于属于自己的独立命名空间。容器拥有自己的root文件系统，自己的网络配置，自己的进程空间，甚至自己的用户id空间。容器内的进程是运行在一个隔离环境，使用起来就像是在一个独立的宿主的系统一样。使得容器封装的应用比直接在宿主运行更加安全。
+    2. 容器不应该向其存储层写入任何数据，容器存储层要保持无状态化。所有文件写入操作，都应该使用**数据卷**，或者绑定宿主目录，这些位置的读写会跳过容器存储层，直接对宿主发生读写，其性能和稳定性更高。
+    3. **数据卷的生命周期和容器一样，容器消亡时数据卷不会消亡。使用数据卷后，容器可以随意删除，重新run,数据不会丢失。**
+2. 拉取镜像:docker pull [地址] [仓库名]
+3. 启动容器:docker run --it --rm [地址+仓库名]
+4. 列出镜像:docker images
+</code></pre><h2 id="4-镜像"><a href="#4-镜像" class="headerlink" title="4.镜像"></a>4.镜像</h2><pre><code>1. 联合文件系统
+2. 镜像分层结构
+3. 镜像的写时复制
+</code></pre><h2 id="5-镜像的命令"><a href="#5-镜像的命令" class="headerlink" title="5.镜像的命令"></a>5.镜像的命令</h2><pre><code>1. docker pull
+2. docker search
+3. docker images
+    1. docker images -a 中间镜像层
+    2. docker images -f since= ***;
+    3. docker images -f label=***;
+4. docker inspect
+5. docker rmi 
+6. docker save 
+7. docker load
+</code></pre><h2 id="6-Docker-Hub简介"><a href="#6-Docker-Hub简介" class="headerlink" title="6.Docker Hub简介"></a>6.Docker Hub简介</h2><pre><code>1. 镜像仓库:docker login -u -p
+2. 搭建仓库
+</code></pre><h2 id="7-管理和使用容器"><a href="#7-管理和使用容器" class="headerlink" title="7.管理和使用容器"></a>7.管理和使用容器</h2><pre><code>1. docker create
+2. docker run 
+3. docker ps
+4. docker daemon
+5. docker start
+6. docker stop
+7. docker pause
+8. docker unpause
+9. docker rm
+10. docker top
+11. docker log
+</code></pre><h1 id="循序渐进学docker笔记"><a href="#循序渐进学docker笔记" class="headerlink" title="#循序渐进学docker笔记"></a>#<strong>循序渐进学docker笔记</strong></h1><h2 id="1-docker的结构与特性"><a href="#1-docker的结构与特性" class="headerlink" title="1. docker的结构与特性"></a>1. docker的结构与特性</h2><ol>
+<li>docker运行于linux系统，是用户态程序，通过一些接口和内核交互，使用了cgroups，namespaces等特性。</li>
+<li>工作流程<ol>
+<li>Docker Client像Daemon发送启动app1指令；</li>
+<li>docker daemon发送请求给docker官方仓库，在仓库搜索app1;</li>
+<li>如果找到app1这个应用，就下载到我们服务器上；</li>
+<li>把启动app1应用是否成功的结果返回给Docker Client;</li>
+</ol>
+</li>
+<li>docker分层<ol>
+<li>把一个应用分为任意多层，比如操作系统是第一层，依赖的库和第三方软件是第二层，应用的软件包和配置文件是第三层。</li>
+</ol>
+</li>
+<li>LXC：与宿主机运行在相同的Linux内核，不需要指令级模拟，性能消耗非常小，是非常轻量级的虚拟化容器。</li>
+</ol>
+<h2 id="2-Docker的基础知识"><a href="#2-Docker的基础知识" class="headerlink" title="2. Docker的基础知识"></a>2. Docker的基础知识</h2><ol>
+<li>Dokcer的基本概念和常用操作指令<ol>
+<li>docker inspect 查看容器信息。<ol>
+<li>dockers inspect -f 使用指定部分信息</li>
+</ol>
+</li>
+<li>docker logs 查看日志</li>
+<li>docker stats 命令实时查看容器所占用的系统资源，如cpu,使用率，内存，网络和磁盘开销。</li>
+<li>docker Compose</li>
+<li>配置文件</li>
+</ol>
+</li>
+</ol>
+<h2 id="3-docker镜像管理"><a href="#3-docker镜像管理" class="headerlink" title="3. docker镜像管理"></a>3. docker镜像管理</h2><ol>
+<li>分层：docker history </li>
+<li>新的分层，容器启动后，所有的写操作都会存储在最上面 的可读写层。docker容器可以通过docker commit命令提交生成新镜像。</li>
+<li>dockerfile<ol>
+<li>maintainer:镜像创建者</li>
+<li>env：设置环境变量</li>
+<li>run: 运行shell命令，如果有多条命令可以用“&amp;&amp;”连接</li>
+<li>copy：将编译机本地文件拷贝到镜像文件系统中</li>
+<li>expose：指定监听的端口</li>
+<li>entrypoint:</li>
+</ol>
+</li>
+<li>项目中的镜像分层<h2 id="4-Docker仓库管理"><a href="#4-Docker仓库管理" class="headerlink" title="4. Docker仓库管理"></a>4. Docker仓库管理</h2><h2 id="5-Docker网络和存储管理"><a href="#5-Docker网络和存储管理" class="headerlink" title="5. Docker网络和存储管理"></a>5. Docker网络和存储管理</h2></li>
+<li>docker网络<ol>
+<li>默认使用网桥+NAT的通信模型：当docker容器启动时，会创建一对veth虚拟网络设备附加到网桥docker0,另一个加入容器的网络命名空间，并改名eth0。这样就可以在容器与容器之间通过docker0通信了。</li>
+<li>容器与外部网络之间的通信<ol>
+<li>容器访问外部网络：创建如下masquerade规则，所有从容器发出的，目的地为host外部网络的包的ip都修改成host的ip,并由host发出去。</li>
+<li>外部网络访容器：如果容器提供的服务需要暴露给外部网络，docker在启动容器时，就会创建SNAT规则。比如：<br> docker run -d -p 80:80 apache</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>网络配置<ol>
+<li>网络配置参数<ol>
+<li>docker进程网络配置<ol>
+<li>-b:指定docker网桥设备，默认使用docker0;</li>
+<li>-bip:指定网桥设备docker0的IP和掩码，使用标准的CIDR形式。</li>
+<li>-dns:配置容器的DNS</li>
+</ol>
+</li>
+<li>容器网络配置：docker run –net<ol>
+<li>bridge:默认方式；</li>
+<li>none:容器没有网络栈，无法与外部通信；</li>
+<li>container:&lt;name|id&gt;:使用其他容器的网络栈，</li>
+<li>host:容器会使用Host的网络，没有独立的网络栈。</li>
+</ol>
+</li>
+<li>配置DNS</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Docker数据管理<ol>
+<li>docker中容器一旦删除，容器本身对应的rootfs文件系统就会被删除，容器中的所有数据也将随之删除。但是日志或者其他需要持久化的数据不能随容器删除而删除。需要容器与host之前存在共享数据。—<strong>数据卷，可以持久化数据和容器之间共享数据。</strong></li>
+<li>数据卷<ol>
+<li>数据卷中参数：<ol>
+<li>-v [host-dir]:[container-dir]:[rw|ro] :通过该参数可以给容器创建数据卷，有三个变量：<ol>
+<li>host-dir:表示host的目录</li>
+<li>container-dir:表示容器内部对应的目录</li>
+<li>rw|ro:用于控制卷的读写权限</li>
+</ol>
+</li>
+<li>创建数据卷,在容器内部创建一个数据卷：docker run -it –rm -v /volumel –name test1 ….</li>
+<li>挂载Host的目录作为数据卷<ol>
+<li>docker run -it –rm -v /data/volumel:/volumel nginx /bin/bash</li>
+<li>通过这种方式可以在Host和容器之间进行数据交换。</li>
+<li>默认情况具有读写权限，也可以挂载只读：-v /data/volumel:/volumel:ro</li>
+</ol>
+</li>
+<li>挂载Host的文件作为数据卷<ol>
+<li>docker run –rm -it -v ~/.bash_history:/root/.bash_history </li>
+</ol>
+</li>
+</ol>
+</li>
+<li>数据卷容器：–volumes-from<ol>
+<li>创建和挂载数据卷容器<ol>
+<li>将一些相关的容器部署在同一个Host上，并且希望这些容器间可以共享数据。此时可以创建一个命名的数据卷容器，然后供其他容器挂载。</li>
+<li>docker run -d -v /dbdata –name dbdata traning/postgres echo Data-only container for postgres</li>
+<li>docker run -d –volumes-from dbdata –name db1 training/postgres</li>
+<li>docker run -d –volumes-from dbdata –name db2 training/postgres </li>
+</ol>
+</li>
+<li>数据卷容器的应用<ol>
+<li>日志收集</li>
+</ol>
+</li>
+<li>备份，恢复和迁移数据卷<ol>
+<li>备份数据卷：–volumes-from<ol>
+<li>docker run –volumes-from dbdata -v ${pwd}:/backup nginx tar cvf /backup/backpu.tar /dbdata</li>
+</ol>
+</li>
+<li>恢复数据卷<ol>
+<li>docker run -v /dbdata –name dbdata2 nginx /bin/bash</li>
+<li>docker run –volumes-from dbdata2 -v ${pwd}:/backup busybox tar xvf /backup/back.tar</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>docker存储驱动(storage driver)<ol>
+<li>docker存储驱动历史：<ol>
+<li>graph driver—&gt;AUFS—&gt;没有进入内核主线</li>
+<li>device-mapper</li>
+<li>btrfs</li>
+<li>overlayfs </li>
+</ol>
+</li>
+<li>docker overlayfs driver<ol>
+<li>使用overlayfs的lowerdir指向image layer，使用upperdir指向containerlayer,merged将lowerdir于upperdir整合起来提供统一视图给容器，作为根文件系统。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>docker项目日常维护<ol>
+<li>宿主机管理<ol>
+<li>docker 安装启动：<ol>
+<li>安装：yum install docker-in</li>
+<li>启动：service docker start </li>
+</ol>
+</li>
+<li>检查docker进程是否启动<ol>
+<li>ps aux | grep docker </li>
+</ol>
+</li>
+<li>转移数据<ol>
+<li>service docker stop </li>
+<li>mkdir /data/dockerData/</li>
+<li>mv /var/lib/docker /data/dockerData/</li>
+<li>ln -s /data/dockerData/docker/ /var/lib/docker</li>
+<li>service docker start </li>
+</ol>
+</li>
+<li>升级到最新版本</li>
+</ol>
+</li>
+<li>网桥模式：默认时NAT模式，如果配置网桥模式需要三步：<ol>
+<li>宿主机配网桥：<ol>
+<li>备份原来网卡配置：</li>
+<li>安装pipework脚本；</li>
+<li>更新iproute。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>GitLab的日常维护<h2 id="6-Docker-Swarm容器集群"><a href="#6-Docker-Swarm容器集群" class="headerlink" title="6. Docker Swarm容器集群"></a>6. Docker Swarm容器集群</h2></li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/03/Dubbo系列之Dubbo可扩展性SPI/" rel="next" title="Dubbo系列之Dubbo可扩展性SPI">
+                <i class="fa fa-chevron-left"></i> Dubbo系列之Dubbo可扩展性SPI
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/06/算法系列之源初/" rel="prev" title="算法系列之源初">
+                算法系列之源初 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
+              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">Tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本概念"><span class="nav-number">1.</span> <span class="nav-text">1. 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker镜像"><span class="nav-number">2.</span> <span class="nav-text">2.Docker镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Docker容器"><span class="nav-number">3.</span> <span class="nav-text">3.Docker容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-镜像"><span class="nav-number">4.</span> <span class="nav-text">4.镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-镜像的命令"><span class="nav-number">5.</span> <span class="nav-text">5.镜像的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Docker-Hub简介"><span class="nav-number">6.</span> <span class="nav-text">6.Docker Hub简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-管理和使用容器"><span class="nav-number">7.</span> <span class="nav-text">7.管理和使用容器</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#循序渐进学docker笔记"><span class="nav-number"></span> <span class="nav-text">#循序渐进学docker笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-docker的结构与特性"><span class="nav-number">1.</span> <span class="nav-text">1. docker的结构与特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker的基础知识"><span class="nav-number">2.</span> <span class="nav-text">2. Docker的基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-docker镜像管理"><span class="nav-number">3.</span> <span class="nav-text">3. docker镜像管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Docker仓库管理"><span class="nav-number">4.</span> <span class="nav-text">4. Docker仓库管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Docker网络和存储管理"><span class="nav-number">5.</span> <span class="nav-text">5. Docker网络和存储管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Docker-Swarm容器集群"><span class="nav-number">6.</span> <span class="nav-text">6. Docker Swarm容器集群</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

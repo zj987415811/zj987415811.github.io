@@ -1,34 +1,800 @@
-extends partial/layout
+<!DOCTYPE html>
 
-block site_title
-  != page.title + " | " + config.title
 
-block description
-  - var desc = page.desc || page.title + ' - ' + config.author;
-  meta(name="description", content=desc)
 
-block header
-  header.site-header
-    .site-nav
-      span.button-toggle
-      include partial/nav
-      form#search-form.nav-item
-        input(type="text" id="local-search-input" name="q" results="0" placeholder=__('search') class="search form-control" autocomplete="off" autocorrect="off")
-        span.fa.fa-times(onclick="resetSearch()") 
-      div#local-search-result
-      p.no-result No results found
 
-block content
-  include mixins/post
-  +post(page)
 
-block sidebar
-  include partial/sidebar
 
-block pagination
-  include mixins/paginator
-  +post()
-  include partial/comment
 
-block copyright
-  include partial/footer
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+<meta name="keywords" content="Zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper系列之分布式事务总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/index.html">
+<meta property="og:site_name" content="Rocky for Everything">
+<meta property="og:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-09T05:31:42.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper系列之分布式事务总结">
+<meta name="twitter:description" content="##1.分布式事务解决方案##  基于XA协议的两阶段提交方案  第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者； 第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。 本地资源管理器 事务协调器 借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。   TCC方案  将整个业务逻辑的每个分支显示的分成了Tr">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Zookeeper系列之分布式事务总结 | Rocky for Everything</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rocky for Everything</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">慢慢喜欢你</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/Zookeeper系列之分布式事务总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky ZhouJin QQ987415811">
+      <meta itemprop="description" content="个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rocky for Everything">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Zookeeper系列之分布式事务总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-08-09 11:44:54 / Updated at: 13:31:42" itemprop="dateCreated datePublished" datetime="2018-08-09T11:44:54+08:00">2018-08-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##1.分布式事务解决方案##</p>
+<ul>
+<li><p>基于XA协议的两阶段提交方案</p>
+<ul>
+<li>第一阶段：表决阶段，所有参与者将本事务能否成功的信息反馈发送给协调者；</li>
+<li>第二阶段是执行阶段，协调者根据所有参与者的反馈，通知所有参与者，一致地在所有分支上提交或者回滚。</li>
+<li>本地资源管理器 事务协调器</li>
+<li>借助数据库的XA协议协调数据库资源，借助数据库的MVCC特性达到一致性读写。</li>
+</ul>
+</li>
+<li><p>TCC方案</p>
+<ul>
+<li>将整个业务逻辑的每个分支显示的分成了Try,Confirm,Cancel三个操作。</li>
+<li>Try部分完成业务的准备工作，Confirm部分完成业务的提交，Cancel部分完成事务的回滚。</li>
+<li>事务开始时，业务应用会向事务协调器注册启动事务。之后业务应用会调用所有服务的try接口，完成一阶段准备。之后事务协调器会根据try接口返回情况，决定调用confirm接口或者cancel接口。如果接口调用失败会进行重试。 </li>
+<li>优点：应用自己定义数据库操作的粒度，使得降低锁冲突，提升吞吐量。</li>
+<li>缺点：<ul>
+<li>对应用的侵入性强。业务逻辑的每个分支都需要实现try,confirm,cancel。入侵大</li>
+<li>实现难度大。需要按照网络状态，系统故障等不同的失败原因实现不同的回滚策略。为了满足一致性要求，confirm和cancel接口必须实现幂等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于消息的最终一致性方案<ul>
+<li>消息一致性方案是通过消息中间件保证上下游应用数据操作的一致性。</li>
+<li>基本思路: 将本地操作和发送消息放在一个事务中，保证本地操作和消息发送要么两者都成功或者都失败。下游应用向消息系统订阅该消息，收到后执行相应操作。</li>
+<li>本质：将分布式事务转换为两个本地事务，依靠下游业务得重试机制达到最终一致性。</li>
+</ul>
+</li>
+<li>FMT:无入侵得分布式事务解决方案，该模式下只需要关注一阶段操作，框架会自动解析SQL语义生成二阶段提交和回滚操作，使分布式事务得接入更便捷。</li>
+<li>蚂蚁金服的分布式事务解决方案DTX<ul>
+<li>整体架构：<ul>
+<li>以Base理论的最终一致性为基础，以两阶段提交为基本执行框架。整体架构上分为3部分：客户端，资源管理器，事务管理器</li>
+<li>客户端：通过事务管理器来开启结束分布式事务，通过资源管理器编排分布式事务活动。</li>
+<li>资源管理器：负责具体资源的准备，提交和回滚操作，并在整个执行过程中记录事务日志，向事务管理器汇报事务日志和资源执行状态。</li>
+<li>事务协调器：负责协调分布式事务的执行:开启分布式事务，记录资源管理器提交的事务日志和资源状态，决定分布式事务最终使提交还是回滚。</li>
+</ul>
+</li>
+<li>DTX执行<ul>
+<li>DTX按照两阶段提交的方式执行分布式事务，在第一阶段，客户端首先通过事务管理器开启分布式事务；分布式事务开启后，客户端在分布式事务内编排事务内资源，依次执行各个资源的一阶段准备操作，每个资源的准备操作执行情况资源管理器都会向事务管理器汇报，资源编排结束之后，客户端会通知事务管理器分布式事务一阶段结束。</li>
+<li>在第二阶段，事务管理器会根据事务所有资源的一阶段执行情况，决定整个分布式事务最终是提交还是回滚，进而驱动所有资源二阶段的提交/回滚。 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Zookeeper/" rel="tag"># Zookeeper</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/09/Redis缓存系列之数据库缓存一致性问题/" rel="next" title="缓存系列之数据库缓存一致性问题">
+                <i class="fa fa-chevron-left"></i> 缓存系列之数据库缓存一致性问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/09/分布式学习之秒杀系统架构/" rel="prev" title="分布式学习之秒杀系统架构">
+                分布式学习之秒杀系统架构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky ZhouJin QQ987415811</p>
+              <p class="site-description motion-element" itemprop="description">个人笔记和学习网站，欢迎大家交流，rockyzjin@formail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">Tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky ZhouJin QQ987415811</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
